@@ -44,6 +44,7 @@ public class ListNode {
         }
     }
 
+    // 获取链表长度
     public static int getListLen(ListNode listNode) {
         int size = 0;
         while (listNode != null) {
@@ -53,6 +54,7 @@ public class ListNode {
         return size;
     }
 
+    // 删除倒数第 n 个节点
     public static ListNode removeNthFromEnd(ListNode head, int n) {
         int size = 0;
         ListNode tmp = head;
@@ -77,6 +79,7 @@ public class ListNode {
         return head;
     }
 
+    // 链表反转
     public static ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -95,6 +98,7 @@ public class ListNode {
         return p1;
     }
 
+    // 反转前 n 个节点
     public static ListNode reverseListFirstN(ListNode head, int n) {
         if (head == null || head.next == null || n == 1) {
             return head;
@@ -111,7 +115,7 @@ public class ListNode {
             p2 = p3;
             i++;
         }
-        head.next = null;
+        head.next = p2;
         return p1;
     }
 
