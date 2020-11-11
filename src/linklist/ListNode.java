@@ -5,7 +5,8 @@ public class ListNode {
     public int val;
     public ListNode next;
 
-    public ListNode() {}
+    public ListNode() {
+    }
 
     public ListNode(int x) {
         this.val = x;
@@ -55,27 +56,24 @@ public class ListNode {
     }
 
     // 删除倒数第 n 个节点
-    public static ListNode removeNthFromEnd(ListNode head, int n) {
-        int size = 0;
-        ListNode tmp = head;
-        while (tmp != null) {
-            size++;
-            tmp = tmp.next;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        ListNode fast = head;
+        ListNode slow = head;
+        for (int i = 0; i < n; i++) {
+            fast = fast.next;
         }
 
-        System.out.println(size);
-
-        if (size == n) {
+        if (fast == null) {
             return head.next;
         }
 
-        int cnt = 0;
-        tmp = head;
-        while (cnt < size - n - 1) {
-            cnt++;
-            tmp = tmp.next;
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
         }
-        tmp.next = tmp.next.next;
+
+        slow.next = slow.next.next;
         return head;
     }
 
@@ -119,9 +117,73 @@ public class ListNode {
         return p1;
     }
 
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        ListNode p = head;
+        int cnt = 0;
+        while (p != null && cnt < k) {
+            p = p.next;
+            cnt++;
+        }
+        if (cnt < k) {
+            return head;
+        }
+
+        ListNode cur = null;
+        ListNode pp = head;
+        while (pp != p) {
+            ListNode temp = pp.next;
+            pp.next = cur;
+            cur = pp;
+            pp = temp;
+        }
+        head.next = reverseKGroup(p, k);
+        return cur;
+    }
+
+    // 合并两个升序链表
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        }
+
+        ListNode res = new ListNode();
+        ListNode tmp = res;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                tmp.next = new ListNode(l1.val);
+                tmp = tmp.next;
+                l1 = l1.next;
+            } else {
+                tmp.next = new ListNode(l2.val);
+                tmp = tmp.next;
+                l2 = l2.next;
+            }
+        }
+
+        if (l1 == null) {
+            while (l2 != null) {
+                tmp.next = l2;
+                tmp = tmp.next;
+                l2 = l2.next;
+            }
+        } else {
+            while (l1 != null) {
+                tmp.next = l1;
+                tmp = tmp.next;
+                l1 = l1.next;
+            }
+        }
+        return res.next;
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{1, 2, 3, 4, 5};
-        ListNode listNode = createLinkListTail(a);
-        ListNode.printList(reverseListFirstN(listNode, 3));
+        int[] b = new int[]{1};
+        int[] c = new int[]{2};
+        ListNode listNode1 = createLinkListTail(b);
+        ListNode listNode2 = createLinkListTail(c);
+        ListNode.printList(mergeTwoLists(listNode1, listNode2));
     }
 }
