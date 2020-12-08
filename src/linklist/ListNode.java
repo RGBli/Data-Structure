@@ -56,6 +56,7 @@ public class ListNode {
     }
 
     // 删除倒数第 n 个节点
+    // 快慢指针
     public ListNode removeNthFromEnd(ListNode head, int n) {
 
         ListNode fast = head;
@@ -178,12 +179,49 @@ public class ListNode {
         return res.next;
     }
 
+    // 循环右移 k 位
+    public static ListNode rotateRight(ListNode head, int k) {
+        if (head == null) {
+            return null;
+        }
+        int size = 0;
+        ListNode tmp = head;
+        while (tmp != null) {
+            size++;
+            tmp = tmp.next;
+        }
+
+        k = k % size;
+        if (size == 1 || k == 0) {
+            return head;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+        for (int i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        ListNode newHead = slow.next;
+        slow.next = null;
+        tmp = newHead;
+        while (tmp.next != null) {
+            tmp = tmp.next;
+        }
+        tmp.next = head;
+        return newHead;
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{1, 2, 3, 4, 5};
-        int[] b = new int[]{1};
+        int[] b = new int[]{1, 2};
         int[] c = new int[]{2};
         ListNode listNode1 = createLinkListTail(b);
         ListNode listNode2 = createLinkListTail(c);
-        ListNode.printList(mergeTwoLists(listNode1, listNode2));
+        ListNode.printList(rotateRight(listNode1, 1));
     }
 }
