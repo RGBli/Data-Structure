@@ -17,6 +17,7 @@ public class Main {
         }
     }
 
+
     // 选择排序
     public static void select(int[] arr) {
         for (int i = 0; i < n; i++) {
@@ -32,11 +33,9 @@ public class Main {
         }
     }
 
-    // 堆排序
-    /**
-     * 创建堆，
-     * @param arr 待排序列
-     */
+
+    /*堆排序*/
+    // 创建初始堆
     private static void heapSort(int[] arr) {
         // 创建堆
         for (int i = (arr.length - 1) / 2; i >= 0; i--) {
@@ -56,39 +55,24 @@ public class Main {
         }
     }
 
-    /**
-     * 调整堆
-     * @param arr 待排序列
-     * @param parent 父节点
-     * @param length 待排序列尾元素索引
-     */
-    private static void adjustHeap(int[] arr, int parent, int length) {
-        // 将temp作为父节点
-        int temp = arr[parent];
-        // 左孩子
-        int lChild = 2 * parent + 1;
-
-        while (lChild < length) {
-            // 右孩子
+    // 调整堆
+    private static void adjustHeap(int[] arr, int start, int end) {
+        int tmp = arr[start];
+        int lChild = 2 * start + 1;
+        while (lChild < end) {
             int rChild = lChild + 1;
-            // 如果有右孩子结点，并且右孩子结点的值大于左孩子结点，则选取右孩子结点
-            if (rChild < length && arr[lChild] < arr[rChild]) {
+            if (rChild < end && arr[lChild] < arr[rChild]) {
                 lChild++;
             }
-
-            // 如果父结点的值已经大于孩子结点的值，则直接结束
-            if (temp >= arr[lChild]) {
+            if (tmp < arr[lChild]) {
+                arr[start] = arr[lChild];
+                start = lChild;
+                lChild = 2 * lChild + 1;
+            } else {
                 break;
             }
-
-            // 把孩子结点的值赋给父结点
-            arr[parent] = arr[lChild];
-
-            // 选取孩子结点的左孩子结点,继续向下筛选
-            parent = lChild;
-            lChild = 2 * lChild + 1;
         }
-        arr[parent] = temp;
+        arr[start] = tmp;
     }
 
 
