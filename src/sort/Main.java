@@ -1,7 +1,7 @@
 package sort;
 
 public class Main {
-    private static int[] arr = {1,6,4,3,7,2,9,8,5};
+    private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
     // 冒泡排序
@@ -81,30 +81,74 @@ public class Main {
         // 递归出口，这里不能写成 left != right
         if (left < right) {
             int i, j, tmp;
+            // 取基准值
             tmp = arr[left];
             i = left;
             j = right;
-            while (i != j) {
-                // 这里没有等于号，而且不要忘了i!=j的大条件
-                while (arr[j] > tmp && i != j){
+            while (i < j) {
+                // 先 j 后 i
+                while (arr[j] > tmp && i < j) {
                     j--;
                 }
                 arr[i] = arr[j];
 
-                while (arr[i] < tmp && i != j) {
+                while (arr[i] < tmp && i < j) {
                     i++;
                 }
                 arr[j] = arr[i];
             }
-            arr[i] = tmp;     // tmp的操作类似插入排序
+            arr[i] = tmp;
             quickSort(arr, left, i - 1);
             quickSort(arr, i + 1, right);
         }
     }
 
 
+    // 归并排序
+    public static int[] mergeSort(int[] arr, int low, int high) {
+        int mid = (low + high) / 2;
+        if (low < high) {
+            mergeSort(arr, low, mid);
+            mergeSort(arr, mid + 1, high);
+            // 左右归并
+            merge(arr, low, mid, high);
+        }
+        return arr;
+    }
+
+    public static void merge(int[] arr, int low, int mid, int high) {
+        int[] tmp = new int[high - low + 1];
+        int i = low;
+        int j = mid + 1;
+        int k = 0;
+        // 把较小的数先移到新数组中
+        while (i <= mid && j <= high) {
+            // 归并排序是稳定排序，这里一定是小于等于
+            if (arr[i] <= arr[j]) {
+                tmp[k++] = arr[i++];
+            } else {
+                tmp[k++] = arr[j++];
+            }
+        }
+        // 把左边剩余的数移入数组
+        while (i <= mid) {
+            tmp[k++] = arr[i++];
+        }
+        // 把右边边剩余的数移入数组
+        while (j <= high) {
+            tmp[k++] = arr[j++];
+        }
+        // 把新数组中的数覆盖 arr 数组
+        /* for (int x = 0; x < tmp.length; x++) {
+            arr[x + low] = tmp[x];
+        }*/
+        // 使用 System.arrayCopy() 更简洁
+        System.arraycopy(tmp, 0, arr, low, tmp.length);
+    }
+
+
     public static void main(String[] args) {
-        quickSort(arr, 0, arr.length - 1);
+        mergeSort(arr, 0, arr.length - 1);
         for (int i : arr) {
             System.out.println(i);
         }
