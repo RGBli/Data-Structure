@@ -105,18 +105,21 @@ public class Main {
 
 
     // 归并排序
-    public static int[] mergeSort(int[] arr, int low, int high) {
+    public static void mergeSort(int[] arr, int low, int high) {
         int mid = (low + high) / 2;
+        // 递归出口，与快排类似
         if (low < high) {
             mergeSort(arr, low, mid);
             mergeSort(arr, mid + 1, high);
             // 左右归并
             merge(arr, low, mid, high);
         }
-        return arr;
     }
 
+    // 合并左右两个有序数组
+    // 左数组的范围是[low, mid], 右数组的范围是[mid + 1, high]
     public static void merge(int[] arr, int low, int mid, int high) {
+        // 创建动态数组
         int[] tmp = new int[high - low + 1];
         int i = low;
         int j = mid + 1;
