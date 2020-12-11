@@ -4,7 +4,7 @@ public class Main {
     private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
-    // 插入排序
+    // 简单插入排序
     public static void insert(int[] arr) {
         for (int i = 1; i < n; i++) {
             int tmp = arr[i];
