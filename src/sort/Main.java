@@ -4,6 +4,20 @@ public class Main {
     private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
+    // 插入排序
+    public static void insert(int[] arr) {
+        for (int i = 1; i < n; i++) {
+            int tmp = arr[i];
+            int j = i - 1;
+            while (arr[j] > tmp && j >= 0) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = tmp;
+        }
+    }
+
+
     // 冒泡排序
     public static void bubble(int[] arr) {
         for (int i = 0; i < n - 1; i++) {
@@ -151,7 +165,8 @@ public class Main {
 
 
     public static void main(String[] args) {
-        mergeSort(arr, 0, arr.length - 1);
+        //mergeSort(arr, 0, arr.length - 1);
+        insert(arr);
         for (int i : arr) {
             System.out.println(i);
         }
