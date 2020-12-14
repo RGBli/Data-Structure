@@ -44,6 +44,7 @@ public class TreeNode {
         return res;
     }
 
+
     // 层次遍历二叉树
     // 只有一个 List
     public List<Integer> levelOrder2(TreeNode root) {
@@ -67,4 +68,25 @@ public class TreeNode {
         return res;
     }
 
+
+    // 判断二叉树是否是平衡二叉树
+    public static boolean isBalanced(TreeNode root) {
+        return height(root) != -1;
+    }
+
+    // 用于统计树高, 如果不平衡则返回 -1
+    public static int height(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int lChildHeight = height(root.left);
+        int rChildHeight = height(root.right);
+        // 左右子树都平衡, 并且高度差不大于1, 则返回该结点的高度
+        // 否则该节点不是平衡二叉树, 返回-1
+        if (lChildHeight != -1 && rChildHeight != -1 && Math.abs(lChildHeight - rChildHeight) <= 1) {
+            return 1 + Math.max(lChildHeight, rChildHeight);
+        } else {
+            return -1;
+        }
+    }
 }
