@@ -1,7 +1,7 @@
 package linklist;
 
 public class ListNode {
-
+    // 链表定义
     public int val;
     public ListNode next;
 
