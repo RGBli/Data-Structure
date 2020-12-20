@@ -1,5 +1,7 @@
 package linklist;
 
+import java.util.List;
+
 public class ListNode {
     // 链表定义
     public int val;
@@ -21,6 +23,31 @@ public class ListNode {
             head.next = tmp;
         }
         return head.next;
+    }
+
+    // 头插一个结点
+    public static ListNode lPushNode(ListNode head, int a) {
+        ListNode p = new ListNode();
+        p.val = a;
+        p.next = head;
+        return p;
+    }
+
+    // 尾插一个结点
+    public static ListNode rPushNode(ListNode head, int a) {
+        ListNode p = new ListNode();
+        p.val = a;
+        p.next = null;
+        if (head == null) {
+            return p;
+        } else {
+            ListNode tmp = head;
+            while (tmp.next != null) {
+                tmp = tmp.next;
+            }
+            tmp.next = p;
+        }
+        return head;
     }
 
     // 尾插法创建链表
@@ -221,7 +248,7 @@ public class ListNode {
         int[] b = new int[]{1, 2};
         int[] c = new int[]{2};
         ListNode listNode1 = createLinkListTail(b);
-        ListNode listNode2 = createLinkListTail(c);
-        ListNode.printList(rotateRight(listNode1, 1));
+        //ListNode listNode2 = createLinkListTail(c);
+        ListNode.printList(rPushNode(listNode1, 0));
     }
 }
