@@ -34,9 +34,9 @@ public class Main {
 
     // 选择排序
     public static void select(int[] arr) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
-            for (int j = i; j < n; j++) {
+            for (int j = i + 1; j < n; j++) {
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
@@ -52,24 +52,27 @@ public class Main {
     // 创建初始堆
     private static void heapSort(int[] arr) {
         // 创建堆
+        // 因为堆是完全二叉树，所以第一个非叶子节点在 (length - 1) / 2
+        // 位置为 i 的左孩子节点在 2 * i + 1
         for (int i = (arr.length - 1) / 2; i >= 0; i--) {
-            //从第一个非叶子结点从下至上，从右至左调整结构
+            // 从第一个非叶子结点从右至左，从下至上调整结构
             adjustHeap(arr, i, arr.length);
         }
 
-        // 调整堆结构+交换堆顶元素与末尾元素
+        // 交换堆顶元素与末尾元素 + 调整堆结构
         for (int i = arr.length - 1; i >= 0; i--) {
-            //将堆顶元素与末尾元素进行交换
+            // 将堆顶元素与末尾元素进行交换
             int temp = arr[i];
             arr[i] = arr[0];
             arr[0] = temp;
 
-            //重新对堆进行调整
+            // 重新对堆进行调整
             adjustHeap(arr, 0, i);
         }
     }
 
     // 调整堆
+    // 调整的范围是[start, end)
     private static void adjustHeap(int[] arr, int start, int end) {
         int tmp = arr[start];
         int lChild = 2 * start + 1;
@@ -120,8 +123,8 @@ public class Main {
 
     // 归并排序
     public static void mergeSort(int[] arr, int low, int high) {
-        int mid = (low + high) / 2;
         // 递归出口，与快排类似
+        int mid = (low + high) / 2;
         if (low < high) {
             mergeSort(arr, low, mid);
             mergeSort(arr, mid + 1, high);
@@ -133,7 +136,7 @@ public class Main {
     // 合并左右两个有序数组
     // 左数组的范围是[low, mid], 右数组的范围是[mid + 1, high]
     public static void merge(int[] arr, int low, int mid, int high) {
-        // 创建动态数组
+        // 创建临时动态数组
         int[] tmp = new int[high - low + 1];
         int i = low;
         int j = mid + 1;
@@ -141,6 +144,7 @@ public class Main {
         // 把较小的数先移到新数组中
         while (i <= mid && j <= high) {
             // 归并排序是稳定排序，这里一定是小于等于
+            // 因为 i 在 j 的前面，稳定排序后也应该在 j 的前面
             if (arr[i] <= arr[j]) {
                 tmp[k++] = arr[i++];
             } else {
