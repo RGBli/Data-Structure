@@ -1,5 +1,6 @@
 package linklist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListNode {
@@ -12,17 +13,6 @@ public class ListNode {
 
     public ListNode(int x) {
         this.val = x;
-    }
-
-    // 头插法创建链表
-    public static ListNode createLinkListHead(int[] a) {
-        ListNode head = new ListNode();
-        for (int i : a) {
-            ListNode tmp = new ListNode(i);
-            tmp.next = head.next;
-            head.next = tmp;
-        }
-        return head.next;
     }
 
     // 头插一个结点
@@ -50,8 +40,21 @@ public class ListNode {
         return head;
     }
 
+    // 头插法创建链表
+    public static ListNode createLinkListHead(int[] a) {
+        // 这里的 head 是头结点
+        ListNode head = new ListNode();
+        for (int i : a) {
+            ListNode tmp = new ListNode(i);
+            tmp.next = head.next;
+            head.next = tmp;
+        }
+        return head.next;
+    }
+
     // 尾插法创建链表
     public static ListNode createLinkListTail(int[] a) {
+        // 这里的 head 是头结点
         ListNode head = new ListNode();
 
         // 传引用
@@ -106,9 +109,10 @@ public class ListNode {
     }
 
     // 链表反转
+    // 三指针法
     public static ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
+        if (head == null) {
+            return null;
         }
 
         ListNode p1 = head;
@@ -116,7 +120,9 @@ public class ListNode {
         ListNode p3 = new ListNode();
         while (p2 != null) {
             p3 = p2.next;
+            // 切断 p2 和 p3的联系
             p2.next = p1;
+            // 将 p2 和 p3 都向后移动一次
             p1 = p2;
             p2 = p3;
         }
@@ -125,8 +131,9 @@ public class ListNode {
     }
 
     // 反转前 n 个节点
+    // 三指针法
     public static ListNode reverseListFirstN(ListNode head, int n) {
-        if (head == null || head.next == null || n == 1) {
+        if (head == null || n == 1) {
             return head;
         }
 
@@ -145,27 +152,27 @@ public class ListNode {
         return p1;
     }
 
+    // k 个一组反转链表，入果节点总数不是 k 的整数倍，将最后剩余的节点保持原有顺序
     public static ListNode reverseKGroup(ListNode head, int k) {
-        ListNode p = head;
-        int cnt = 0;
-        while (p != null && cnt < k) {
-            p = p.next;
-            cnt++;
+        ListNode dummy = new ListNode(0), prev = dummy, curr = head, next;
+        dummy.next = head;
+        int length = 0;
+        while(head != null) {
+            length++;
+            head = head.next;
         }
-        if (cnt < k) {
-            return head;
+        head = dummy.next;
+        for(int i = 0; i < length / k; i++) {
+            for(int j = 0; j < k - 1; j++) {
+                next = curr.next;
+                curr.next = next.next;
+                next.next = prev.next;
+                prev.next = next;
+            }
+            prev = curr;
+            curr = curr.next;
         }
-
-        ListNode cur = null;
-        ListNode pp = head;
-        while (pp != p) {
-            ListNode temp = pp.next;
-            pp.next = cur;
-            cur = pp;
-            pp = temp;
-        }
-        head.next = reverseKGroup(p, k);
-        return cur;
+        return dummy.next;
     }
 
     // 合并两个升序链表
@@ -245,10 +252,7 @@ public class ListNode {
 
     public static void main(String[] args) {
         int[] a = new int[]{1, 2, 3, 4, 5};
-        int[] b = new int[]{1, 2};
-        int[] c = new int[]{2};
-        ListNode listNode1 = createLinkListTail(b);
-        //ListNode listNode2 = createLinkListTail(c);
-        ListNode.printList(rPushNode(listNode1, 0));
+        ListNode listNode1 = createLinkListTail(a);
+        printList(reverseKGroup(listNode1, 2));
     }
 }
