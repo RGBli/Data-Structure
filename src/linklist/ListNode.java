@@ -250,6 +250,18 @@ public class ListNode {
         return newHead;
     }
 
+    // 节点两两交换
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{1, 2, 3, 4, 5};
         ListNode listNode1 = createLinkListTail(a);
