@@ -239,6 +239,22 @@ public class ListNode {
         return next;
     }
 
+    // 合并 K 个升序链表
+    // 分治法，用到了 mergeTwoLists()
+    public static ListNode mergeKLists(ListNode[] lists) {
+        int n = lists.length;
+        if (n == 0) {
+            return null;
+        }
+        if (n == 1) {
+            return lists[0];
+        }
+        for (int i = 1; i < n; i++) {
+            lists[i] = mergeTwoLists(lists[i - 1], lists[i]);
+        }
+        return lists[n - 1];
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{1, 2, 3, 4, 5};
         ListNode listNode1 = createLinkListTail(a);
