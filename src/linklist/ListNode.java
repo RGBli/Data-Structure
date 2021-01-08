@@ -161,7 +161,6 @@ public class ListNode {
             length++;
             head = head.next;
         }
-        head = dummy.next;
         for(int i = 0; i < length / k; i++) {
             for(int j = 0; j < k - 1; j++) {
                 next = curr.next;
@@ -190,40 +189,29 @@ public class ListNode {
         }
     }
 
-    // 循环右移 k 位
+    /*循环右移 k 位
+    * 首先求长度，并将链表连成环
+    * 然后根据计数找到最后一个节点，返回 next，并将 next 赋为 null
+    * 链表节点的 next 节点不能赋值给另一个节点，只能是指向另一个节点
+    * 而树节点可以节点赋值*/
     public static ListNode rotateRight(ListNode head, int k) {
-        if (head == null) {
-            return null;
-        }
-        int size = 0;
-        ListNode tmp = head;
-        while (tmp != null) {
-            size++;
-            tmp = tmp.next;
-        }
-
-        k = k % size;
-        if (size == 1 || k == 0) {
+        if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode slow = head;
-        ListNode fast = head;
-        for (int i = 0; i < k; i++) {
-            fast = fast.next;
-        }
-        while (fast.next != null) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-
-        ListNode newHead = slow.next;
-        slow.next = null;
-        tmp = newHead;
+        int n = 1;
+        ListNode tmp = head;
         while (tmp.next != null) {
+            n++;
             tmp = tmp.next;
         }
         tmp.next = head;
+        k = k % n;
+        for (int i = 0; i < n - k; i++) {
+            tmp = tmp.next;
+        }
+        ListNode newHead = tmp.next;
+        tmp.next = null;
         return newHead;
     }
 
