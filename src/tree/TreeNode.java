@@ -16,11 +16,11 @@ public class TreeNode {
 
 
     // 先序遍历递归
-    public void preOrderRecursive(TreeNode root) {
+    public void preOrderRecursive(TreeNode root, List<Integer> res) {
         if (root != null) {
-            preOrderRecursive(root.left);
-            preOrderRecursive(root.right);
-            System.out.println(root.val);
+            preOrderRecursive(root.left, res);
+            preOrderRecursive(root.right, res);
+            res.add(root.val);
         }
     }
 
@@ -51,11 +51,11 @@ public class TreeNode {
 
 
     // 中序遍历递归
-    public void inOrderRecursive(TreeNode root) {
+    public void inOrderRecursive(TreeNode root, List<Integer> res) {
         if (root != null) {
-            inOrderRecursive(root.left);
-            System.out.println(root.val);
-            inOrderRecursive(root.right);
+            inOrderRecursive(root.left, res);
+            res.add(root.val);
+            inOrderRecursive(root.right, res);
         }
     }
 
@@ -82,11 +82,11 @@ public class TreeNode {
     }
 
     // 后序遍历递归
-    public void postOrderRecursive(TreeNode root) {
+    public void postOrderRecursive(TreeNode root, List<Integer> res) {
         if (root != null) {
-            postOrderRecursive(root.left);
-            postOrderRecursive(root.right);
-            System.out.println(root.val);
+            postOrderRecursive(root.left, res);
+            postOrderRecursive(root.right, res);
+            res.add(root.val);
         }
     }
 
