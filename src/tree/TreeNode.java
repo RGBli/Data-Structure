@@ -1,9 +1,8 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import linklist.ListNode;
+
+import java.util.*;
 
 public class TreeNode {
     // 二叉树定义
@@ -13,6 +12,110 @@ public class TreeNode {
 
     TreeNode(int val) {
         this.val = val;
+    }
+
+
+    // 先序遍历递归
+    public void preOrderRecursive(TreeNode root) {
+        if (root != null) {
+            preOrderRecursive(root.left);
+            preOrderRecursive(root.right);
+            System.out.println(root.val);
+        }
+    }
+
+    /*先序遍历迭代实现，用到了栈
+    * 思路是用一个栈来保存节点，出栈时访问
+    * 因为栈先进后出，因此先将节点右孩子进栈，这一点一定要注意
+    * 当栈不为空时循环上述过程*/
+    public List<Integer> preorderTraversal(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            res.add(node.val);
+            // 当左右孩子不为空时进栈
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return res;
+    }
+
+
+    // 中序遍历递归
+    public void inOrderRecursive(TreeNode root) {
+        if (root != null) {
+            inOrderRecursive(root.left);
+            System.out.println(root.val);
+            inOrderRecursive(root.right);
+        }
+    }
+
+    /*中序遍历迭代实现，同样用到了栈
+    * 首先左链进栈，然后弹出栈顶元素并访问
+    * 然后将 root 设为右孩子，继续循环*/
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> stack = new LinkedList<>();
+        // 多了一个 root 不为空的判断，因为并没有先入栈
+        while (root != null || !stack.isEmpty()) {
+            // 左链进栈
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            // 弹出并访问
+            root = stack.pop();
+            res.add(root.val);
+            // 设 root 为右孩子
+            root = root.right;
+        }
+        return res;
+    }
+
+    // 后序遍历递归
+    public void postOrderRecursive(TreeNode root) {
+        if (root != null) {
+            postOrderRecursive(root.left);
+            postOrderRecursive(root.right);
+            System.out.println(root.val);
+        }
+    }
+
+    /*后序遍历的迭代实现，同样用到了栈
+    * 与中序遍历有相同的地方，都先左链进栈
+    * 不同点是后序遍历需要一个 prev 保存上一次访问的节点
+    * 并且当右孩子非空且没有访问过时，会将 root 再次进栈*/
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode prev = null;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+
+            if (root.right == null || root.right == prev) {
+                res.add(root.val);
+                prev = root;
+                root = null;
+            } else {
+                // root 再次入栈
+                stack.push(root);
+                root = root.right;
+            }
+        }
+        return res;
     }
 
     // 层次遍历二叉树
