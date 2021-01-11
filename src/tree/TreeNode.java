@@ -2,6 +2,7 @@ package tree;
 
 import linklist.ListNode;
 
+import java.time.temporal.Temporal;
 import java.util.*;
 
 public class TreeNode {
@@ -15,8 +16,11 @@ public class TreeNode {
     }
 
 
+    /******************************二叉树遍历*************************************/
+
+
     // 先序遍历递归
-    public void preOrderRecursive(TreeNode root, List<Integer> res) {
+    public static void preOrderRecursive(TreeNode root, List<Integer> res) {
         if (root != null) {
             preOrderRecursive(root.left, res);
             preOrderRecursive(root.right, res);
@@ -51,7 +55,7 @@ public class TreeNode {
 
 
     // 中序遍历递归
-    public void inOrderRecursive(TreeNode root, List<Integer> res) {
+    public static void inOrderRecursive(TreeNode root, List<Integer> res) {
         if (root != null) {
             inOrderRecursive(root.left, res);
             res.add(root.val);
@@ -167,6 +171,9 @@ public class TreeNode {
         }
         return res;
     }
+
+
+    /******************************二叉树操作*************************************/
 
 
     // 判断二叉树是否是平衡二叉树
@@ -286,5 +293,81 @@ public class TreeNode {
             return null;
         }
         return root;
+    }
+
+
+    /******************************二叉排序树*************************************/
+
+
+    /*判断一颗二叉树是不是二叉排序树
+    * 二叉排序树(Binary Sort Tree, BST),又叫二叉搜索树(Binary Search Tree, BST)
+    * 性质如下
+    * 节点的左子树只包含小于当前节点的数
+    * 节点的右子树只包含大于当前节点的数
+    * 所有左子树和右子树自身必须也是二叉搜索树。
+    * 判断思路是对该二叉树中序遍历，如果得到的结果是递增的则是二叉排序树*/
+    public boolean isValidBST(TreeNode root) {
+        List<Integer> inOrderList = new ArrayList<>();
+        inOrderRecursive(root, inOrderList);
+        if (inOrderList.size() == 1) {
+            return true;
+        }
+        int tmp = inOrderList.get(0);
+        for (int i = 1; i < inOrderList.size(); i++) {
+            if (inOrderList.get(i) > tmp) {
+                tmp = inOrderList.get(i);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 递归实现向 BST 插入节点
+    public static TreeNode insertNodeToBST(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val);
+        }
+        if (val < root.val) {
+            root.left = insertNodeToBST(root.left, val);
+        } else {
+            root.right = insertNodeToBST(root.right, val);
+        }
+        return root;
+    }
+
+    // 递归实现从 BST 删除节点
+    public TreeNode deleteNodeFromBST(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (key < root.val) {
+            root.left = deleteNodeFromBST(root.left, key);
+            return root;
+        } else if (key > root.val) {
+            root.right = deleteNodeFromBST(root.right, key);
+            return root;
+        } else {
+            TreeNode left = root.left;
+            TreeNode right = root.right;
+            /*如果 left 节点不为空，则找到 left 子树的最大值节点
+            * 使 right 子树作为该节点的右子树
+            * 如果 left 节点为空，则直接返回 right 节点即可*/
+            if (left != null) {
+                while (left.right != null) {
+                    left = left.right;
+                }
+                left.right = right;
+                return root.left;
+            } else {
+                return right;
+            }
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+
     }
 }
