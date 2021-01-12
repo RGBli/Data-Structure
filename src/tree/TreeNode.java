@@ -295,6 +295,48 @@ public class TreeNode {
         return root;
     }
 
+    // 递归实现从先序遍历和中序遍历数组重建出二叉树
+    public TreeNode buildTreeFromPreAndIn(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        if (n == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        for (int i = 0; i < n; i++) {
+            if (preorder[0] == inorder[i]) {
+                root.left = buildTreeFromPreAndIn(
+                        Arrays.copyOfRange(preorder, 1, i + 1),
+                        Arrays.copyOfRange(inorder, 0, i));
+                root.right = buildTreeFromPreAndIn(
+                        Arrays.copyOfRange(preorder, i + 1, n),
+                        Arrays.copyOfRange(inorder, i + 1, n));
+                break;
+            }
+        }
+        return root;
+    }
+
+    // 递归实现从后序遍历和中序遍历数组重建出二叉树
+    public TreeNode buildTreeFromPostAndIn(int[] postorder, int[] inorder) {
+        int n = postorder.length;
+        if (n == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[n - 1]);
+        for (int i = 0; i < n; i++) {
+            if (postorder[n - 1] == inorder[i]) {
+                root.left = buildTreeFromPostAndIn(
+                        Arrays.copyOfRange(postorder, 0, i),
+                        Arrays.copyOfRange(inorder, 0, i));
+                root.right = buildTreeFromPostAndIn(
+                        Arrays.copyOfRange(postorder, i, n - 1),
+                        Arrays.copyOfRange(inorder, i + 1, n));
+                break;
+            }
+        }
+        return root;
+    }
+
 
     /******************************二叉排序树*************************************/
 
@@ -364,8 +406,6 @@ public class TreeNode {
             }
         }
     }
-
-
 
     public static void main(String[] args) {
 
