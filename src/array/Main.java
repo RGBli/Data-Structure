@@ -1,11 +1,21 @@
 package array;
 
+import com.sun.xml.internal.fastinfoset.tools.XML_SAX_StAX_FI;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int[] arr = {5,7,7,8,8,10};
-        System.out.println(binarySearchLast(arr, 8));
+        int[] nums = {1, 2, 3, 3};
+        List<List<Integer>> res = subsets(nums);
+        for (List<Integer> i : res) {
+            for (int j : i) {
+                System.out.println(j);
+            }
+            System.out.println();
+        }
     }
 
     /*二分查找循环实现
@@ -142,6 +152,9 @@ public class Main {
         reverse(nums, k, n - 1);
     }
 
+    /*查找非严格递增数组中 targe 值的 index 范围
+    * 思路是使用二分查找第一次出现的位置和最后一次出现的位置
+    * 这两个位置就是结果*/
     public static int[] searchRange(int[] nums, int target) {
         if (nums.length == 0) {
             return new int[]{-1, -1};
@@ -152,5 +165,80 @@ public class Main {
             return new int[]{leftIdx, rightIdx};
         }
         return new int[]{-1, -1};
+    }
+
+    /*矩阵置零
+    * 思路是用第一行和第一列来存储该行该列是否应该被置零
+    * 为了记录第一行和第一列是否应该被置零，用了两个 boolean 变量*/
+    public void setZeroes(int[][] matrix) {
+        // 判断第一行和第一列是否有0，用两个变量表示，时间复杂度 O(1)
+        boolean rowFlag = false;
+        for (int i = 0; i < matrix[0].length; i++) {
+            if (matrix[0][i] == 0) {
+                rowFlag = true;
+                break;
+            }
+        }
+        boolean colFlag = false;
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][0] == 0) {
+                colFlag = true;
+                break;
+            }
+        }
+        // 遍历矩阵，如果是0则置该行和该列的首元素为0
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+            }
+        }
+        // 遍历第一行，如果是0则将所在列置零
+        for (int i = 1; i < matrix[0].length; i++) {
+            if (matrix[0][i] == 0) {
+                for (int j = 1; j < matrix.length; j++) {
+                    matrix[j][i] = 0;
+                }
+            }
+        }
+        // 遍历第一列，如果是0则将所在行置零
+        for (int i = 1; i < matrix.length; i++) {
+            if (matrix[i][0] == 0) {
+                for (int j = 1; j < matrix[0].length; j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        // 对第一行和第一列置零
+        if (rowFlag) {
+            Arrays.fill(matrix[0], 0);
+        }
+        if (colFlag) {
+            for (int i = 0; i < matrix.length; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+
+    /*求数组的子集
+    * 思路是每次向之前的所有子集中插入新元素，最初的子集为空
+    * 缺点是要求数组无重复元素*/
+    public static List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        // 最初的子集
+        res.add(new ArrayList<>());
+        for (int num : nums) {
+            int size = res.size();
+            for (int i = 0; i < size; i++) {
+                // 不能写成 List<Integer> tmp = res.get(i)
+                // 因为 res.get(i) 是 res 内存里的，需要新开辟内存
+                List<Integer> tmp = new ArrayList<>(res.get(i));
+                tmp.add(num);
+                res.add(tmp);
+            }
+        }
+        return res;
     }
 }
