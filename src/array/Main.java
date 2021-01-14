@@ -7,16 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
-        int[] nums = {1, 2, 3, 3};
-        List<List<Integer>> res = subsets(nums);
-        for (List<Integer> i : res) {
-            for (int j : i) {
-                System.out.println(j);
-            }
-            System.out.println();
-        }
-    }
 
     /*二分查找循环实现
     * 要求数组严格递增，不能出现相等元素
@@ -240,5 +230,87 @@ public class Main {
             }
         }
         return res;
+    }
+
+    /*最长需要排序的长度
+    * 思路是创建一个排好序的数组，然后与原数组对比，找到最左端和最右端的不同的位置
+    * 这两个位置就是 left 和 right*/
+    public static int findUnsortedSubarray(int[] nums) {
+        int n = nums.length;
+        int[] newNums = Arrays.copyOfRange(nums, 0, n);
+        Arrays.sort(newNums);
+        int left = n;
+        int right = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != newNums[i]) {
+                left = Math.min(left, i);
+                right = Math.max(right, i);
+            }
+        }
+        return right >= left ? right - left + 1 : 0;
+    }
+
+    /*使数组唯一的最小增量
+    * 思路是排序*/
+    public int minIncrementForUnique(int[] A) {
+        Arrays.sort(A);
+        int res = 0;
+        for (int i = 1; i < A.length; i++) {
+            // 合并了 A[i] == A[i - 1] 和 A[i] < A[i - 1] 的两种情况
+            if (A[i] <= A[i - 1]) {
+                res += A[i - 1] - A[i] + 1;
+                A[i] = A[i - 1] + 1;
+            }
+        }
+        return res;
+    }
+
+    /*能被5整除的二进制数组
+    * 思路1：直接转十进制，但在数组大的时候会溢出
+    * 思路2：只记录十进制数组的末尾数字
+    * 代码用的是思路2*/
+    public List<Boolean> prefixesDivBy5(int[] A) {
+        List<Boolean> res = new ArrayList<>();
+        int last = 0;
+        for (int x : A) {
+            last = (last * 2 + x) % 10;
+            res.add(last % 5 == 0);
+        }
+        return res;
+    }
+
+    /*对排序后的数组去重
+    * 思路是滑动窗法
+    * P26*/
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0 || nums.length == 1) {
+            return nums.length;
+        }
+        int left = 0;
+        int right = 1;
+        while (right < nums.length) {
+            if (nums[right] == nums[right - 1]) {
+                right++;
+            } else {
+                nums[++left] = nums[right++];
+            }
+        }
+        return left + 1;
+    }
+
+    // 从数组中删除指定的元素（可重复）
+    public int removeElement(int[] nums, int val) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != val) {
+                nums[res++] = nums[i];
+            }
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
