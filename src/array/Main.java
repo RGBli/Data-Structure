@@ -2,9 +2,7 @@ package array;
 
 import com.sun.xml.internal.fastinfoset.tools.XML_SAX_StAX_FI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -310,7 +308,60 @@ public class Main {
         return res;
     }
 
-    public static void main(String[] args) {
+    /*排序数组插入元素的位置
+    * 使用二分查找，与二分查找唯一的不同是最后的返回值由-1改为 low
+    * P35*/
+    public static int searchInsert(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (target == nums[mid]) {
+                return mid;
+            } else if (target > nums[mid]) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
 
+    /*寻找仅出现一次的数字，其他数字都出现了2次
+    * 使用按位异或，按位异或的性质如下
+    * 1⃣️ a ^ a = 0
+    * 2⃣️ a ^ 0 = a
+    * 3⃣️ a ^ b ^ c = a ^ (b ^ c)
+    * P136*/
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        for (int num : nums) {
+            res ^= num;
+        }
+        return res;
+    }
+
+    /*单词拆分
+    * 思路是动态规划，dp[i] 表示前 i 个字符构成的字串是否满足条件
+    * P139*/
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        Set<String> set = new HashSet<>(wordDict);
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && set.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1,3,5,6};
+        System.out.println(searchInsert(arr, -1));
     }
 }

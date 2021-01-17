@@ -1,6 +1,7 @@
 package tree;
 
 import linklist.ListNode;
+import netscape.javascript.JSUtil;
 
 import java.time.temporal.Temporal;
 import java.util.*;
@@ -407,7 +408,22 @@ public class TreeNode {
         }
     }
 
-    public static void main(String[] args) {
+    /*计算组成二叉排序树的数量
+    * 思路是二叉排序树只要规定节点个数则排列数量就确定了
+    * 遍历每个节点，其左子树的排列数量加右子树的排列数量就是该节点的数量，加起来即可
+    * P96*/
+    public static int numTrees(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            res += numTrees(i - 1) * numTrees(n - i);
+        }
+        return res;
+    }
 
+    public static void main(String[] args) {
+        System.out.println(numTrees(3));
     }
 }
