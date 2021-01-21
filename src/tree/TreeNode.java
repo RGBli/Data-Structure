@@ -129,21 +129,22 @@ public class TreeNode {
         if (root == null) {
             return new ArrayList<>();
         }
-
         List<List<Integer>> res = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while (!queue.isEmpty()) {
             List<Integer> level = new ArrayList<>();
-            for (int size = 0; size < queue.size(); size++) {
+            // 一定要提前计算 size，因为在循环中会改变队列，即会改变 size
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
                 TreeNode tmp = queue.poll();
+                level.add(tmp.val);
                 if (tmp.left != null) {
                     queue.offer(tmp.left);
                 }
                 if (tmp.right != null) {
                     queue.offer(tmp.right);
                 }
-                level.add(tmp.val);
             }
             res.add(level);
         }
@@ -156,7 +157,6 @@ public class TreeNode {
         if (root == null) {
             return new ArrayList<>();
         }
-
         List<Integer> res = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
@@ -169,6 +169,45 @@ public class TreeNode {
             if (tmp.right != null) {
                 queue.offer(tmp.right);
             }
+        }
+        return res;
+    }
+
+    /*锯齿形层级遍历二叉树
+    * */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        int height = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                level.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+
+            if (height % 2 == 1) {
+                int left = 0;
+                int right = level.size() - 1;
+                while (left < right) {
+                    int tmp = level.get(right);
+                    level.set(right--, level.get(left));
+                    level.set(left++, tmp);
+                }
+            }
+            res.add(level);
+            height++;
         }
         return res;
     }
