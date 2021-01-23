@@ -2,6 +2,7 @@ package tree;
 
 import linklist.ListNode;
 import netscape.javascript.JSUtil;
+import sun.nio.cs.ext.MacArabic;
 
 import java.time.temporal.Temporal;
 import java.util.*;
@@ -174,7 +175,9 @@ public class TreeNode {
     }
 
     /*锯齿形层级遍历二叉树
-    * */
+    * 思路是将层级遍历得到的奇数层的 List 翻转一下
+    * 翻转用到了经典的滑动窗法
+    * P103*/
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
@@ -208,6 +211,34 @@ public class TreeNode {
             }
             res.add(level);
             height++;
+        }
+        return res;
+    }
+
+    /*二叉树的右视图
+    * 思路是层级遍历，保留每层最后一个元素即可
+    * P199*/
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                level.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+            res.add(level.get(level.size() - 1));
         }
         return res;
     }
@@ -375,6 +406,26 @@ public class TreeNode {
             }
         }
         return root;
+    }
+
+    /*二叉树中的最大路径和
+    * 全局变量 maxSum 用于记录递归中更新的结果
+    * maxGain() 方法递归更新结果
+    * P124*/
+    private int maxSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxGain(root);
+        return maxSum;
+    }
+    public int maxGain(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftGain = Math.max(maxGain(root.left), 0);
+        int rightGain = Math.max(maxGain(root.right), 0);
+        int totalGain = root.val + leftGain + rightGain;
+        maxSum = Math.max(maxSum, totalGain);
+        return root.val + Math.max(leftGain, rightGain);
     }
 
 

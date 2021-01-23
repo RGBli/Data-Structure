@@ -108,16 +108,17 @@ public class ListNode {
         return head;
     }
 
-    // 链表反转
-    // 三指针法
-    public static ListNode reverseList(ListNode head) {
+    /*链表反转，并返回翻转后链表的第一个节点
+    * 三指针法，迭代实现
+    * 时间复杂度 O(n)，空间复杂度 O(1)
+    * P206*/
+    public static ListNode reverseListIterative(ListNode head) {
         if (head == null) {
             return null;
         }
-
         ListNode p1 = head;
         ListNode p2 = head.next;
-        ListNode p3 = new ListNode();
+        ListNode p3;
         while (p2 != null) {
             p3 = p2.next;
             // 切断 p2 和 p3的联系
@@ -126,8 +127,22 @@ public class ListNode {
             p1 = p2;
             p2 = p3;
         }
+        // 使 head 成为最后一个节点
         head.next = null;
         return p1;
+    }
+
+    /*链表反转，并返回翻转后链表的第一个节点
+     * 递归实现，时间复杂度 O(n)，空间复杂度 O(n)
+     * P206*/
+    public ListNode reverseListRecursive(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = reverseListRecursive(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
     }
 
     // 反转前 n 个节点
@@ -136,11 +151,10 @@ public class ListNode {
         if (head == null || n == 1) {
             return head;
         }
-
         int i = 1;
         ListNode p1 = head;
         ListNode p2 = head.next;
-        ListNode p3 = new ListNode();
+        ListNode p3;
         while (p2 != null && i + 1 <= n) {
             p3 = p2.next;
             p2.next = p1;
@@ -241,6 +255,73 @@ public class ListNode {
             lists[i] = mergeTwoLists(lists[i - 1], lists[i]);
         }
         return lists[n - 1];
+    }
+
+    /*判断回文链表
+    * 首先找到链表中点
+    * 然后翻转中点之后的节点，与从 head 开始的节点值相比较
+    * P234*/
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        // 找中点的方法，很巧妙
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // 翻转中点之后的节点
+        slow = reverseListRecursive(slow.next);
+        while (slow != null) {
+            if (slow.val != head.val) {
+                return false;
+            }
+            slow = slow.next;
+            head = head.next;
+        }
+        return true;
+    }
+
+    /*判断链表中是否有环
+    * 用到了快慢指针的方法
+    * P141*/
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
+    /*找到两个链表相交的节点
+    * P160*/
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode p1 = headA;
+        ListNode p2 = headB;
+        while (p1 != p2){
+            if (p1 != null){
+                p1 = p1.next;
+            } else {
+                p1 = headB;
+            }
+
+            if (p2 != null){
+                p2 = p2.next;
+            } else {
+                p2 = headA;
+            }
+        }
+        return p1;
     }
 
     public static void main(String[] args) {
