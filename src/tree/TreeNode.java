@@ -428,6 +428,29 @@ public class TreeNode {
         return root.val + Math.max(leftGain, rightGain);
     }
 
+    /*将二叉树展开为链表
+    * 思路是递归
+    * P114*/
+    public void flatten(TreeNode root) {
+        // 递归出口
+        if (root == null) {
+            return;
+        }
+        // 递归调用
+        flatten(root.left);
+        flatten(root.right);
+        // 实际操作
+        TreeNode right = root.right;
+        root.right = root.left;
+        // 别忘了将左子树置空
+        root.left = null;
+        TreeNode tmp = root;
+        while (tmp.right != null) {
+            tmp = tmp.right;
+        }
+        tmp.right = right;
+    }
+
 
     /******************************二叉排序树*************************************/
 
