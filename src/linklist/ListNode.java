@@ -324,9 +324,58 @@ public class ListNode {
         return p1;
     }
 
+    /*重排链表
+    * 首先找到中点
+    * 然后逆序第二段链表（中点之后的部分）
+    * 然后将第二段链表合并到第一段中
+    * P143*/
+    public static void reorderList(ListNode head) {
+        if (head == null) {
+            return;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode second = slow.next;
+        ListNode first = head;
+        slow.next = null;
+        second = reverseListIterative(second);
+
+        ListNode tmp1;
+        ListNode tmp2;
+        while (first != null && second != null) {
+            tmp1 = first.next;
+            tmp2 = second.next;
+            first.next = second;
+            first.next.next = tmp1;
+            first = tmp1;
+            second = tmp2;
+        }
+    }
+
+    /*寻找链表的中间节点
+    * 思路是快慢指针，slow 每次前进一次，fast 每次前进两次
+    * 注意：节点数为偶数时以下代码返回后面的那个，如果想返回前面那个则使用注释中的 while 语句
+    * 并且需要额外判断 head 是否为空*/
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        // while (fast.next != null && fast.next.next != null)
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
     public static void main(String[] args) {
-        int[] a = new int[]{1, 2, 3, 4, 5};
+        int[] a = new int[]{1, 2, 3, 4};
         ListNode listNode1 = createLinkListTail(a);
-        printList(reverseKGroup(listNode1, 2));
+        //printList(listNode1);
+        reorderList(listNode1);
+        printList(listNode1);
     }
 }

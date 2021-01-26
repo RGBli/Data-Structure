@@ -31,6 +31,19 @@ public class Main {
         return right;
     }
 
+    /*用 rand7() 实现 rand10()
+    * 思路是使用两次 rand7()，通过这两次结果的组合就可以得到 [1,49] 的随机数
+    * 为了使得取 rand10() 更加方便，剔除了40以上的部分
+    * 当然也可以直接剔除10以上的部分，但需要更多的循环时间，效率不高
+    * P470*/
+//    public int rand10() {
+//        int c = 49;
+//        while (c > 40) {
+//            c = rand7() + (rand7() - 1) * 7;
+//        }
+//        return c % 10 + 1;
+//    }
+
     public static void main(String[] args) {
         System.out.println(mySqrt(2147395599));
     }
