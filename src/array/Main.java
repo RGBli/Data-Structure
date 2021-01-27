@@ -382,6 +382,30 @@ public class Main {
         return n + 1;
     }
 
+    /*不相邻数组和的最大值
+    * 思路是动态规划，用两个变量代替 dp 数组来减少空间复杂度
+    * prev1 保存到当前元素的前前个元素的最大值
+    * prev2 保存到当前元素的前一个元素的最大值
+    * P198*/
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return nums[0];
+        }
+        int res = 0;
+        int prev1 = 0;
+        int prev2 = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            res = Math.max(prev1 + nums[i], prev2);
+            prev1 = prev2;
+            prev2 = res;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
     }
 }

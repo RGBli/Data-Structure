@@ -15,6 +15,11 @@ public class ListNode {
         this.val = x;
     }
 
+    public ListNode(int x, ListNode next) {
+        this.val = x;
+        this.next = next;
+    }
+
     // 头插一个结点
     public static ListNode lPushNode(ListNode head, int a) {
         ListNode p = new ListNode();
@@ -371,11 +376,30 @@ public class ListNode {
         return slow;
     }
 
+    /*链表排序
+    * 思路是递归实现归并排序
+    * 首先找到中点，然后分别对第一段和第二段递归排序
+    * 最后调用合并两个有序链表的方法进行合并
+    * P148*/
+    public static ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode right = sortList(slow.next);
+        slow.next = null;
+        ListNode left = sortList(head);
+        return mergeTwoLists(left, right);
+    }
+
     public static void main(String[] args) {
-        int[] a = new int[]{1, 2, 3, 4};
+        int[] a = new int[]{4, 3, 2, 1};
         ListNode listNode1 = createLinkListTail(a);
-        //printList(listNode1);
-        reorderList(listNode1);
-        printList(listNode1);
+        printList(sortList(listNode1));
     }
 }
