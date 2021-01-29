@@ -1,10 +1,5 @@
 package tree;
 
-import linklist.ListNode;
-import netscape.javascript.JSUtil;
-import sun.nio.cs.ext.MacArabic;
-
-import java.time.temporal.Temporal;
 import java.util.*;
 
 public class TreeNode {
@@ -213,6 +208,40 @@ public class TreeNode {
             height++;
         }
         return res;
+    }
+
+    /*深度优先遍历二叉树
+    * 需要在外面定义 res 的 List
+    * 广度优先就是层级遍历，因此不做过多讨论
+    * 参考文章：https://blog.csdn.net/qq_37638061/article/details/89598413*/
+    private static List<Integer> resForDfsTraverse = new ArrayList<>();
+    public static List<Integer> dfs(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        resForDfsTraverse.add(root.val);
+        dfs(root.left);
+        dfs(root.right);
+        return resForDfsTraverse;
+    }
+
+    /*深度优先遍历二叉树的应用
+    * 打印所有的到叶子节点的路径*/
+    private static List<List<Integer>> resForGetAllPath = new LinkedList<>();
+    private static Deque<Integer> pathForGetAllPath = new LinkedList<>();
+    public static List<List<Integer>> getAllPath(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        pathForGetAllPath.offerLast(root.val);
+        // 判断是否为叶子节点
+        if (root.left == null && root.right == null) {
+            resForGetAllPath.add(new LinkedList<>(pathForGetAllPath));
+        }
+        getAllPath(root.left);
+        getAllPath(root.right);
+        pathForGetAllPath.pollLast();
+        return resForGetAllPath;
     }
 
     /*二叉树的右视图
@@ -451,6 +480,29 @@ public class TreeNode {
         tmp.right = right;
     }
 
+    /*路径总和(2)
+    * 思路是使用深度优先遍历二叉树
+    * P113*/
+    private List<List<Integer>> resForPathSum = new LinkedList<>();
+    private Deque<Integer> pathForPathSum = new LinkedList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        dfs(root, targetSum);
+        return resForPathSum;
+    }
+    public void dfs(TreeNode root, int targetSum) {
+        if (root == null) {
+            return;
+        }
+        pathForPathSum.offerLast(root.val);
+        targetSum -= root.val;
+        if (root.left == null && root.right == null && targetSum == 0) {
+            resForPathSum.add(new LinkedList<>(pathForPathSum));
+        }
+        dfs(root.left, targetSum);
+        dfs(root.right, targetSum);
+        pathForPathSum.pollLast();
+    }
+
 
     /******************************二叉排序树*************************************/
 
@@ -537,6 +589,38 @@ public class TreeNode {
     }
 
     public static void main(String[] args) {
-        System.out.println(numTrees(3));
+        TreeNode root = new TreeNode(1);
+        TreeNode treeNode2 = new TreeNode(2);
+        TreeNode treeNode3 = new TreeNode(3);
+        TreeNode treeNode4 = new TreeNode(4);
+        TreeNode treeNode5 = new TreeNode(5);
+        TreeNode treeNode6 = new TreeNode(6);
+        TreeNode treeNode7 = new TreeNode(7);
+        TreeNode treeNode8 = new TreeNode(8);
+        TreeNode treeNode9 = new TreeNode(9);
+        TreeNode treeNode10 = new TreeNode(10);
+        TreeNode treeNode11 = new TreeNode(11);
+        TreeNode treeNode12 = new TreeNode(12);
+
+        root.left = treeNode2;
+        root.right = treeNode3;
+
+        treeNode2.left = treeNode4;
+        treeNode2.right = treeNode5;
+
+        treeNode3.left = treeNode6;
+        treeNode3.right = treeNode7;
+
+        treeNode4.left = treeNode8;
+        treeNode5.left = treeNode9;
+        treeNode6.left = treeNode10;
+
+        treeNode7.left = treeNode11;
+        treeNode7.right = treeNode12;
+
+//        List<Integer> result = dfs(root);
+//        System.out.println(result);
+
+        System.out.println(getAllPath(root));
     }
 }

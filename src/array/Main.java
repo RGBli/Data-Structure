@@ -406,6 +406,47 @@ public class Main {
         return res;
     }
 
+    /*下一个排列
+    * 思路是第一次逆序循环找到最后一个比相邻的后一个元素小的元素
+    * 第二次逆序循环找到第一个比 nums[i] 大的元素，并与 nums[i] 交换
+    * 最后将 nums[i + 1:] 逆序
+    * P31*/
+    public void nextPermutation(int[] nums) {
+        int n = nums.length;
+        int i = n - 2;
+        int j = n - 1;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        if (i >= 0) {
+            while (j >= 0 && nums[i] >= nums[j]) {
+                j--;
+            }
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+        reverse(nums, i + 1, n - 1);
+    }
+
     public static void main(String[] args) {
+        Deque<Integer> deque = new LinkedList<>();
+        deque.add(0);
+        deque.offer(1);
+        System.out.println(deque);
+        deque.offerFirst(2);
+        System.out.println(deque);
+        deque.offerLast(3);
+        System.out.println(deque);
+        deque.poll();
+        System.out.println(deque);
+        deque.pollFirst();
+        System.out.println(deque);
+        deque.pollLast();
+        System.out.println(deque);
+        deque.push(4);
+        System.out.println(deque);
+        deque.pop();
+        System.out.println(deque);
     }
 }
