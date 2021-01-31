@@ -503,6 +503,25 @@ public class TreeNode {
         pathForPathSum.pollLast();
     }
 
+    /*二叉树的直径
+    * 思路是找左右子树高度和最大的节点，并返回其左右子树高度和
+    * 使用递归计算高度，并更新 res
+    * P543*/
+    private int resForDiameterOfBinaryTree = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        depthForDiameterOfBinaryTree(root);
+        return resForDiameterOfBinaryTree;
+    }
+    public int depthForDiameterOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = depthForDiameterOfBinaryTree(root.left);
+        int rightDepth = depthForDiameterOfBinaryTree(root.right);
+        resForDiameterOfBinaryTree = Math.max(resForDiameterOfBinaryTree, leftDepth + rightDepth);
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
 
     /******************************二叉排序树*************************************/
 

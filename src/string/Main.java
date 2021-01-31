@@ -154,10 +154,40 @@ public class Main {
         generate(stringList, left, right + 1, str + ")", n);
     }
 
-
+    /*翻转字符串中的单词
+    * 思路是双指针遍历字符串，head 记录每个单词的首字母，滑动 i 来找到完整单词
+    * 使用栈来保存单词，然后弹出时写入字符串
+    * P151*/
+    public static String reverseWords(String s) {
+        s = s.trim();
+        if (s.length() == 0 || s.length() == 1) {
+            return s;
+        }
+        Deque<String> stack = new LinkedList<>();
+        int head = 0;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) != ' ' && s.charAt(i - 1) == ' ') {
+                head = i;
+            }
+            if (s.charAt(i) == ' ' && s.charAt(i - 1) != ' ') {
+                stack.push(s.substring(head, i));
+                System.out.println(s.substring(head, i));
+            } else if (i == s.length() - 1) {
+                stack.push(s.substring(head));
+                System.out.println(s.substring(head));
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+            sb.append(" ");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
 
     public static void main(String[] args) {
-        String s = "aabc";
-        System.out.println(s.indexOf("a", 1));
+        String s = "F R  I   E    N     D      S      ";
+        //System.out.println(reverseWords(s));
+        reverseWords(s);
     }
 }

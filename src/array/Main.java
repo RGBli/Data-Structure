@@ -1,7 +1,5 @@
 package array;
 
-import com.sun.xml.internal.fastinfoset.tools.XML_SAX_StAX_FI;
-
 import java.util.*;
 
 public class Main {
@@ -429,24 +427,243 @@ public class Main {
         reverse(nums, i + 1, n - 1);
     }
 
+    /*旋转图片，将二维数组顺时针旋转90度
+    * P48*/
+    public void rotate(int[][] matrix) {
+        /*方法1:使用辅助二维数组
+        * 思路是发现规律元素所在原数组的第 i 行就在新数组的 n - i - 1 列
+        * 并且元素所在原数组的第 j 列就在新数组的第 j 行
+        * 如果是逆时针旋转则同理
+        * 缺点是使用了额外的空间，空间复杂度为 O(n^2)
+        int n = matrix.length;
+        int[][] newMatrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                newMatrix[j][n - i - 1] = matrix[i][j];
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = newMatrix[i][j];
+            }
+        }*/
+
+        /*方法2:原地交换
+        * 思路是两次循环，第一次循环上下交换，第二次循环反对角交换
+        * 如果是逆时针则第二次循环对角交换即可
+        * 就是用时间换空间的做法*/
+        int n = matrix.length;
+        int tmp;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = 0; j < n; j++) {
+                tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - i - 1][j];
+                matrix[n - i - 1][j] = tmp;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+    }
+
+    /*合并两个有序数组
+    * P88*/
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        /*方法1:合并后排序
+        * 因为有排序，所以时间复杂度为 O((m+n)log(m+n))，空间复杂度 O(1)
+        System.arraycopy(nums2, 0, nums1, m, n);
+        Arrays.sort(nums1);*/
+
+        /*方法2:双指针
+        * 时间复杂度 O(m+n)，因为需要额外拷贝一份 nums1，所以空间复杂度 O(m)
+        int[] nums1Copy = Arrays.copyOf(nums1, m);
+        int p1 = 0;
+        int p2 = 0;
+        int p = 0;
+        while (p1 < m && p2 < n) {
+            if (nums1Copy[p1] <= nums2[p2]) {
+                nums1[p++] = nums1Copy[p1++];
+            } else {
+                nums1[p++] = nums2[p2++];
+            }
+        }
+        if (p1 < m) {
+            System.arraycopy(nums1Copy, p1, nums1, p, m - p1);
+        }
+        if (p2 < n) {
+            System.arraycopy(nums2, p2, nums1, p, n - p2);
+        }*/
+
+        /*思路3:仍然采用双指针法，但从后向前填入 nums1，这样可以不用开辟新数组
+        * 时间复杂度 O(m+n)，空间复杂度 O(1)*/
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p = m + n - 1;
+        while (p1 >= 0 && p2 >= 0) {
+            if (nums1[p1] >= nums2[p2]) {
+                nums1[p--] = nums1[p1--];
+            } else {
+                nums1[p--] = nums2[p2--];
+            }
+        }
+        if (p2 >= 0) {
+            System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
+        }
+    }
+
+    /*查找数组的峰值
+    * P162*/
+    public int findPeakElement(int[] nums) {
+        /*方法1:线性扫描
+        * 时间复杂度 O(n)，空间复杂度 O(1)
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i + 1]) {
+                return i;
+            }
+        }
+        return nums.length - 1;*/
+
+        /*方法2:二分扫描*/
+        int left = 0;
+        int right = nums.length - 1;
+        int mid;
+        while (left < right) {
+            mid = (left + right) / 2;
+            if (nums[mid] > nums[mid + 1]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    /*全排列，输入不含重复元素
+    * 思路是回溯，公式如下
+    result = []
+    def backtrack(路径, 选择列表):
+        if 满足结束条件:
+            result.add(路径)
+            return
+
+        for 选择 in 选择列表:
+            做选择
+            backtrack(路径, 选择列表)
+            撤销选择
+    * P46*/
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> perm = new ArrayList<>();
+        backtrackForPermute(nums, res, perm);
+        return res;
+    }
+    public void backtrackForPermute(int[] nums, List<List<Integer>> res, List<Integer> perm) {
+        if (perm.size() == nums.length) {
+            res.add(new ArrayList<>(perm));
+            return;
+        }
+        for (int num : nums) {
+            if (!perm.contains(num)) {
+                perm.add(num);
+                backtrackForPermute(nums, res, perm);
+                perm.remove(perm.size() - 1);
+            }
+        }
+    }
+
+    /*全排列，输入可能包含重复元素
+    * 思路还是回溯
+    * 需要提前排序，并且多了一个 visited 数组来保存访问情况
+    * P47*/
+    boolean[] visited;
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> perm = new ArrayList<>();
+        visited = new boolean[nums.length];
+        Arrays.sort(nums);
+        backtrackForPermuteUnique(nums, res, perm);
+        return res;
+    }
+    public void backtrackForPermuteUnique(int[] nums, List<List<Integer>> res, List<Integer> perm) {
+        if (perm.size() == nums.length) {
+            res.add(new ArrayList<>(perm));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] || (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1])) {
+                continue;
+            }
+            perm.add(nums[i]);
+            visited[i] = true;
+            backtrackForPermuteUnique(nums, res, perm);
+            visited[i] = false;
+            perm.remove(perm.size()- 1);
+        }
+    }
+
+    /*所有的组合，输入不含重复元素，数字可以无限制重复选取
+    * 思路是回溯
+    * P39*/
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> combination = new ArrayList<>();
+        backtrackFroCombinationSum(candidates, target, res, combination, 0);
+        return res;
+    }
+    public void backtrackFroCombinationSum(int[] candidates, int target, List<List<Integer>> res, List<Integer> combination, int index) {
+        if (target < 0) {
+            return;
+        }
+        if (target == 0) {
+            if (!res.contains(combination)) {
+                res.add(new ArrayList<>(combination));
+            }
+            return;
+        }
+        for (int i = index; i < candidates.length; i++) {
+            combination.add(candidates[i]);
+            // 因为可以重复选取，所以是 i 而不是 i + 1
+            backtrackFroCombinationSum(candidates, target - candidates[i], res, combination, i);
+            combination.remove(combination.size() - 1);
+        }
+    }
+
+    /*所有的组合，输入可能含有重复元素，并且数字只能使用一次
+    * 思路是回溯，与上一题唯一的差别就是多了一个 if 判断去重
+    * P40*/
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> combination = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtrackFroCombinationSum2(candidates, target, res, combination, 0);
+        return res;
+    }
+    public void backtrackFroCombinationSum2(int[] candidates, int target, List<List<Integer>> res, List<Integer> combination, int index) {
+        if (target < 0) {
+            return;
+        }
+        if (target == 0) {
+            if (!res.contains(combination)) {
+                res.add(new ArrayList<>(combination));
+            }
+            return;
+        }
+        for (int i = index; i < candidates.length; i++) {
+            if (i > index && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            combination.add(candidates[i]);
+            // 因为不能重复选取，所以是 i + 1 而不是 i
+            backtrackFroCombinationSum2(candidates, target - candidates[i], res, combination, i + 1);
+            combination.remove(combination.size() - 1);
+        }
+    }
+
     public static void main(String[] args) {
-        Deque<Integer> deque = new LinkedList<>();
-        deque.add(0);
-        deque.offer(1);
-        System.out.println(deque);
-        deque.offerFirst(2);
-        System.out.println(deque);
-        deque.offerLast(3);
-        System.out.println(deque);
-        deque.poll();
-        System.out.println(deque);
-        deque.pollFirst();
-        System.out.println(deque);
-        deque.pollLast();
-        System.out.println(deque);
-        deque.push(4);
-        System.out.println(deque);
-        deque.pop();
-        System.out.println(deque);
+
     }
 }
