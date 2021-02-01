@@ -663,7 +663,103 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    /*岛屿的数量
+    * 思路是深度优先搜索，通过 dfs 来将陆地置0，然后判断有几块即可
+    * P200*/
+    public int numIslands(char[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int rowNum = grid.length;
+        int colNum = grid[0].length;
+        int res = 0;
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
+                if (grid[row][col]== '0') {
+                    dfsForNumIslands(grid, row, col);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    public void dfsForNumIslands(char[][] grid, int row, int col) {
+        int rowNum = grid.length;
+        int colNum = grid[0].length;
+        if (row < 0 || col < 0 || row >= rowNum || col >= colNum || grid[row][col] == '0') {
+            return;
+        }
+        grid[row][col] = '0';
+        dfsForNumIslands(grid, row - 1, col);
+        dfsForNumIslands(grid, row + 1, col);
+        dfsForNumIslands(grid, row, col - 1);
+        dfsForNumIslands(grid, row, col + 1);
+    }
 
+    /*零钱兑换
+    * 思路1：回溯，类似与组合的做法，但对于该题会超时（不代表不对
+    * 见方法 coinChange1()
+    * 思路2：动态规划，dp[i] 表示凑够 i 的金额时需要的最小硬币个数
+    * 见方法 coinChange2()
+    * P322*/
+    private static int res = -1;
+    public static int coinChange1(int[] coins, int amount) {
+        ArrayList<Integer> perm = new ArrayList<>();
+        backtrackForCoinChange(coins, amount, perm, 0);
+        return res;
+    }
+    public static void backtrackForCoinChange(int[] coins, int amount, List<Integer> perm, int index) {
+        if (amount == 0) {
+            if (res == -1) {
+                res = perm.size();
+            } else {
+                res = Math.min(res, perm.size());
+            }
+            return;
+        }
+        if (amount < 0) {
+            return;
+        }
+        for (int i = index; i < coins.length; i++) {
+            perm.add(coins[i]);
+            backtrackForCoinChange(coins, amount - coins[i], perm, i);
+            perm.remove(perm.size() - 1);
+        }
+    }
+    public int coinChange2(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    /*和为 k 的连续子数组
+    * 思路是暴力枚举，虽然是暴力方法，但做了一次优化，每次固定左侧边界，滑动右侧边界
+    * 因此不是三层循环
+    * P560*/
+    public int subarraySum(int[] nums, int k) {
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int tmp = 0;
+            for (int j = i; j < nums.length; j++) {
+                tmp += nums[j];
+                if (tmp == k) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(coinChange1(new int[]{431,62,88,428}, 9084));
     }
 }
