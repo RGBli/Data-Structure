@@ -1,7 +1,6 @@
 package linklist;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ListNode {
     // 链表定义
@@ -290,22 +289,70 @@ public class ListNode {
     }
 
     /*判断链表中是否有环
-    * 用到了快慢指针的方法
     * P141*/
     public boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
+        /*方法1:哈希表
+         * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
+        Set<ListNode> set = new HashSet<>();
+        ListNode tmp = head;
+        while (tmp != null && !set.contains(tmp)) {
+            set.add(tmp);
+            tmp = tmp.next;
+        }
+        return tmp != null;*/
+
+        /*方法2:快慢指针
+        * slow 指针每次前进一步，fast 指针前进两步
+        * 如果 fast 到头则返回 false，如果相遇则返回 true*/
+        if (head == null) {
             return false;
         }
         ListNode slow = head;
-        ListNode fast = head.next;
-        while (slow != fast) {
+        ListNode fast = head;
+        // 使用 do-while 的原因是最开始 slow = fast，因此无法循环
+        do {
             if (fast == null || fast.next == null) {
                 return false;
             }
             slow = slow.next;
             fast = fast.next.next;
-        }
+        } while (slow != fast);
         return true;
+    }
+
+    /*检测环形链表的入环节点
+    * P142*/
+    public ListNode detectCycle(ListNode head) {
+        /*方法1:哈希表
+        * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
+        Set<ListNode> set = new HashSet<>();
+        ListNode tmp = head;
+        while (tmp != null && !set.contains(tmp)) {
+            set.add(tmp);
+            tmp = tmp.next;
+        }
+        return tmp;*/
+
+        /*方法2:快慢指针*/
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        do {
+            // 无环，直接返回
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        } while (slow != fast);
+        ListNode tmp = head;
+        while (tmp != slow) {
+            tmp = tmp.next;
+            slow = slow.next;
+        }
+        return slow;
     }
 
     /*找到两个链表相交的节点
@@ -400,6 +447,9 @@ public class ListNode {
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
         ListNode listNode1 = createLinkListTail(a);
-        printList(sortList(listNode1));
+        ListNode p1 = listNode1;
+        ListNode p2 = p1;
+        p1.val = 5;
+        System.out.println(listNode1.val);
     }
 }

@@ -759,6 +759,38 @@ public class Main {
         return res;
     }
 
+    /*每日温度
+    * P739*/
+    public int[] dailyTemperatures(int[] T) {
+        /*思路1:暴力法
+        int n = T.length;
+        for (int i = 0; i < n; i++) {
+            int tmp = T[i];
+            T[i] = 0;
+            for (int j = i + 1; j < n; j++) {
+                if (T[j] > tmp) {
+                    T[i] = j - i;
+                    break;
+                }
+            }
+        }
+        return T;*/
+
+        /*思路2:栈*/
+        int n = T.length;
+        int[] res = new int[n];
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            int temperature = T[i];
+            while (!stack.isEmpty() && temperature > T[stack.peek()]) {
+                int prevIndex = stack.pop();
+                res[prevIndex] = i - prevIndex;
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         System.out.println(coinChange1(new int[]{431,62,88,428}, 9084));
     }
