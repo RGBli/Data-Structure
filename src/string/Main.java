@@ -186,8 +186,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String s = "F R  I   E    N     D      S      ";
-        //System.out.println(reverseWords(s));
-        reverseWords(s);
+        String s = "hello";
+        StringBuilder sb = new StringBuilder(s);
+
     }
 }

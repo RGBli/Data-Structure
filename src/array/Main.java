@@ -696,14 +696,14 @@ public class Main {
         dfsForNumIslands(grid, row, col + 1);
     }
 
-    /*零钱兑换
+    /*零钱兑换1
     * 思路1：回溯，类似与组合的做法，但对于该题会超时（不代表不对
     * 见方法 coinChange1()
     * 思路2：动态规划，dp[i] 表示凑够 i 的金额时需要的最小硬币个数
     * 见方法 coinChange2()
     * P322*/
     private static int res = -1;
-    public static int coinChange1(int[] coins, int amount) {
+    public static int coinChangeBackTrack(int[] coins, int amount) {
         ArrayList<Integer> perm = new ArrayList<>();
         backtrackForCoinChange(coins, amount, perm, 0);
         return res;
@@ -726,19 +726,35 @@ public class Main {
             perm.remove(perm.size() - 1);
         }
     }
-    public int coinChange2(int[] coins, int amount) {
+    public int coinChangeDP(int[] coins, int amount) {
         int max = amount + 1;
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, max);
         dp[0] = 0;
         for (int i = 1; i <= amount; i++) {
-            for (int j = 0; j < coins.length; j++) {
-                if (coins[j] <= i) {
-                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+            for (int coin : coins) {
+                if (coin <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
                 }
             }
         }
         return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    /*零钱兑换2，返回构成指定金额的组合数
+    * 思路是动态规划，dp[i] 表示金额为 i 时有多少种组合
+    * P518*/
+    public int change(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int coin : coins) {
+            for (int i = 0; i <= amount; i++) {
+                if (i + coin <= amount) {
+                    dp[i + coin] += dp[i];
+                }
+            }
+        }
+        return dp[amount];
     }
 
     /*和为 k 的连续子数组
@@ -791,7 +807,51 @@ public class Main {
         return res;
     }
 
+    /*数字连续的最长序列
+    * P128*/
+    public static int longestConsecutive(int[] nums) {
+        /*思路1:先排序，然后暴力法
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int res = 1;
+        for (int i = 0; i < n - 1; i++) {
+            int tmp = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (nums[j] == nums[j - 1] + 1) {
+                    tmp++;
+                } else if (nums[j] != nums[j - 1]) {
+                    break;
+                }
+            }
+            res = Math.max(res, tmp);
+        }
+        return res;*/
+
+        /*思路2:哈希表*/
+        int res = 0;
+        Set<Integer> set = new HashSet<>();
+        // 首先去重
+        for (int num : nums) {
+            set.add(num);
+        }
+        for (int ele : set) {
+            if (set.contains(ele)) {
+                int currNum = ele;
+                int currLen = 1;
+                while (set.contains(currNum + 1)) {
+                    currNum++;
+                    currLen++;
+                }
+                res = Math.max(res, currLen);
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
-        System.out.println(coinChange1(new int[]{431,62,88,428}, 9084));
+        System.out.println(longestConsecutive(new int[]{9,1,4,7,3,-1,0,5,8,-1,6}));
     }
 }
