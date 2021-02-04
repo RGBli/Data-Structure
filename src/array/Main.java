@@ -851,6 +851,40 @@ public class Main {
         return res;
     }
 
+    /*寻找重复数
+    * P287*/
+    public int findDuplicate(int[] nums) {
+        /*方法1:哈希表
+        Set<Integer> s = new HashSet<>();
+        for (int num : nums) {
+            if (s.contains(num)) {
+                return num;
+            }
+            s.add(num);
+        }
+        return -1;*/
+
+        /*方法2:找入环节点
+        * 思路类似与环形链表2*/
+        int slow = 0, fast = 0;
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+
+    /*单词搜索
+    * P79*/
+    /*public boolean exist(char[][] board, String word) {
+
+    }*/
+
     public static void main(String[] args) {
         System.out.println(longestConsecutive(new int[]{9,1,4,7,3,-1,0,5,8,-1,6}));
     }

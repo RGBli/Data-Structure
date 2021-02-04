@@ -112,7 +112,7 @@ public class ListNode {
         return head;
     }
 
-    /*链表反转，并返回翻转后链表的第一个节点
+    /*链表反转，反转整个链表，并返回翻转后链表的第一个节点
     * 三指针法，迭代实现
     * 时间复杂度 O(n)，空间复杂度 O(1)
     * P206*/
@@ -136,7 +136,7 @@ public class ListNode {
         return p1;
     }
 
-    /*链表反转，并返回翻转后链表的第一个节点
+    /*链表反转，反转整个链表，并返回翻转后链表的第一个节点
      * 递归实现，时间复杂度 O(n)，空间复杂度 O(n)
      * P206*/
     public ListNode reverseListRecursive(ListNode head) {
@@ -147,6 +147,38 @@ public class ListNode {
         head.next.next = head;
         head.next = null;
         return newHead;
+    }
+
+    /*链表反转，仅反转从位置 m 到 n 的部分
+    * 思路是三指针，但多加了 dummy, p0 和 p4 指针
+    * dummy 指针指向 head，p0 指针指向 m 的前一个节点，p4 指针指向 m 节点
+    * P92*/
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode p0 = null;
+        ListNode p1 = dummy;
+        int i = 0;
+        for (; i < m; i++) {
+            if (i == m - 1) {
+                p0 = p1;
+            }
+            p1 = p1.next;
+        }
+        ListNode p4 = p1;
+        ListNode p2 = p1.next;
+        ListNode p3;
+        while (p2 != null && i < n) {
+            p3 = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = p3;
+            i++;
+        }
+        assert p0 != null;
+        p0.next = p1;
+        p4.next = p2;
+        return dummy.next;
     }
 
     // 反转前 n 个节点

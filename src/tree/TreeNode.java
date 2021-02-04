@@ -522,6 +522,32 @@ public class TreeNode {
         return Math.max(leftDepth, rightDepth) + 1;
     }
 
+    /*判断是否为完全二叉树
+    * 思路是层级遍历，遍历到空节点则置 flag为 true
+    * 如果在 flag 为 true 时又遍历到其他节点，则不是完全二叉树
+    * P958*/
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean flag = false;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node == null) {
+                flag = true;
+                continue;
+            }
+            if (flag) {
+                return false;
+            }
+            queue.offer(node.left);
+            queue.offer(node.right);
+        }
+        return true;
+    }
+
 
     /******************************二叉排序树*************************************/
 
