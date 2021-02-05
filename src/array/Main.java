@@ -6,15 +6,17 @@ public class Main {
 
     /*二分查找循环实现
     * 要求数组严格递增，不能出现相等元素
+    * 注意循环条件是 left <= right，有个等于号
     * 一般用循环二分查找多一些
     * 参考 https://blog.csdn.net/maoyuanming0806/article/details/78176957
     * */
     public static int commonBinarySearch(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
+        int mid;
         while (left <= right) {
             // 在循环里更新 mid
-            int mid = (left + right) / 2;
+            mid = (left + right) / 2;
             if (target == nums[mid]) {
                 return mid;
             } else if (target > nums[mid]) {
@@ -31,6 +33,7 @@ public class Main {
      * 参考 https://blog.csdn.net/maoyuanming0806/article/details/78176957
      * */
     public static int recursiveBinarySearch(int[] nums, int left, int right, int target) {
+        // 递归出口
         if (target < nums[left] || target > nums[right] || left > right) {
             return -1;
         }
@@ -663,39 +666,6 @@ public class Main {
         }
     }
 
-    /*岛屿的数量
-    * 思路是深度优先搜索，通过 dfs 来将陆地置0，然后判断有几块即可
-    * P200*/
-    public int numIslands(char[][] grid) {
-        if (grid.length == 0 || grid[0].length == 0) {
-            return 0;
-        }
-        int rowNum = grid.length;
-        int colNum = grid[0].length;
-        int res = 0;
-        for (int row = 0; row < rowNum; row++) {
-            for (int col = 0; col < colNum; col++) {
-                if (grid[row][col]== '0') {
-                    dfsForNumIslands(grid, row, col);
-                    res++;
-                }
-            }
-        }
-        return res;
-    }
-    public void dfsForNumIslands(char[][] grid, int row, int col) {
-        int rowNum = grid.length;
-        int colNum = grid[0].length;
-        if (row < 0 || col < 0 || row >= rowNum || col >= colNum || grid[row][col] == '0') {
-            return;
-        }
-        grid[row][col] = '0';
-        dfsForNumIslands(grid, row - 1, col);
-        dfsForNumIslands(grid, row + 1, col);
-        dfsForNumIslands(grid, row, col - 1);
-        dfsForNumIslands(grid, row, col + 1);
-    }
-
     /*零钱兑换1
     * 思路1：回溯，类似与组合的做法，但对于该题会超时（不代表不对
     * 见方法 coinChange1()
@@ -878,12 +848,6 @@ public class Main {
         }
         return slow;
     }
-
-    /*单词搜索
-    * P79*/
-    /*public boolean exist(char[][] board, String word) {
-
-    }*/
 
     public static void main(String[] args) {
         System.out.println(longestConsecutive(new int[]{9,1,4,7,3,-1,0,5,8,-1,6}));

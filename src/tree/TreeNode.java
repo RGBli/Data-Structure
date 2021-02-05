@@ -548,6 +548,24 @@ public class TreeNode {
         return true;
     }
 
+    /*根到叶子节点数字之和
+    * 思路是深度优先遍历
+    * P129*/
+    public int sumNumbers(TreeNode root) {
+        return dfsForSumNumbers(root, 0);
+    }
+    public int dfsForSumNumbers(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        sum = sum * 10 + root.val;
+        if (root.left == null && root.right == null) {
+            return sum;
+        } else {
+            return dfsForSumNumbers(root.left, sum) + dfsForSumNumbers(root.right, sum);
+        }
+    }
+
 
     /******************************二叉排序树*************************************/
 
