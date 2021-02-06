@@ -849,6 +849,70 @@ public class Main {
         return slow;
     }
 
+    /*搜索二维矩阵，矩阵中每行中的整数从左到右按升序排列，每行的第一个整数大于前一行的最后一个整数
+    * 思路是二分查找，将矩阵的每行连接起来，看作一个一维数组
+    * 时间复杂度 o(log(mn))
+    * P74*/
+    public boolean searchMatrix1(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int left = 0;
+        int right = m * n - 1;
+        int mid;
+        int row, col;
+        while (left <= right) {
+            mid = (left + right) / 2;
+            row = mid / n;
+            col = mid % n;
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return false;
+    }
+
+    /*搜索二维矩阵2，矩阵中每行的元素从左到右升序排列，每列的元素从上到下升序排列
+    * P240*/
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        /*思路1:对每行都使用二分搜索
+        * 时间复杂度为 O(mlogn)
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            if (commonBinarySearch(matrix[i], target) != -1) {
+                return true;
+            }
+        }
+        return false;*/
+
+        /*思路是从右上角开始搜索（从左下角也可以）
+        * 如果 target 比 matrix[i][j] 大则向下搜索，小则向左搜索，相等则返回 true
+        * 时间复杂度为 O(m+n)*/
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        int m = 0;
+        int n = matrix[0].length - 1;
+        while (m < matrix.length && n >= 0) {
+            if (matrix[m][n] == target) {
+                return true;
+            } else if (matrix[m][n] > target) {
+                n--;
+            } else {
+                m++;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println(longestConsecutive(new int[]{9,1,4,7,3,-1,0,5,8,-1,6}));
     }

@@ -476,6 +476,29 @@ public class ListNode {
         return mergeTwoLists(left, right);
     }
 
+    /*删除排序链表中的重复元素
+    * P83*/
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = head;
+        ListNode curr = head.next;
+        while (true) {
+            while (curr != null && curr.val == prev.val) {
+                curr = curr.next;
+            }
+            prev.next = curr;
+            prev = prev.next;
+            if (curr != null) {
+                curr = curr.next;
+            } else {
+                break;
+            }
+        }
+        return head;
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
         ListNode listNode1 = createLinkListTail(a);
