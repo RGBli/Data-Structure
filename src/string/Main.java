@@ -1,9 +1,6 @@
 package string;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     /*在保证字典序列最小的情况下去重
@@ -183,6 +180,54 @@ public class Main {
             sb.append(" ");
         }
         return sb.substring(0, sb.length() - 1);
+    }
+
+    /*最小覆盖子串
+    * 思路是滑动窗
+    * 使用了两个哈希表，第一个存储 t 中字符出现的次数，第二个存储窗口中 s 中字符出现的次数
+    * check() 方法用于检测改窗口是否满足要求
+    * P76*/
+    public String minWindow(String s, String t) {
+        Map<Character, Integer> m1 = new HashMap<>();
+        Map<Character, Integer> m2 = new HashMap<>();
+        int tLen = t.length();
+        int sLen = s.length();
+        for (int i = 0; i < tLen; i++) {
+            char tmp = t.charAt(i);
+            m1.put(tmp, m1.getOrDefault(tmp, 0) + 1);
+        }
+        int left = 0, right = 0;
+        int minLen = Integer.MAX_VALUE;
+        int resLeft = -1;
+        int resRight = -1;
+        while (right < sLen) {
+            // 增加
+            if (m1.containsKey(s.charAt(right))) {
+                m2.put(s.charAt(right), m2.getOrDefault(s.charAt(right), 0) + 1);
+            }
+            while (check(m1, m2) && left <= right) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    resLeft = left;
+                    resRight = left + minLen;
+                }
+                // 删除
+                if (m1.containsKey(s.charAt(left))) {
+                    m2.put(s.charAt(left), m2.getOrDefault(s.charAt(left), 0) - 1);
+                }
+                left++;
+            }
+            right++;
+        }
+        return resLeft == -1 ? "" : s.substring(resLeft, resRight);
+    }
+    public boolean check(Map<Character, Integer> m1, Map<Character, Integer> m2) {
+        for (Character c : m1.keySet()) {
+            if (m2.get(c) == null || m2.get(c) < m1.get(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
