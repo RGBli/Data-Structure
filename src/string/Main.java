@@ -230,6 +230,19 @@ public class Main {
         return true;
     }
 
+    /*反转字符串
+    * 思路是滑动窗
+    * P344*/
+    public void reverseString(char[] s) {
+        int left = 0;
+        int right = s.length - 1;
+        while (left < right) {
+            char tmp = s[left];
+            s[left++] = s[right];
+            s[right--] = tmp;
+        }
+    }
+
     public static void main(String[] args) {
         String s = "hello";
         StringBuilder sb = new StringBuilder(s);

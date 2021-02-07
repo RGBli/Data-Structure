@@ -913,7 +913,89 @@ public class Main {
         return false;
     }
 
+    /*数组交集
+    * 思路是使用 set 的 retainAll() 方法计算交集
+    * P349*/
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> s1 = new HashSet<>();
+        Set<Integer> s2 = new HashSet<>();
+        for (int i : nums1) {
+            s1.add(i);
+        }
+        for (int i : nums2) {
+            s2.add(i);
+        }
+        s1.retainAll(s2);
+        int[] res = new int[s1.size()];
+        int index = 0;
+        for (int i : s1) {
+            res[index++] = i;
+        }
+        return res;
+    }
+
+    /*两个有序数组的中位数
+    * 思路是二分法
+    * P4*/
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        int totalLength = length1 + length2;
+        // 长度为奇数，则找下标为 n/2 的元素
+        // 长度为偶数，则找下标为 n/2-1 和 n/2 的元素
+        if (totalLength % 2 == 1) {
+            int midIndex = totalLength / 2;
+            // 因为 getKthElement() 方法是找第 k 小的元素，而不是排序后下标为 k 的元素
+            // 所以要加1
+            return getKthElement(nums1, nums2, midIndex + 1);
+        } else {
+            int midIndex1 = totalLength / 2 - 1;
+            int midIndex2 = totalLength / 2;
+            return (getKthElement(nums1, nums2, midIndex1 + 1) + getKthElement(nums1, nums2, midIndex2 + 1)) / 2.0;
+        }
+    }
+    public int getKthElement(int[] nums1, int[] nums2, int k) {
+        /* 主要思路：要找到第 k (k>1) 小的元素，那么就取 pivot1 = nums1[k/2-1] 和 pivot2 = nums2[k/2-1] 进行比较
+         * 这里的 "/" 表示整除
+         * nums1 中小于等于 pivot1 的元素有 nums1[0 .. k/2-2] 共计 k/2-1 个
+         * nums2 中小于等于 pivot2 的元素有 nums2[0 .. k/2-2] 共计 k/2-1 个
+         * 取 pivot = min(pivot1, pivot2)，两个数组中小于等于 pivot 的元素共计不会超过 (k/2-1) + (k/2-1) <= k-2 个
+         * 这样 pivot 本身最大也只能是第 k-1 小的元素
+         * 如果 pivot = pivot1，那么 nums1[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums1 数组
+         * 如果 pivot = pivot2，那么 nums2[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums2 数组
+         * 由于我们 "删除" 了一些元素（这些元素都比第 k 小的元素要小），因此需要修改 k 的值，减去删除的数的个数
+         */
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        int index1 = 0;
+        int index2 = 0;
+        while (true) {
+            // 边界情况
+            if (index1 == length1) {
+                return nums2[index2 + k - 1];
+            }
+            if (index2 == length2) {
+                return nums1[index1 + k - 1];
+            }
+            if (k == 1) {
+                return Math.min(nums1[index1], nums2[index2]);
+            }
+            // 正常情况
+            int newIndex1 = Math.min(index1 + k / 2, length1) - 1;
+            int newIndex2 = Math.min(index2 + k / 2, length2) - 1;
+            int pivot1 = nums1[newIndex1];
+            int pivot2 = nums2[newIndex2];
+            if (pivot1 <= pivot2) {
+                k -= (newIndex1 - index1 + 1);
+                index1 = newIndex1 + 1;
+            } else {
+                k -= (newIndex2 - index2 + 1);
+                index2 = newIndex2 + 1;
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(longestConsecutive(new int[]{9,1,4,7,3,-1,0,5,8,-1,6}));
+
     }
 }

@@ -490,6 +490,7 @@ public class ListNode {
             }
             prev.next = curr;
             prev = prev.next;
+            // 判断是否因为遍历遍历完成还是不相等而退出的循环
             if (curr != null) {
                 curr = curr.next;
             } else {

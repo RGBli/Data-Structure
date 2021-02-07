@@ -74,7 +74,35 @@ public class Main {
         return Integer.parseInt(sb.toString());
     }
 
+    /*外观数列
+    * 思路是递归
+    * P38*/
+    public static String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        } else if (n == 2) {
+            return "11";
+        } else {
+            String s = countAndSay(n - 1);
+            int left = 0;
+            int right = 1;
+            int cnt = 1;
+            StringBuilder sb = new StringBuilder();
+            for (; right < s.length(); right++) {
+                if (s.charAt(left) == s.charAt(right)) {
+                    cnt++;
+                } else {
+                    sb.append(cnt).append(s.charAt(left));
+                    cnt = 1;
+                    left = right;
+                }
+            }
+            sb.append(cnt).append(s.charAt(left));
+            return sb.toString();
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(maximumSwap(2736));
+        System.out.println(countAndSay(5));
     }
 }

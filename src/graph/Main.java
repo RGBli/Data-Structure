@@ -7,7 +7,7 @@ public class Main {
 
     }
 
-    // DFS 递归实现
+    // DFS, 递归实现
     public void dfs(int[][] m, boolean[] visited, int i, List<Integer> res) {
         visited[i] = true;
         res.add(i);
@@ -18,7 +18,7 @@ public class Main {
         }
     }
 
-    // BFS，用队列实现
+    // BF, 用队列实现
     public List<Integer> bfs(int[][] m, int i) {
         List<Integer> res = new ArrayList<>();
         Queue<Integer> q = new LinkedList<>();
@@ -134,5 +134,91 @@ public class Main {
             }
         }
         return res;
+    }
+
+    /*课程表1
+    * 思路是深度优先搜索 + 拓扑排序
+    * P207*/
+    List<List<Integer>> edgesForCanFinish;
+    int[] visitedForCanFinish;
+    boolean isValidForCanFinish = true;
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        edgesForCanFinish = new ArrayList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            edgesForCanFinish.add(new ArrayList<>());
+        }
+        visitedForCanFinish = new int[numCourses];
+        for (int[] info : prerequisites) {
+            edgesForCanFinish.get(info[1]).add(info[0]);
+        }
+        for (int i = 0; i < numCourses && isValidForCanFinish; i++) {
+            if (visitedForCanFinish[i] == 0) {
+                dfsForCanFinish(i);
+            }
+        }
+        return isValidForCanFinish;
+    }
+    public void dfsForCanFinish(int u) {
+        visitedForCanFinish[u] = 1;
+        for (int v : edgesForCanFinish.get(u)) {
+            if (visitedForCanFinish[v] == 0) {
+                dfsForCanFinish(v);
+                if (!isValidForCanFinish) {
+                    return;
+                }
+            } else if (visitedForCanFinish[v] == 1) {
+                isValidForCanFinish = false;
+                return;
+            }
+        }
+        visitedForCanFinish[u] = 2;
+    }
+
+    /*课程表2
+    * 思路是拓扑排序，并用栈来保存排序结果
+    * P210*/
+    boolean isValidForFindOrder = true;
+    List<List<Integer>> edgesForFindOrder;
+    int[] visitedForFindOrder;
+    // 用数组从后向前插入来模拟栈
+    int[] resForFindOrder;
+    int indexForFindOrder;
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        edgesForFindOrder = new ArrayList<>();
+        visitedForFindOrder = new int[numCourses];
+        resForFindOrder = new int[numCourses];
+        indexForFindOrder = numCourses - 1;
+        for (int i = 0; i < numCourses; i++) {
+            edgesForFindOrder.add(new ArrayList<>());
+        }
+        for (int[] info : prerequisites) {
+            edgesForFindOrder.get(info[1]).add(info[0]);
+        }
+        for (int i = 0; i < numCourses && isValidForFindOrder; i++) {
+            if (visitedForFindOrder[i] == 0) {
+                dfsForFindOrder(i);
+            }
+        }
+        if (isValidForFindOrder) {
+            return resForFindOrder;
+        } else {
+            return new int[0];
+        }
+    }
+    public void dfsForFindOrder(int u) {
+        visitedForFindOrder[u] = 1;
+        for (Integer v : edgesForFindOrder.get(u)) {
+            if (visitedForFindOrder[v] == 0) {
+                dfsForFindOrder(v);
+                if (!isValidForFindOrder) {
+                    return;
+                }
+            } else if (visitedForFindOrder[v] == 1) {
+                isValidForFindOrder = false;
+                return;
+            }
+        }
+        visitedForFindOrder[u] = 2;
+        resForFindOrder[indexForFindOrder--] = u;
     }
 }
