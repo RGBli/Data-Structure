@@ -85,10 +85,9 @@ public class Main {
         } else {
             String s = countAndSay(n - 1);
             int left = 0;
-            int right = 1;
             int cnt = 1;
             StringBuilder sb = new StringBuilder();
-            for (; right < s.length(); right++) {
+            for (int right = 1; right < s.length(); right++) {
                 if (s.charAt(left) == s.charAt(right)) {
                     cnt++;
                 } else {
@@ -102,7 +101,22 @@ public class Main {
         }
     }
 
+    /*数字的二进制表示中位1的个数
+    * 思路是构造掩码，使掩码和 n 做按位与操作
+    * P191*/
+    public static int hammingWeight(int n) {
+        int res = 0;
+        int mask = 1;
+        for (int i = 0; i < 32; i++) {
+            if ((n & mask) != 0) {
+                res++;
+            }
+            mask <<= 1;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
-        System.out.println(countAndSay(5));
+        System.out.println(hammingWeight(3));
     }
 }

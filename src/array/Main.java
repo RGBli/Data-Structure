@@ -329,7 +329,8 @@ public class Main {
     }
 
     /*寻找仅出现一次的数字，其他数字都出现了2次
-    * 使用按位异或，按位异或的性质如下
+    * 思路是使用按位异或
+    * 按位异或的性质如下
     * 1⃣️ a ^ a = 0
     * 2⃣️ a ^ 0 = a
     * 3⃣️ a ^ b ^ c = a ^ (b ^ c)
@@ -993,6 +994,24 @@ public class Main {
                 index2 = newIndex2 + 1;
             }
         }
+    }
+
+    /*丢失的数字
+    * P268*/
+    public int missingNumber(int[] nums) {
+        /*思路1：通过求和，减去数组的和就知道缺少哪个数字了*/
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        return (1 + nums.length) * nums.length / 2 - sum;
+
+        /*思路2:通过按位异或
+        int res = nums.length;
+        for (int i = 0; i < nums.length; i++){
+            res ^= nums[i] ^ i;
+        }
+        return res;*/
     }
 
     public static void main(String[] args) {
