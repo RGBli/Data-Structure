@@ -1,6 +1,7 @@
 package array;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -1014,7 +1015,89 @@ public class Main {
         return res;*/
     }
 
-    public static void main(String[] args) {
+    /*跳跃游戏1
+    * P55*/
+    public boolean canJump(int[] nums) {
+        /*思路1:从后向前找到0的各个位置，看能否被 cover
+        * 如果有0不能被 cover，则返回 false
+        int n = nums.length;
+        List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        if (!list.contains(0) || list.indexOf(0) == n - 1) {
+            return true;
+        }
+        int index = list.lastIndexOf(0);
+        boolean res = false;
+        while (index >= 0) {
+            res = false;
+            list.set(index, 1);
+            if (index != n - 1) {
+                for (int i = index - 1; i >= 0; i--) {
+                    if (list.get(i) > index - i) {
+                        res = true;
+                        break;
+                    }
+                    if (i == 0) {
+                        return false;
+                    }
+                }
+            }
+            index = list.lastIndexOf(0);
+        }
+        return res;*/
 
+        /*思路2:贪心*/
+        int n = nums.length;
+        // 最远能到达的位置
+        int rightmost = 0;
+        for (int i = 0; i < n - 1; i++) {
+            // 当最远能达到 i 时才会判断要不要返回 true
+            // 这个判断非常重要
+            if (rightmost >= i) {
+                rightmost = Math.max(rightmost, i + nums[i]);
+                if (rightmost >= n - 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*跳跃游戏2
+    * 思路是贪心
+    * P45*/
+    public int jump(int[] nums) {
+        int length = nums.length;
+        int end = 0;
+        int rightmost = 0;
+        int steps = 0;
+        for (int i = 0; i < length - 1; i++) {
+            rightmost = Math.max(rightmost, nums[i] + i);
+            if (i == end) {
+                end = rightmost;
+                steps++;
+            }
+        }
+        return steps;
+    }
+
+    /*移动0
+    * P283*/
+    public void moveZeroes(int[] nums) {
+        int index = 0;
+        for (int num : nums) {
+            if (num != 0) {
+                nums[index++] = num;
+            }
+        }
+        for (int i = index; i < nums.length; i++) {
+            nums[i] = 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2};
+        List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        list.add(3);
+        System.out.println(list);
     }
 }
