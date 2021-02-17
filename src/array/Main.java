@@ -1111,10 +1111,50 @@ public class Main {
         return rest < 0 ? -1 : start;
     }
 
+    /*视野总和
+    * 有 n 个人站队，所有的人全部向右看，个子高的可以看到个子低的发型，给出每个人的身高，问所有人能看到其他人发现总和是多少。
+    * 输入：4 3 7 1
+    * 输出：2
+    * 思路是单调栈，单调栈的格式如下
+    for (遍历这个数组)
+    {
+        if (栈空 || 栈顶元素大于等于当前比较元素)
+        {
+            入栈;
+        }
+        else
+        {
+            while (栈不为空 && 栈顶元素小于当前元素)
+            {
+                栈顶元素出栈;
+                更新结果;
+            }
+            当前数据入栈;
+        }
+    }
+    * 题目来自网络https://blog.csdn.net/lucky52529/article/details/89155694*/
+    public static int viewSum(List<Integer> nums) {
+        int res = 0;
+        // 在最后插入一个巨人
+        nums.add(Integer.MAX_VALUE);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < nums.size(); i++) {
+            if (stack.isEmpty() || nums.get(stack.peek()) > nums.get(i)) {
+                stack.push(i);
+            } else {
+                while (!stack.isEmpty() && nums.get(stack.peek()) <= nums.get(i)) {
+                    int peek = stack.pop();
+                    res += (i - peek - 1);
+                }
+                stack.push(i);
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {1, 2};
+        int[] nums = {4,3,7,1};
         List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
-        list.add(3);
-        System.out.println(list);
+        System.out.println(viewSum(list));
     }
 }
