@@ -500,6 +500,25 @@ public class ListNode {
         return head;
     }
 
+    /*奇偶链表
+    * P328*/
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null || head.next.next == null) {
+            return head;
+        }
+        ListNode evenHead = head.next;
+        ListNode odd = head;
+        ListNode even = head.next;
+        while (odd.next != null && even.next != null) {
+            odd.next = odd.next.next;
+            odd = odd.next;
+            even.next = even.next.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
         ListNode listNode1 = createLinkListTail(a);

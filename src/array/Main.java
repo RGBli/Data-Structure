@@ -1094,6 +1094,23 @@ public class Main {
         }
     }
 
+    /*加油站
+    * 思路是一次遍历
+    * 只要 gas[] 的总和 >= cost[] 总和就可以走完
+    * P134*/
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int rest = 0, run = 0, start = 0;
+        for (int i = 0; i < gas.length; i++) {
+            run += (gas[i] - cost[i]);
+            rest += (gas[i] - cost[i]);
+            if (run < 0){
+                start = i + 1;
+                run = 0;
+            }
+        }
+        return rest < 0 ? -1 : start;
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 2};
         List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());

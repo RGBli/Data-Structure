@@ -243,6 +243,28 @@ public class Main {
         }
     }
 
+    /*移除 k 位数字
+    * P402*/
+    public String removeKDigits(String num, int k) {
+        // 特判
+        if (num.length() == k) {
+            return "0";
+        }
+        StringBuilder s = new StringBuilder(num);
+        for (int i = 0; i < k; i++) {
+            int index = 0;
+            for (int j = 1; j < s.length() && s.charAt(j) >= s.charAt(j - 1); j++) {
+                index = j;
+            }
+            s.delete(index, index + 1);
+            // 清除前导0
+            while (s.length() > 1 && s.charAt(0) == '0') {
+                s.delete(0, 1);
+            }
+        }
+        return s.toString();
+    }
+
     public static void main(String[] args) {
         String s = "hello";
         StringBuilder sb = new StringBuilder(s);
