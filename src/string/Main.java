@@ -265,9 +265,33 @@ public class Main {
         return s.toString();
     }
 
-    public static void main(String[] args) {
-        String s = "hello";
-        StringBuilder sb = new StringBuilder(s);
+    /*简化路径
+    * 思路是使用栈，遇到..则弹出，遇到.不处理，其他情况都入栈
+    * 因为 Deque 的栈是在头部进栈，不方便最后的 join 操作，所以可以用 List 或 Stack 来做栈
+    * P71*/
+    public String simplifyPath(String path) {
+        List<String> l = new LinkedList<>();
+        String[] items = path.split("/");
+        for (String item : items) {
+            if (item.isEmpty() || item.equals(".")) {
+                continue;
+            }
+            if (item.equals("..")) {
+                if (!l.isEmpty()) {
+                    l.remove(l.size() - 1);
+                }
+            } else {
+                l.add(item);
+            }
+        }
+        return "/" + String.join("/", l);
+    }
 
+    public static void main(String[] args) {
+        //Deque<String> stack = new LinkedList<>();
+        Stack<String> stack = new Stack<>();
+        stack.push("1");
+        stack.push("2");
+        System.out.println(String.join("/", stack));
     }
 }

@@ -566,6 +566,39 @@ public class TreeNode {
         }
     }
 
+    /*所有节点之和*/
+    public int sumOfNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return root.val + sumOfNodes(root.left) + sumOfNodes(root.right);
+    }
+
+    /*所有叶子节点之和*/
+    public int sumOfLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val;
+        }
+        return sumOfLeaves(root.left) + sumOfLeaves(root.right);
+    }
+
+    /*左叶子节点之和
+    * 加个判断记录左叶子节点的值即可
+    * P404*/
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int tmp = 0;
+        if (root.left != null && root.left.left == null && root.left.right == null) {
+            tmp = root.left.val;
+        }
+        return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right) + tmp;
+    }
+
 
     /******************************二叉排序树*************************************/
 

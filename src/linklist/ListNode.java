@@ -519,6 +519,31 @@ public class ListNode {
         return head;
     }
 
+    /*分隔链表
+    * 思路是创建了两个链表节点 small 和 large，分别存储小于 x 的和大于等于 x 的元素
+    * 然后将这两个链表拼接起来即可
+    * P86*/
+    public ListNode partition(ListNode head, int x) {
+        ListNode small = new ListNode(0);
+        ListNode smallHead = small;
+        ListNode large = new ListNode(0);
+        ListNode largeHead = large;
+        while (head != null) {
+            if (head.val < x) {
+                small.next = head;
+                small = small.next;
+            } else {
+                large.next = head;
+                large = large.next;
+            }
+            head = head.next;
+        }
+        large.next = null;
+        small.next = largeHead.next;
+        return smallHead.next;
+    }
+
+
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
         ListNode listNode1 = createLinkListTail(a);

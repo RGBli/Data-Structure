@@ -1152,6 +1152,31 @@ public class Main {
         return res;
     }
 
+    /*下一个更大元素
+    * 思路是单调栈
+    * 先使用单调栈考虑 nums[] 数组中每个元素的下一个更大元素，并保存在哈希表中
+    * 然后遍历 findNums[] 数组，从哈希表中找到答案填入
+    * P496*/
+    public int[] nextGreaterElement(int[] findNums, int[] nums) {
+        Deque<Integer> stack = new LinkedList<>();
+        HashMap<Integer, Integer> map = new HashMap<> ();
+        int[] res = new int[findNums.length];
+        for (int num : nums) {
+            while (!stack.isEmpty() && num > stack.peek()) {
+                int peek = stack.pop();
+                map.put(peek, num);
+            }
+            stack.push(num);
+        }
+        while (!stack.isEmpty()) {
+            map.put(stack.pop(), -1);
+        }
+        for (int i = 0; i < findNums.length; i++) {
+            res[i] = map.get(findNums[i]);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int[] nums = {4,3,7,1};
         List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
