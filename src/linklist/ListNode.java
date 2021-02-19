@@ -543,6 +543,35 @@ public class ListNode {
         return smallHead.next;
     }
 
+    /*链表插入排序
+    * 思路跟数组的插入排序一样，就是多了一步从头结点向后查找比 i 大的元素
+    * i 和 j 的含义与数组的插入排序相同
+    * P147*/
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode j = head;
+        ListNode i = head.next;
+        while (i != null) {
+            if (i.val >= j.val) {
+                j = j.next;
+            } else {
+                ListNode prev = dummyHead;
+                while (prev.next.val < i.val) {
+                    prev = prev.next;
+                }
+                j.next = i.next;
+                i.next = prev.next;
+                prev.next = i;
+            }
+            i = j.next;
+        }
+        return dummyHead.next;
+    }
+
 
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};

@@ -4,12 +4,14 @@ public class Main {
     private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
-    // 简单插入排序
+    /*简单插入排序*/
     public static void insert(int[] arr) {
+        // i 是无序区的第一个元素
         for (int i = 1; i < n; i++) {
             int tmp = arr[i];
+            // j 是有序区的最后一个元素
             int j = i - 1;
-            while (arr[j] > tmp && j >= 0) {
+            while (j >= 0 && arr[j] > tmp) {
                 arr[j + 1] = arr[j];
                 j--;
             }
@@ -18,7 +20,7 @@ public class Main {
     }
 
 
-    // 冒泡排序
+    /*冒泡排序*/
     public static void bubble(int[] arr) {
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
@@ -32,7 +34,7 @@ public class Main {
     }
 
 
-    // 选择排序
+    /*选择排序*/
     public static void select(int[] arr) {
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
@@ -93,8 +95,8 @@ public class Main {
     }
 
 
-    // 快速排序
-    public static void quickSort(int arr[], int left, int right) {
+    /*快速排序*/
+    public static void quickSort(int[] arr, int left, int right) {
         // 递归出口，这里不能写成 left != right
         if (left < right) {
             int i, j, tmp;
@@ -121,11 +123,11 @@ public class Main {
     }
 
 
-    // 归并排序
+    /*归并排序*/
     public static void mergeSort(int[] arr, int low, int high) {
         // 递归出口，与快排类似
-        int mid = (low + high) / 2;
         if (low < high) {
+            int mid = (low + high) / 2;
             mergeSort(arr, low, mid);
             mergeSort(arr, mid + 1, high);
             // 左右归并
@@ -134,7 +136,7 @@ public class Main {
     }
 
     // 合并左右两个有序数组
-    // 左数组的范围是[low, mid], 右数组的范围是[mid + 1, high]
+    // 左数组的范围是 [low, mid], 右数组的范围是 [mid + 1, high]
     public static void merge(int[] arr, int low, int mid, int high) {
         // 创建临时动态数组
         int[] tmp = new int[high - low + 1];
@@ -161,7 +163,7 @@ public class Main {
         }
         // 把新数组中的数覆盖 arr 数组
         /* for (int x = 0; x < tmp.length; x++) {
-            arr[x + low] = tmp[x];
+            arr[low + x] = tmp[x];
         }*/
         // 使用 System.arrayCopy() 更简洁
         System.arraycopy(tmp, 0, arr, low, tmp.length);
