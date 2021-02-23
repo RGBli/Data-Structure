@@ -22,7 +22,7 @@ public class Main {
 
     /*冒泡排序*/
     public static void bubble(int[] arr) {
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (arr[j] > arr[j + 1]) {
                     int tmp = arr[j];
@@ -43,20 +43,20 @@ public class Main {
                     minIndex = j;
                 }
             }
-            int tmp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = tmp;
+            if (minIndex != i) {
+                int tmp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = tmp;
+            }
         }
     }
 
 
     /*堆排序*/
-    // 创建初始堆
     private static void heapSort(int[] arr) {
-        // 创建堆
-        // 因为堆是完全二叉树，所以第一个非叶子节点在 (length - 1) / 2
-        // 位置为 i 的左孩子节点在 2 * i + 1
-        for (int i = (arr.length - 1) / 2; i >= 0; i--) {
+        // 创建堆，如果是顺序排序就创建大根堆，逆序排序就创建小根堆
+        // 因为堆是完全二叉树，所以第一个非叶子节点在 length / 2 - 1
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
             // 从第一个非叶子结点从右至左，从下至上调整结构
             adjustHeap(arr, i, arr.length);
         }
@@ -73,13 +73,14 @@ public class Main {
         }
     }
 
-    // 调整堆
-    // 调整的范围是[start, end)
+    // 调整堆，调整的范围是 [start, end)
     private static void adjustHeap(int[] arr, int start, int end) {
         int tmp = arr[start];
+        // 位置为 i 的左孩子节点在 2 * i + 1
         int lChild = 2 * start + 1;
         while (lChild < end) {
             int rChild = lChild + 1;
+            // 找到左右孩子中大的那个的 index
             if (rChild < end && arr[lChild] < arr[rChild]) {
                 lChild++;
             }
@@ -97,7 +98,7 @@ public class Main {
 
     /*快速排序*/
     public static void quickSort(int[] arr, int left, int right) {
-        // 递归出口，这里不能写成 left != right
+        // 递归出口
         if (left < right) {
             int i, j, tmp;
             // 取基准值
@@ -117,6 +118,7 @@ public class Main {
                 arr[j] = arr[i];
             }
             arr[i] = tmp;
+            // 此时小于 arr[i] 的元素都在 i 的左边，大于 arr[i] 的元素都在 i 的右边
             quickSort(arr, left, i - 1);
             quickSort(arr, i + 1, right);
         }
@@ -172,7 +174,7 @@ public class Main {
 
     public static void main(String[] args) {
         //mergeSort(arr, 0, arr.length - 1);
-        insert(arr);
+        heapSort(arr);
         for (int i : arr) {
             System.out.println(i);
         }
