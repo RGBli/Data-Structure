@@ -559,10 +559,12 @@ public class ListNode {
             if (i.val >= j.val) {
                 j = j.next;
             } else {
+                // prev.next 记录有序区中第一个大于等于 i 节点值的节点
                 ListNode prev = dummyHead;
                 while (prev.next.val < i.val) {
                     prev = prev.next;
                 }
+                // 这三行逻辑非常重要
                 j.next = i.next;
                 i.next = prev.next;
                 prev.next = i;

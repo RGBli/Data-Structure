@@ -1177,6 +1177,91 @@ public class Main {
         return res;
     }
 
+    /*买卖股票的最佳时机1
+    * 你只能选择某一天买入这只股票，并选择在未来的某一个不同的日子 卖出该股票
+    * 思路是动态规划，前 i 天的最大收益 = max{前 i - 1 天的最大收益，第 i 天的价格 - 前 i - 1 天中的最小价格}
+    * P121*/
+    public int maxProfit1(int[] prices) {
+        if (prices.length == 0) {
+            return 0;
+        }
+        int res = 0;
+        // 不能初始化为0
+        int min = prices[0];
+        for (int price : prices) {
+            // 计算 dp[i] 也就是 res
+            res = Math.max(res, price - min);
+            // 更新 min
+            min = Math.min(min, price);
+        }
+        return res;
+    }
+
+    /*买卖股票的最佳时机2
+     * 可以多次买卖股票
+     * 思路是只要第二天比第一天的票价贵，就买第一天的，并在第二天出售
+     * P122*/
+    public int maxProfit2(int[] prices) {
+        int n = prices.length;
+        int res = 0;
+        for (int i = 1; i < n; i++) {
+           if (prices[i] > prices[i - 1]) {
+               res += prices[i] - prices[i - 1];
+           }
+        }
+        return res;
+    }
+
+    /*买卖股票的最佳时机3
+     * 最多可以两次买卖股票
+     * 思路是动态规划
+     * 在任意一天结束之后，我们会处于以下五个状态中的一种：
+     * 1⃣️未进行过任何操作；
+     * 2⃣️只进行过一次买操作；
+     * 3⃣️进行了一次买操作和一次卖操作，即完成了一笔交易；
+     * 4⃣️在完成了一笔交易的前提下，进行了第二次买操作；
+     * 5⃣️完成了全部两笔交易。
+     * 因为第一种状态的利润为0，因此仅考虑后四种状态
+     * 分别用 buy1, sell1, buy2, sell2 来表示达到这种状态的利润
+     * P123*/
+    public int maxProfit3(int[] prices) {
+        int buy1 = -prices[0];
+        int sell1 = 0;
+        int buy2 = -prices[0];
+        int sell2 = 0;
+        for (int i = 1; i < prices.length; ++i) {
+            buy1 = Math.max(buy1, -prices[i]);
+            sell1 = Math.max(sell1, buy1 + prices[i]);
+            buy2 = Math.max(buy2, sell1 - prices[i]);
+            sell2 = Math.max(sell2, buy2 + prices[i]);
+        }
+        return sell2;
+    }
+
+    /*买卖股票的最佳时机4
+     * 最多可以 k 次买卖股票
+     * 思路是动态规划
+     * dp[i][0] 表示在第 i 次买卖后不持有股票这个状态的收益
+     * dp[i][1] 表示在第 i 次买卖后仍持有股票这个状态的收益
+     * P188*/
+    public int maxProfit4(int k, int[] prices) {
+        int n = prices.length;
+        if (n == 0) {
+            return 0;
+        }
+        int[][] dp = new int[k + 1][2];
+        for (int i = 1; i <= k; i++) {
+            dp[i][1] = Integer.MIN_VALUE;
+        }
+        for (int price : prices) {
+            for (int j = 1; j <= k; j++) {
+                dp[j][0] = Math.max(dp[j][0], dp[j][1] + price);
+                dp[j][1] = Math.max(dp[j][1], dp[j - 1][0] - price);
+            }
+        }
+        return dp[k][0];
+    }
+
     public static void main(String[] args) {
         int[] nums = {4,3,7,1};
         List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());

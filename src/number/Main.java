@@ -130,6 +130,50 @@ public class Main {
         return  n < 0 ? 1 / res : res;
     }
 
+    /*判断丑数
+    * 丑数就是只包含质因数 2, 3, 5 的正整数
+    * 思路是不断除以5 3 2，能除尽的数就是丑数
+    * P263*/
+    public boolean isUgly(int num) {
+        if (num < 1) {
+            return false;
+        }
+        // 三个 while 的顺序可以任意
+        while (num % 5 == 0){
+            num /= 5;
+        }
+        while (num % 3 == 0){
+            num /= 3;
+        }
+        while (num % 2 == 0){
+            num /= 2;
+        }
+        return num == 1;
+    }
+
+    /*找到第 n 个丑数
+    * 思路是三指针法
+    * P264*/
+    public int nthUglyNumber(int n) {
+        int p2 = 0, p3 = 0, p5 = 0;
+        int[] res = new int[n];
+        res[0] = 1;
+        for (int i = 1; i < n; i++){
+            res[i] = Math.min(Math.min(2 * res[p2], 3 * res[p3]), 5 * res[p5]);
+            // 注意这里不能用 else if
+            if (res[i] == 2 * res[p2]) {
+                p2++;
+            }
+            if (res[i] == 3 * res[p3]) {
+                p3++;
+            }
+            if (res[i] == 5 * res[p5]) {
+                p5++;
+            }
+        }
+        return res[n - 1];
+    }
+
     public static void main(String[] args) {
         System.out.println(hammingWeight(3));
     }
