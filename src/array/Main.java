@@ -1262,6 +1262,28 @@ public class Main {
         return dp[k][0];
     }
 
+    /*有序数组的平方
+    * 思路是双指针
+    * P977*/
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        int i = 0;
+        int j = n - 1;
+        int pos = n - 1;
+        while (i <= j) {
+            if (nums[i] * nums[i] > nums[j] * nums[j]) {
+                res[pos] = nums[i] * nums[i];
+                i++;
+            } else {
+                res[pos] = nums[j] * nums[j];
+                j--;
+            }
+            pos--;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int[] nums = {4,3,7,1};
         List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());

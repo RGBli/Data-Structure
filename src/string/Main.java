@@ -287,6 +287,29 @@ public class Main {
         return "/" + String.join("/", l);
     }
 
+    /*解码方法
+    * 思路是动态规划
+    * 是有条件的 f(n) = f(n - 1) + f(n - 2)
+    * P91*/
+    public int numDecodings(String s) {
+        int n = s.length();
+        if (n == 0) {
+            return 0;
+        }
+        if (s.charAt(0) == '0') {
+            return 0;
+        }
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        for(int i = 0; i < n; i++) {
+            dp[i + 1] = s.charAt(i) == '0' ? 0 : dp[i];
+            if (i > 0 && (s.charAt(i - 1) == '1' || (s.charAt(i - 1) == '2' && s.charAt(i) <= '6'))) {
+                dp[i + 1] += dp[i - 1];
+            }
+        }
+        return dp[n];
+    }
+
     public static void main(String[] args) {
         //Deque<String> stack = new LinkedList<>();
         Stack<String> stack = new Stack<>();

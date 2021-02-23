@@ -599,6 +599,37 @@ public class TreeNode {
         return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right) + tmp;
     }
 
+    /*二叉树的层平均值
+    * P637*/
+    public List<Double> averageOfLevels(TreeNode root) {
+        if (root == null) {
+            return new LinkedList<>();
+        }
+        List<Double> res = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int size;
+        double sum;
+        TreeNode tmp;
+        while (!q.isEmpty()) {
+            size = q.size();
+            sum = 0;
+            for (int i = 0; i < size; i++) {
+                tmp = q.poll();
+                assert tmp != null;
+                if (tmp.left != null) {
+                    q.offer(tmp.left);
+                }
+                if (tmp.right != null) {
+                    q.offer(tmp.right);
+                }
+                sum += tmp.val;
+            }
+            res.add(sum * 1.0 / size);
+        }
+        return res;
+    }
+
 
     /******************************二叉排序树*************************************/
 
