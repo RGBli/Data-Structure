@@ -310,9 +310,55 @@ public class Main {
         return dp[n];
     }
 
+    /*编辑距离
+    * 思路是动态规划
+    * dp[i][j] 表示 word1 的前 i 个字母转换成 word2 的前 j 个字母所使用的最少操作
+    * P72*/
+    public int minDistance(String word1, String word2) {
+        int len1 = word1.length(), len2 = word2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];
+        for (int i = 0; i <= len1; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= len2; j++) {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]);
+                }
+            }
+        }
+        return dp[len1][len2];
+    }
+
+    /*删除字符串中的所有重复项
+    * 思路是栈，有点像单调栈的感觉
+    * P1047*/
+    public String removeDuplicates(String S) {
+        Deque<Character> stack = new LinkedList<>();
+        for (int i = 0; i < S.length(); i++) {
+            if (stack.isEmpty() || S.charAt(i) != stack.peek()) {
+                stack.push(S.charAt(i));
+            } else {
+                while (!stack.isEmpty() && S.charAt(i) == stack.peek()) {
+                    stack.pop();
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        return sb.reverse().toString();
+    }
+
     public static void main(String[] args) {
-        //Deque<String> stack = new LinkedList<>();
-        Stack<String> stack = new Stack<>();
+        Deque<String> stack = new LinkedList<>();
+        //Stack<String> stack = new Stack<>();
         stack.push("1");
         stack.push("2");
         System.out.println(String.join("/", stack));
