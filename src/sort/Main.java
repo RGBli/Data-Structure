@@ -1,6 +1,11 @@
 package sort;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
+    //private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
@@ -172,9 +177,48 @@ public class Main {
     }
 
 
+    /*基数排序
+    * 这段代码的缺点是只能排序非负整数*/
+    public static void radixSort(int[] arr) {
+        // 获取最大值
+        int max = Arrays.stream(arr).max().orElse(0);
+        // 分配和收集的次数，也就是最大值的位数
+        int time = 0;
+        while (max > 0) {
+            max /= 10;
+            time++;
+        }
+        // 建立10个队列
+        List<List<Integer>> bucketList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ArrayList<Integer> bucket = new ArrayList<>();
+            bucketList.add(bucket);
+        }
+        // 进行 time 次分配和收集
+        for (int i = 0, pow = 1; i < time; i++, pow *= 10) {
+            // 分配
+            for (int value : arr) {
+                int x = value / pow % 10;
+                List<Integer> bucket = bucketList.get(x);
+                bucket.add(value);
+            }
+            int count = 0;
+            // 收集，如果是降序则从9开始循环
+            for (int j = 0; j < 10; j++) {
+                while (bucketList.get(j).size() > 0) {
+                    List<Integer> bucket = bucketList.get(j);
+                    arr[count] = bucket.get(0);
+                    bucket.remove(0);
+                    count++;
+                }
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         //mergeSort(arr, 0, arr.length - 1);
-        heapSort(arr);
+        radixSort(arr);
         for (int i : arr) {
             System.out.println(i);
         }
