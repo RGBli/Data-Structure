@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
-    private static int n = arr.length;
+    private static int[] arr = {1, 6, 4, 3, 3, 2, 2, 8, 5};
 
     /*简单插入排序*/
     public static void insert(int[] arr) {
+        int n = arr.length;
         // i 是无序区的第一个元素
         for (int i = 1; i < n; i++) {
             int tmp = arr[i];
@@ -26,6 +26,7 @@ public class Main {
 
     /*冒泡排序*/
     public static void bubble(int[] arr) {
+        int n = arr.length;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (arr[j] > arr[j + 1]) {
@@ -40,6 +41,7 @@ public class Main {
 
     /*选择排序*/
     public static void select(int[] arr) {
+        int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < n; j++) {
@@ -100,36 +102,38 @@ public class Main {
     }
 
 
-    /*快速排序*/
+    /*快速排序
+    * [left, right]
+    * 参考文章：https://blog.csdn.net/shujuelin/article/details/82423852*/
     public static void quickSort(int[] arr, int left, int right) {
         // 递归出口
         if (left < right) {
-            int i, j, tmp;
+            int i = left;
+            int j = right;
             // 取基准值
-            tmp = arr[left];
-            i = left;
-            j = right;
+            int tmp = arr[left];
             while (i < j) {
                 // 先 j 后 i
-                while (arr[j] > tmp && i < j) {
+                // 注意要有等于号，不然 i 指针无法移动
+                while (arr[j] >= tmp && i < j) {
                     j--;
                 }
                 arr[i] = arr[j];
-
-                while (arr[i] < tmp && i < j) {
+                while (arr[i] <= tmp && i < j) {
                     i++;
                 }
                 arr[j] = arr[i];
             }
             arr[i] = tmp;
-            // 此时小于 arr[i] 的元素都在 i 的左边，大于 arr[i] 的元素都在 i 的右边
+            // 此时小于 arr[left] 的元素都在 i 的左边，大于 arr[left] 的元素都在 i 的右边
             quickSort(arr, left, i - 1);
             quickSort(arr, i + 1, right);
         }
     }
 
 
-    /*归并排序*/
+    /*归并排序
+    * [low, high]*/
     public static void mergeSort(int[] arr, int low, int high) {
         // 递归出口，与快排类似
         if (low < high) {
@@ -217,8 +221,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        //mergeSort(arr, 0, arr.length - 1);
-        radixSort(arr);
+        quickSort(arr, 0, 8);
         for (int i : arr) {
             System.out.println(i);
         }

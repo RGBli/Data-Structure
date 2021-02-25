@@ -611,7 +611,8 @@ public class Main {
     }
 
     /*全排列，输入不含重复元素
-    * 思路是回溯，公式如下
+    * 思路是回溯，看到题目中带有"组合"，就该考虑到回溯。
+    * 回溯的公式如下：
     result = []
     def backtrack(路径, 选择列表):
         if 满足结束条件:
@@ -1347,9 +1348,20 @@ public class Main {
         return res;
     }
 
+    /*矩阵转置
+    * P867*/
+    public int[][] transpose(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] res = new int[col][row];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                res[j][i]= matrix[i][j];
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {4,3,7,1};
-        List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
-        System.out.println(viewSum(list));
     }
 }

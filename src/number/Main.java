@@ -228,7 +228,9 @@ public class Main {
         int[] dp = new int[n + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
+        // 小于等于 n 的完全平方数数量
         int maxSquareIndex = (int) Math.sqrt(n) + 1;
+        // 小于等于 n 的完全平方数数组
         int[] squareNums = new int[maxSquareIndex];
         for (int i = 1; i < maxSquareIndex; i++) {
             squareNums[i] = i * i;
@@ -238,6 +240,7 @@ public class Main {
                 if (squareNums[j] > i) {
                     break;
                 }
+                // 状态转移方程
                 dp[i] = Math.min(dp[i], dp[i - squareNums[j]] + 1);
             }
         }
