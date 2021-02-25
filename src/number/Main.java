@@ -174,6 +174,76 @@ public class Main {
         return res[n - 1];
     }
 
+    /*统计所有小于非负整数 n 的质数的数量
+    * P204*/
+    public int countPrimes(int n) {
+        // 思路1：直接使用 isPrime() 方法判断，简单但会超时
+        /*int res = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime(i)) {
+                res++;
+            }
+        }
+        return res;*/
+
+        // 思路2：埃氏筛，如果 x 为质数，则 x 的倍数为合数
+        // isPrime[i]表示数 i 是否为质数
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        int res = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime[i]) {
+                res++;
+                for (int j = 2 * i; j < n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        return res;
+    }
+    /*判断是否为质数*/
+    public boolean isPrime(int n) {
+        for (int i = 2; i < Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*求数字位数
+    * 思路是使用 log10*/
+    public int getLen(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        return (int)Math.log10(n) + 1;
+    }
+
+    /*完全平方数
+    * 思路是动态规划
+    * dp[i] 表示和为 i 的完全平方数数量
+    * P279*/
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        int maxSquareIndex = (int) Math.sqrt(n) + 1;
+        int[] squareNums = new int[maxSquareIndex];
+        for (int i = 1; i < maxSquareIndex; i++) {
+            squareNums[i] = i * i;
+        }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j < maxSquareIndex; j++) {
+                if (squareNums[j] > i) {
+                    break;
+                }
+                dp[i] = Math.min(dp[i], dp[i - squareNums[j]] + 1);
+            }
+        }
+        return dp[n];
+    }
+
     public static void main(String[] args) {
         System.out.println(hammingWeight(3));
     }

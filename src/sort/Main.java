@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    //private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int[] arr = {1, 6, 4, 3, 7, 2, 9, 8, 5};
     private static int n = arr.length;
 
@@ -178,7 +177,8 @@ public class Main {
 
 
     /*基数排序
-    * 这段代码的缺点是只能排序非负整数*/
+    * 这段代码的缺点是只能排序非负整数
+    * 参考文章：http://www.pomit.cn/tr/2242407401310723*/
     public static void radixSort(int[] arr) {
         // 获取最大值
         int max = Arrays.stream(arr).max().orElse(0);

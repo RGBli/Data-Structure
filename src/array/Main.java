@@ -72,10 +72,10 @@ public class Main {
     }
 
     /*搜索最后一次出现的位置，算法更具有鲁棒性
-     * 注意算法与 commonBinarySearch() 方法的改动
-     * 没有在循环中返回，而是比较 left 元素是否等于 target 来返回
-     * 出循环时 left 必定等于 right
-     * 参考 https://blog.csdn.net/u014221279/article/details/50903515*/
+    * 注意算法与 commonBinarySearch() 方法的改动
+    * 没有在循环中返回，而是比较 left 元素是否等于 target 来返回
+    * 出循环时 left 必定等于 right
+    * 参考 https://blog.csdn.net/u014221279/article/details/50903515*/
     public static int binarySearchLast(int[] nums, int target) {
         int n = nums.length;
         int left = 0;
@@ -96,7 +96,8 @@ public class Main {
     /*二分法对旋转排序数组搜索
     * 思路是一分为二，对有序的一半使用二分查找，对无序的一半再一分为二
     * 再对有序的一半使用二分查找，以此循环
-    * 遇到排好序的数组第一反应就应该是二分查找*/
+    * 遇到排好序的数组第一反应就应该是二分查找
+    * P33*/
     public static int binarySearchForRotatedSortedArray(int[] nums, int target) {
         int n = nums.length;
         int left = 0;
@@ -105,13 +106,15 @@ public class Main {
         while (left <= right) {
             if (nums[mid] == target) {
                 return mid;
-            } else if (nums[mid] < nums[right]) {
+            } else if (nums[mid] < nums[right]) {   // 右侧排好序了
+                // 判断 target 是否在右侧
                 if (target > nums[mid] && target <= nums[right]) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
                 }
-            } else {
+            } else {    // 左侧排好序了
+                // 判断 target 是否在左侧
                 if (target >= nums[left] && target < nums[mid]) {
                     right = mid - 1;
                 } else {
@@ -120,6 +123,47 @@ public class Main {
             }
         }
         return -1;
+    }
+
+    /*寻找旋转排序数组中的最小值，数组不存在重复元素
+    * 思路是二分法
+    * P153*/
+    public int findMin1(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        int mid;
+        while (left < right) {
+            mid = (left + right) / 2;
+            // 如果右侧有序
+            if (nums[mid] < nums[right]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return nums[left];
+    }
+
+    /*寻找旋转排序数组中的最小值，数组可能存在重复元素
+    * 思路是二分法
+    * 与上一题唯一的区别在于多了对 nums[mid] == nums[right] 的讨论
+    * P154*/
+    public int findMin2(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        int mid;
+        while (left < right) {
+            mid = (left + right) / 2;
+            // 如果右侧有序
+            if (nums[mid] < nums[right]) {
+                right = mid;
+            } else if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right--;
+            }
+        }
+        return nums[left];
     }
 
     /*数组逆序
