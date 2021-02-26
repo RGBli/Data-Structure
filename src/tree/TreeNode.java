@@ -715,6 +715,22 @@ public class TreeNode {
         return res;
     }
 
+    /*二叉搜索树中第 K 小的元素
+    * 思路是利用 BST 的中序遍历序列是升序的特性
+    * P230*/
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> res = new ArrayList<>();
+        inOrderForKthSmallest(root, res);
+        return res.get(k - 1);
+    }
+    public void inOrderForKthSmallest(TreeNode root, List<Integer> res) {
+        if (root != null) {
+            inOrderForKthSmallest(root.left, res);
+            res.add(root.val);
+            inOrderForKthSmallest(root.right, res);
+        }
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         TreeNode treeNode2 = new TreeNode(2);

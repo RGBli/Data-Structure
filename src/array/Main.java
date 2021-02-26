@@ -1362,6 +1362,25 @@ public class Main {
         return res;
     }
 
+    /*三角形最小路径和，找出自顶向下的最小路径和
+    * 思路是动态规划
+    * dp[i][j] 表示从顶部到 (i, j) 位置需要的最小路径
+    * 时间复杂度 O(n^2), 空间复杂度 O(n^2)
+    * P120*/
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int[][] dp = new int[n][n];
+        dp[0][0] = triangle.get(0).get(0);
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = dp[i - 1][0] + triangle.get(i).get(0);
+            dp[i][i] = dp[i - 1][i - 1] + triangle.get(i).get(i);
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j]) + triangle.get(i).get(j);
+            }
+        }
+        return Arrays.stream(dp[n - 1]).min().getAsInt();
+    }
+
     public static void main(String[] args) {
     }
 }

@@ -432,6 +432,33 @@ public class Main {
         }
     }
 
+    /*二进制求和
+    * 思路是模拟进位，大数相加也可以用这个思路
+    * P67*/
+    public String addBinary(String a, String b) {
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int flag = 0;
+        StringBuilder sb = new StringBuilder();
+        while (i >= 0 || j >= 0) {
+            int tmp = 0;
+            if (i >= 0) {
+                tmp += a.charAt(i--) - '0';
+            }
+            if (j >= 0) {
+                tmp += b.charAt(j--) - '0';
+            }
+            tmp += flag;
+            sb.append(tmp % 2);
+            flag = tmp > 1 ? 1 : 0;
+        }
+        if (flag == 1) {
+            sb.append(1);
+        }
+        // 先逆着加，最后再翻转字符串
+        return sb.reverse().toString();
+    }
+
     public static void main(String[] args) {
     }
 }
