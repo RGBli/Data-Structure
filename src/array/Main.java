@@ -1,7 +1,6 @@
 package array;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -1381,6 +1380,196 @@ public class Main {
         return Arrays.stream(dp[n - 1]).min().getAsInt();
     }
 
+    /*解数独
+    * 思路是回溯
+    * P37*/
+    public void solveSudoku(char[][] board) {
+        // 记录某行，某位数字是否已经被摆放
+        boolean[][] row = new boolean[9][9];
+        // 记录某列，某位数字是否已经被摆放
+        boolean[][] col = new boolean[9][9];
+        // 记录某 3x3 宫格内，某位数字是否已经被摆放
+        boolean[][] block = new boolean[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '1';
+                    row[i][num] = true;
+                    col[j][num] = true;
+                    block[i / 3 * 3 + j / 3][num] = true;
+                }
+            }
+        }
+        backtrackForSolveSudoku(board, row, col, block, 0, 0);
+    }
+    private boolean backtrackForSolveSudoku(char[][] board, boolean[][] row, boolean[][] col, boolean[][] block, int i, int j) {
+        // 找寻空位置
+        while (board[i][j] != '.') {
+            if (++j >= 9) {
+                i++;
+                j = 0;
+            }
+            if (i >= 9) {
+                return true;
+            }
+        }
+        for (int num = 0; num < 9; num++) {
+            // 第几个 block
+            int blockIndex = i / 3 * 3 + j / 3;
+            if (!row[i][num] && !col[j][num] && !block[blockIndex][num]) {
+                // 递归
+                board[i][j] = (char) ('1' + num);
+                row[i][num] = true;
+                col[j][num] = true;
+                block[blockIndex][num] = true;
+                if (backtrackForSolveSudoku(board, row, col, block, i, j)) {
+                    return true;
+                } else {
+                    // 回溯
+                    row[i][num] = false;
+                    col[j][num] = false;
+                    block[blockIndex][num] = false;
+                    board[i][j] = '.';
+                }
+            }
+        }
+        return false;
+    }
+
+    /*分割等和子集
+    * 思路是动态规划
+    * dp[i] 表示装重量为 i 的物品时有多少种方式
+    * P202*/
+    public boolean canPartition(int[] nums) {
+        // 所有物品总重量
+        int sum = 0;
+        for (int n : nums) {
+            sum += n;
+        }
+        // 整数相加不可能得小数
+        if (sum % 2 != 0) {
+            return false;
+        }
+        // 如果可以分割，单个背包需要的装的重量
+        int W = sum / 2;
+        int [] dp = new int[W + 1];
+        dp[0] = 1;
+        for (int num : nums) {
+            for (int i = W; i >= num; i--) {
+                dp[i] += dp[i - num];
+            }
+        }
+        return dp[W] != 0;
+    }
+
+    /*多数元素，找到出现次数大于 n / 2 次的元素
+    * P169*/
+    public int majorityElement(int[] nums) {
+        // 方法1：哈希表，时间复杂度 O(n)，空间复杂度 O(n)
+        /*Map<Integer, Integer> m = new HashMap<>();
+        for (int num : nums) {
+            if (m.containsKey(num)) {
+                m.put(num, m.get(num) + 1);
+            } else {
+                m.put(num, 1);
+            }
+        }
+        int res = 0;
+        int max = 0;
+        // 遍历 Map
+        for (Map.Entry<Integer, Integer> entry : m.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+                res = entry.getKey();
+            }
+        }
+        return res;*/
+
+        // 方法2：排序，时间复杂度 O(nlogn)
+        // 思路是排序后的中间位置的元素一定是出现次数大于 n / 2 的
+        /*Arrays.sort(nums);
+        return nums[nums.length / 2];*/
+
+        // 方法3：摩尔投票法，时间复杂度 O(n)
+        int candidate = 0;
+        int count = 0;
+        for (int num :nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            if (candidate == num) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return candidate;
+    }
+
+    /*柱状体的最大矩形
+    * P84*/
+    public int largestRectangleArea(int[] heights) {
+        // 思路1：暴力求解，时间复杂度 O(n^2)，会超时
+        // 每次循环求出能够完全覆盖该柱子的最大面积
+        /*int res = 0;
+        int n = heights.length;
+        for (int i = 0; i < n; i++) {
+            // 向左找
+            int j = i - 1;
+            while (j >= 0 && heights[j] >= heights[i]) {
+                j--;
+            }
+            // 向右找
+            int k = i + 1;
+            while (k < n && heights[k] >= heights[i]) {
+                k++;
+            }
+            res = Math.max(res, heights[i] * (k - j - 1));
+        }
+        return res;*/
+
+        // 思路2：单调栈
+        // 这里为了代码简便，在柱体数组的头和尾加了两个高度为 0 的柱体。
+        int[] tmp = new int[heights.length + 2];
+        System.arraycopy(heights, 0, tmp, 1, heights.length);
+        Deque<Integer> stack = new ArrayDeque<>();
+        int res = 0;
+        for (int i = 0; i < tmp.length; i++) {
+            while (!stack.isEmpty() && tmp[i] < tmp[stack.peek()]) {
+                int h = tmp[stack.pop()];
+                int w = i - stack.peek() - 1;
+                res = Math.max(res, w * h);
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+
+    /*乘积最大子数组，找出数组中乘积最大的连续子数组，返回该子数组所对应的乘积
+    * 思路是动态规划，因为乘积有正负之分，所以维护两个 dp[] 数组：max[] 和 min[]
+    * max[i] 表示以 i 结尾的子数组的最大乘积，min[i] 表示以 i 结尾的子数组的最小乘积
+    * 为了优化空间，用 max 和 min 两个变量来代替两个 dp[] 数组
+    * P152*/
+    public static int maxProduct(int[] nums) {
+        int n = nums.length;
+        int res = nums[0];
+        int max = nums[0];
+        int min = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (nums[i] >= 0) {
+                max = Math.max(max * nums[i], nums[i]);
+                min = Math.min(min * nums[i], nums[i]);
+            } else {
+                int tmp = max;
+                max = Math.max(min * nums[i], nums[i]);
+                min = Math.min(tmp * nums[i], nums[i]);
+            }
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
+        System.out.println(maxProduct(new int[]{7,-2,-4}));
     }
 }

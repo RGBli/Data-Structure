@@ -342,17 +342,31 @@ public class TreeNode {
         return true;
     }
 
-    // 求二叉树最大深度
+    /*求二叉树最大深度
+    * P104*/
     public static int maxDepth(TreeNode root) {
         // 递归出口1
         if (root == null) {
             return 0;
         }
-        // 递归出口2
-        if (root.left == null && root.right == null) {
-            return 1;
-        }
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+
+    /*求二叉树最小深度
+    * 与求最大深度的不同之处在于如果左孩子或右孩子为空，为空的孩子孩子不是叶子节点
+    * 因此不能直接使用1 + min(left, right) 公式计算，当左右孩子都不为空时才能这样计算
+    * P111*/
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right != null) {
+            return 1 + minDepth(root.right);
+        }
+        if (root.left != null && root.right == null) {
+            return 1 + minDepth(root.left);
+        }
+        return 1 + Math.min(minDepth(root.left), minDepth(root.right));
     }
 
     // 翻转二叉树
