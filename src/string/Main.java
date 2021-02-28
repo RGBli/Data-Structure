@@ -459,6 +459,54 @@ public class Main {
         return sb.reverse().toString();
     }
 
+    /*判断回文串
+    * 思路是双指针
+    * P125*/
+    public static boolean isPalindrome(String s) {
+        int n = s.length();
+        if (n == 0) {
+            return true;
+        }
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            if (!Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+                continue;
+            }
+            if (!Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+                continue;
+            }
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+                return false;
+            } else {
+                left++;
+                right--;
+            }
+        }
+        return true;
+    }
+
+    /*最后一个单词的长度
+    * 思路是从后向前遍历，添加了一个 flag 标识位
+    * P58*/
+    public int lengthOfLastWord(String s) {
+        int n = s.length();
+        int res = 0;
+        boolean flag = false;
+        for (int i = n - 1; i >= 0; i--) {
+            if (s.charAt(i) != ' ') {
+                res++;
+                flag = true;
+            } else if (s.charAt(i) == ' ' && flag) {
+                break;
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
+        System.out.println(isPalindrome("race a car"));
     }
 }

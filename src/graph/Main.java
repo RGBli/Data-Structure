@@ -3,10 +3,6 @@ package graph;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-
-    }
-
     // DFS, 递归实现
     public void dfs(int[][] m, boolean[] visited, int i, List<Integer> res) {
         visited[i] = true;
@@ -242,5 +238,67 @@ public class Main {
             }
         }
         return dp[row - 1][col - 1];
+    }
+
+    /*腐烂的橘子
+    * 思路是 BFS
+    * P994*/
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int count = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // 将腐烂的橘子入队，并统计新鲜橘子的数量
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});
+                } else if (grid[i][j] == 1) {
+                    count++;
+                }
+            }
+        }
+        int time = 0;
+        // 当队不为空并且有新鲜橘子时循环
+        while (!queue.isEmpty() && count > 0) {
+            // 一层一层的传染，每传染一层，时间+1
+            time++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] pos = queue.poll();
+                int x = pos[0];
+                int y = pos[1];
+                // 上
+                if (x - 1 >= 0 && grid[x - 1][y] == 1) {
+                    // 每传染一个，更新新鲜橘子的数量
+                    count--;
+                    grid[x - 1][y] = 2;
+                    queue.offer(new int[]{x - 1, y});
+                }
+                // 下
+                if (x + 1 < m && grid[x + 1][y] == 1) {
+                    count--;
+                    grid[x + 1][y] = 2;
+                    queue.offer(new int[]{x + 1, y});
+                }
+                // 左
+                if (y - 1 >= 0 && grid[x][y - 1] == 1) {
+                    count--;
+                    grid[x][y - 1] = 2;
+                    queue.offer(new int[]{x, y - 1});
+                }
+                // 右
+                if (y + 1 < n && grid[x][y + 1] == 1) {
+                    count--;
+                    grid[x][y + 1] = 2;
+                    queue.offer(new int[]{x, y + 1});
+                }
+            }
+        }
+        return count == 0 ? time : -1;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
