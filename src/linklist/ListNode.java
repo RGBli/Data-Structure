@@ -112,10 +112,10 @@ public class ListNode {
         return head;
     }
 
-    /*链表反转，反转整个链表，并返回翻转后链表的第一个节点
-    * 三指针法，迭代实现
-    * 时间复杂度 O(n)，空间复杂度 O(1)
-    * P206*/
+    /**链表反转，反转整个链表，并返回翻转后链表的第一个节点
+     * 三指针法，迭代实现
+     * 时间复杂度 O(n)，空间复杂度 O(1)
+     * P206*/
     public static ListNode reverseListIterative(ListNode head) {
         if (head == null) {
             return null;
@@ -136,7 +136,7 @@ public class ListNode {
         return p1;
     }
 
-    /*链表反转，反转整个链表，并返回翻转后链表的第一个节点
+    /**链表反转，反转整个链表，并返回翻转后链表的第一个节点
      * 递归实现，时间复杂度 O(n)，空间复杂度 O(n)
      * P206*/
     public ListNode reverseListRecursive(ListNode head) {
@@ -149,10 +149,10 @@ public class ListNode {
         return newHead;
     }
 
-    /*链表反转，仅反转从位置 m 到 n 的部分
-    * 思路是三指针，但多加了 dummy, p0 和 p4 指针
-    * dummy 指针指向 head，p0 指针指向 m 的前一个节点，p4 指针指向 m 节点
-    * P92*/
+    /**链表反转，仅反转从位置 m 到 n 的部分
+     * 思路是三指针，但多加了 dummy, p0 和 p4 指针
+     * dummy 指针指向 head，p0 指针指向 m 的前一个节点，p4 指针指向 m 节点
+     * P92*/
     public ListNode reverseBetween(ListNode head, int m, int n) {
         ListNode dummy = new ListNode();
         dummy.next = head;
@@ -207,12 +207,12 @@ public class ListNode {
         ListNode dummy = new ListNode(0), prev = dummy, curr = head, next;
         dummy.next = head;
         int length = 0;
-        while(head != null) {
+        while (head != null) {
             length++;
             head = head.next;
         }
-        for(int i = 0; i < length / k; i++) {
-            for(int j = 0; j < k - 1; j++) {
+        for (int i = 0; i < length / k; i++) {
+            for (int j = 0; j < k - 1; j++) {
                 next = curr.next;
                 curr.next = next.next;
                 next.next = prev.next;
@@ -239,11 +239,11 @@ public class ListNode {
         }
     }
 
-    /*循环右移 k 位
-    * 首先求长度，并将链表连成环
-    * 然后根据计数找到最后一个节点，返回 next，并将 next 赋为 null
-    * 链表节点的 next 节点不能赋值给另一个节点，只能是指向另一个节点
-    * 而树节点可以节点赋值*/
+    /**循环右移 k 位
+     * 首先求长度，并将链表连成环
+     * 然后根据计数找到最后一个节点，返回 next，并将 next 赋为 null
+     * 链表节点的 next 节点不能赋值给另一个节点，只能是指向另一个节点
+     * 而树节点可以节点赋值*/
     public static ListNode rotateRight(ListNode head, int k) {
         if (head == null || head.next == null) {
             return head;
@@ -293,10 +293,10 @@ public class ListNode {
         return lists[n - 1];
     }
 
-    /*判断回文链表
-    * 首先找到链表中点
-    * 然后翻转中点之后的节点，与从 head 开始的节点值相比较
-    * P234*/
+    /**判断回文链表
+     * 首先找到链表中点
+     * 然后翻转中点之后的节点，与从 head 开始的节点值相比较
+     * P234*/
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {
             return true;
@@ -320,8 +320,8 @@ public class ListNode {
         return true;
     }
 
-    /*判断链表中是否有环
-    * P141*/
+    /**判断链表中是否有环
+     * P141*/
     public boolean hasCycle(ListNode head) {
         /*方法1:哈希表
          * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
@@ -334,8 +334,8 @@ public class ListNode {
         return tmp != null;*/
 
         /*方法2:快慢指针
-        * slow 指针每次前进一步，fast 指针前进两步
-        * 如果 fast 到头则返回 false，如果相遇则返回 true*/
+         * slow 指针每次前进一步，fast 指针前进两步
+         * 如果 fast 到头则返回 false，如果相遇则返回 true*/
         if (head == null) {
             return false;
         }
@@ -352,8 +352,8 @@ public class ListNode {
         return true;
     }
 
-    /*检测环形链表的入环节点
-    * P142*/
+    /**检测环形链表的入环节点
+     * P142*/
     public ListNode detectCycle(ListNode head) {
         /*方法1:哈希表
         * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
@@ -387,19 +387,19 @@ public class ListNode {
         return slow;
     }
 
-    /*找到两个链表相交的节点
-    * P160*/
+    /**找到两个链表相交的节点
+     * P160*/
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode p1 = headA;
         ListNode p2 = headB;
-        while (p1 != p2){
-            if (p1 != null){
+        while (p1 != p2) {
+            if (p1 != null) {
                 p1 = p1.next;
             } else {
                 p1 = headB;
             }
 
-            if (p2 != null){
+            if (p2 != null) {
                 p2 = p2.next;
             } else {
                 p2 = headA;
@@ -408,11 +408,11 @@ public class ListNode {
         return p1;
     }
 
-    /*重排链表
-    * 首先找到中点
-    * 然后逆序第二段链表（中点之后的部分）
-    * 然后将第二段链表合并到第一段中
-    * P143*/
+    /**重排链表
+     * 首先找到中点
+     * 然后逆序第二段链表（中点之后的部分）
+     * 然后将第二段链表合并到第一段中
+     * P143*/
     public static void reorderList(ListNode head) {
         if (head == null) {
             return;
@@ -440,10 +440,10 @@ public class ListNode {
         }
     }
 
-    /*寻找链表的中间节点
-    * 思路是快慢指针，slow 每次前进一次，fast 每次前进两次
-    * 注意：节点数为偶数时以下代码返回后面的那个，如果想返回前面那个则使用注释中的 while 语句
-    * 并且需要额外判断 head 是否为空*/
+    /**寻找链表的中间节点
+     * 思路是快慢指针，slow 每次前进一次，fast 每次前进两次
+     * 注意：节点数为偶数时以下代码返回后面的那个，如果想返回前面那个则使用注释中的 while 语句
+     * 并且需要额外判断 head 是否为空*/
     public ListNode middleNode(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
@@ -455,18 +455,18 @@ public class ListNode {
         return slow;
     }
 
-    /*链表排序
-    * 思路是递归实现归并排序
-    * 首先找到中点，然后分别对第一段和第二段递归排序
-    * 最后调用合并两个有序链表的方法进行合并
-    * P148*/
+    /**链表排序
+     * 思路是递归实现归并排序
+     * 首先找到中点，然后分别对第一段和第二段递归排序
+     * 最后调用合并两个有序链表的方法进行合并
+     * P148*/
     public static ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
         ListNode slow = head;
         ListNode fast = head;
-        while (fast.next != null && fast.next.next != null){
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -476,8 +476,8 @@ public class ListNode {
         return mergeTwoLists(left, right);
     }
 
-    /*删除排序链表中的重复元素
-    * P83*/
+    /**删除排序链表中的重复元素
+     * P83*/
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -500,8 +500,8 @@ public class ListNode {
         return head;
     }
 
-    /*奇偶链表
-    * P328*/
+    /**奇偶链表
+     * P328*/
     public ListNode oddEvenList(ListNode head) {
         if (head == null || head.next == null || head.next.next == null) {
             return head;
@@ -519,10 +519,10 @@ public class ListNode {
         return head;
     }
 
-    /*分隔链表
-    * 思路是创建了两个链表节点 small 和 large，分别存储小于 x 的和大于等于 x 的元素
-    * 然后将这两个链表拼接起来即可
-    * P86*/
+    /**分隔链表
+     * 思路是创建了两个链表节点 small 和 large，分别存储小于 x 的和大于等于 x 的元素
+     * 然后将这两个链表拼接起来即可
+     * P86*/
     public ListNode partition(ListNode head, int x) {
         ListNode small = new ListNode(0);
         ListNode smallHead = small;
@@ -543,10 +543,10 @@ public class ListNode {
         return smallHead.next;
     }
 
-    /*链表插入排序
-    * 思路跟数组的插入排序一样，就是多了一步从头结点向后查找比 i 大的元素
-    * i 和 j 的含义与数组的插入排序相同
-    * P147*/
+    /**链表插入排序
+     * 思路跟数组的插入排序一样，就是多了一步从头结点向后查找比 i 大的元素
+     * i 和 j 的含义与数组的插入排序相同
+     * P147*/
     public ListNode insertionSortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;

@@ -7,8 +7,8 @@ public class Main {
     public void dfs(int[][] m, boolean[] visited, int i, List<Integer> res) {
         visited[i] = true;
         res.add(i);
-        for(int j = 0; j < m.length; j++) {
-            if(m[i][j] == 1 && !visited[j]) {
+        for (int j = 0; j < m.length; j++) {
+            if (m[i][j] == 1 && !visited[j]) {
                 dfs(m, visited, j, res);
             }
         }
@@ -33,9 +33,9 @@ public class Main {
         return res;
     }
 
-    /*岛屿的数量
-    * 思路是深度优先搜索，通过 dfs 来将陆地置0，然后判断有几块即可
-    * P200*/
+    /**岛屿的数量
+     * 思路是深度优先搜索，通过 dfs 来将陆地置0，然后判断有几块即可
+     * P200*/
     public int numIslands(char[][] grid) {
         if (grid.length == 0 || grid[0].length == 0) {
             return 0;
@@ -45,7 +45,7 @@ public class Main {
         int res = 0;
         for (int row = 0; row < rowNum; row++) {
             for (int col = 0; col < colNum; col++) {
-                if (grid[row][col]== '0') {
+                if (grid[row][col] == '0') {
                     dfsForNumIslands(grid, row, col);
                     res++;
                 }
@@ -53,6 +53,7 @@ public class Main {
         }
         return res;
     }
+
     public void dfsForNumIslands(char[][] grid, int row, int col) {
         int rowNum = grid.length;
         int colNum = grid[0].length;
@@ -66,14 +67,14 @@ public class Main {
         dfsForNumIslands(grid, row, col + 1);
     }
 
-    /*单词搜索
-    * 思路是 dfs + 回溯
-    * P79*/
+    /**单词搜索
+     * 思路是 dfs + 回溯
+     * P79*/
     public boolean exist(char[][] board, String word) {
         int m = board.length;
         int n = board[0].length;
         boolean[][] visited = new boolean[m][n];
-        for (int i = 0; i < m; i++){
+        for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (dfsForExists(board, visited, new StringBuilder(), i, j, word)) {
                     return true;
@@ -82,6 +83,7 @@ public class Main {
         }
         return false;
     }
+
     public boolean dfsForExists(char[][] board, boolean[][] visited, StringBuilder sb, int i, int j, String word) {
         if (sb.toString().equals(word)) {
             return true;
@@ -93,11 +95,11 @@ public class Main {
         sb.append(board[i][j]);
         if (dfsForExists(board, visited, sb, i, j + 1, word)) {
             return true;
-        } else if (dfsForExists(board, visited, sb,i + 1, j, word)) {
+        } else if (dfsForExists(board, visited, sb, i + 1, j, word)) {
             return true;
-        } else if (dfsForExists(board, visited, sb, i,j - 1, word)) {
+        } else if (dfsForExists(board, visited, sb, i, j - 1, word)) {
             return true;
-        } else if (dfsForExists(board, visited, sb,i - 1, j, word)) {
+        } else if (dfsForExists(board, visited, sb, i - 1, j, word)) {
             return true;
         } else {
             // 都不成功，则回溯并返回false，
@@ -107,11 +109,11 @@ public class Main {
         }
     }
 
-    /*最大正方形面积
-    * 思路是动态规划
-    * dp[i][j] 表示以 (i, j) 为右下角的最大正方形边长
-    * 最后返回 dp[i][j] 的最大值的平方即可
-    * P221*/
+    /**最大正方形面积
+     * 思路是动态规划
+     * dp[i][j] 表示以 (i, j) 为右下角的最大正方形边长
+     * 最后返回 dp[i][j] 的最大值的平方即可
+     * P221*/
     public int maximalSquare(char[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -132,12 +134,13 @@ public class Main {
         return res;
     }
 
-    /*课程表1
-    * 思路是深度优先搜索 + 拓扑排序
-    * P207*/
+    /**课程表1
+     * 思路是深度优先搜索 + 拓扑排序
+     * P207*/
     List<List<Integer>> edgesForCanFinish;
     int[] visitedForCanFinish;
     boolean isValidForCanFinish = true;
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         edgesForCanFinish = new ArrayList<>();
         for (int i = 0; i < numCourses; ++i) {
@@ -154,6 +157,7 @@ public class Main {
         }
         return isValidForCanFinish;
     }
+
     public void dfsForCanFinish(int u) {
         visitedForCanFinish[u] = 1;
         for (int v : edgesForCanFinish.get(u)) {
@@ -170,15 +174,16 @@ public class Main {
         visitedForCanFinish[u] = 2;
     }
 
-    /*课程表2
-    * 思路是拓扑排序，并用栈来保存排序结果
-    * P210*/
+    /**课程表2
+     * 思路是拓扑排序，并用栈来保存排序结果
+     * P210*/
     boolean isValidForFindOrder = true;
     List<List<Integer>> edgesForFindOrder;
     int[] visitedForFindOrder;
     // 用数组从后向前插入来模拟栈
     int[] resForFindOrder;
     int indexForFindOrder;
+
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         edgesForFindOrder = new ArrayList<>();
         visitedForFindOrder = new int[numCourses];
@@ -201,6 +206,7 @@ public class Main {
             return new int[0];
         }
     }
+
     public void dfsForFindOrder(int u) {
         visitedForFindOrder[u] = 1;
         for (Integer v : edgesForFindOrder.get(u)) {
@@ -218,9 +224,9 @@ public class Main {
         resForFindOrder[indexForFindOrder--] = u;
     }
 
-    /*最小路径和
-    * 思路是动态规划
-    * P64*/
+    /**最小路径和
+     * 思路是动态规划
+     * P64*/
     public int minPathSum(int[][] grid) {
         int row = grid.length;
         int col = grid[0].length;
@@ -240,9 +246,9 @@ public class Main {
         return dp[row - 1][col - 1];
     }
 
-    /*腐烂的橘子
-    * 思路是 BFS
-    * P994*/
+    /**腐烂的橘子
+     * 思路是 BFS
+     * P994*/
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
