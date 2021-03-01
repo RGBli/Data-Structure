@@ -7,6 +7,7 @@ public class Main {
     /**二分查找循环实现
      * 要求数组严格递增，不能出现相等元素
      * 注意循环条件是 left <= right，有个等于号
+     * 关于二分查找中循环条件什么时候加等于号，如果在一个 if 中没有加一或减一，则不用加等于号
      * 一般用循环二分查找多一些
      * 参考 https://blog.csdn.net/maoyuanming0806/article/details/78176957
      * */
@@ -1635,6 +1636,69 @@ public class Main {
         int[] res = new int[n + 1];
         res[0] = 1;
         return res;
+    }
+
+    /**判断山脉数组
+     * 思路是顺序搜索
+     * P941*/
+    public boolean validMountainArray(int[] arr) {
+        int n = arr.length;
+        int i = 1;
+        // 上山
+        while (i < n && arr[i] > arr[i - 1]) {
+            i++;
+        }
+        // 判断山顶是否在两端，如果是则直接返回 false
+        if (i == 1 || i == n) {
+            return false;
+        }
+        // 下山
+        while (i < n && arr[i] < arr[i - 1]) {
+            i++;
+        }
+        return i == n;
+    }
+
+    /**山脉数组中查找目标值，MountainArray 是题目提供的接口
+     * 思路是二分法
+     * 先找出顶峰位置，然后在顶峰两侧分别使用二分算法
+     * P1095*/
+    interface MountainArray {
+        public int get(int index);
+        public int length();
+    }
+
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+        int left = 0;
+        int right = mountainArr.length() - 1;
+        int mid;
+        while (left < right){
+            mid = (right + left) / 2;
+            if (mountainArr.get(mid) < mountainArr.get(mid + 1)) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        int index = binarySearchForFindInMountainArray(mountainArr,0, left, target,true);
+        return index == -1 ? binarySearchForFindInMountainArray(mountainArr, left + 1, mountainArr.length() - 1, target, false) : index;
+    }
+
+    public int binarySearchForFindInMountainArray(MountainArray mountainArr, int left, int right, int target, boolean asc) {
+        while (left <= right) {
+            int mid = left + (right - left) /2 ;
+            int midValue = mountainArr.get(mid);
+            if (midValue == target) {
+                return mid;
+            } else if (midValue > target) {
+                right = asc ? mid - 1 : right;
+                left = asc ? left : mid + 1;
+            } else {
+                right = asc ? right : mid - 1;
+                left = asc ? mid + 1 : left;
+            }
+        }
+        return -1;
     }
 
     public static void main(String[] args) {
