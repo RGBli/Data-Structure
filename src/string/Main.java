@@ -526,7 +526,30 @@ public class Main {
         return sb.reverse().toString();
     }
 
+    /**重复的子字符串
+     * 思路是暴力求解
+     * P459*/
+    public static boolean repeatedSubstringPattern(String s) {
+        int n = s.length();
+        // 枚举可能的字串长度
+        for (int i = 1; i < n / 2; i++) {
+            if (n % i == 0) {
+                boolean match = true;
+                for (int j = i; j < n; j++) {
+                    if (s.charAt(j) != s.charAt(j - i)) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(isPalindrome("race a car"));
     }
 }

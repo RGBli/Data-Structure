@@ -1701,6 +1701,25 @@ public class Main {
         return -1;
     }
 
+    /**将每个元素替换为右侧最大元素
+     * 思路是逆序遍历
+     * P1299*/
+    public int[] replaceElements(int[] arr) {
+        int n = arr.length;
+        int max = arr[n - 1];
+        int tmp;
+        for (int i = n - 1; i >= 0; i--) {
+            if (i == n - 1) {
+                arr[i] = -1;
+            } else {
+                tmp = arr[i];
+                arr[i] = max;
+                max = Math.max(tmp, max);
+            }
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
         System.out.println(maxProduct(new int[]{7, -2, -4}));
     }
