@@ -1720,6 +1720,102 @@ public class Main {
         return arr;
     }
 
+    /**比特位计数
+     * 思路是动态规划
+     * 状态转移方程是 dp[i] = dp[i >> 1] + (i & 1)
+     * P338*/
+    public int[] countBits(int num) {
+        int[] res = new int[num + 1];
+        for (int i = 1; i <= num; i++) {
+            res[i] = res[i >> 1] + (i & 1);
+        }
+        return res;
+    }
+
+    /**不同路径
+     * 思路是二维动态规划
+     * dp[i][j] 表示到 (i,j) 坐标有多少条路径
+     * P62*/
+    public static int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    dp[i][j] = 1;
+                } else if (i == 0) {
+                    dp[i][j] = dp[i][j - 1];
+                } else if (j == 0) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**有障碍的不同路径
+     * 思路与上一题一样，都是二维动态规划，仅仅多一个判断是否是障碍物即可
+     * P63*/
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                } else if (i == 0 && j == 0) {
+                    dp[i][j] = 1;
+                } else if (i == 0) {
+                    dp[i][j] = dp[i][j - 1];
+                } else if (j == 0) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**颜色分类，数组中有0，1，2三种元素，原地排序使得相同值的元素相邻
+     * P75*/
+    public void sortColors(int[] nums) {
+        /*思路1：直接排序，但时间复杂度为 O(nlogn)
+        Arrays.sort(nums);*/
+
+        /*思路2：两次遍历，第一次将0交换到头部，第二次将1交换到头部
+        int ptr = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                nums[i] = nums[ptr];
+                nums[ptr++] = 0;
+            }
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                nums[i] = nums[ptr];
+                nums[ptr++] = 1;
+            }
+        }*/
+
+        /*思路3：一次遍历，维护两个指针变量，分别指向最后一个*/
+        int ptr0 = 0;
+        int ptr1 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                nums[i] = nums[ptr1];
+                // 这两个语句的顺序不能反
+                nums[ptr1++] = 1;
+                nums[ptr0++] = 0;
+            } else if (nums[i] == 1) {
+                nums[i] = nums[ptr1];
+                nums[ptr1++] = 1;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(maxProduct(new int[]{7, -2, -4}));
     }
