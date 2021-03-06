@@ -549,6 +549,43 @@ public class Main {
         return false;
     }
 
+    /**字母异位词分组
+     * 思路是哈希表
+     * P49*/
+    public List<List<String>> groupAnagrams(String[] strs) {
+        /*思路1：排序，然后用哈希表来存，时间复杂度O(n * klogk)
+        Map<String, List<String>> m = new HashMap<>();
+        for (String str : strs) {
+            char[] arr = str.toCharArray();
+            Arrays.sort(arr);
+            String key = new String(arr);
+            List<String> list = m.getOrDefault(key, new ArrayList<>());
+            list.add(str);
+            m.put(key, list);
+        }
+        return new ArrayList<>(m.values());*/
+
+        /*思路2：使用哈希表存自己构造的键而不是排序的键*/
+        Map<String, List<String>> m = new HashMap<>();
+        for (String str : strs) {
+            int[] counts = new int[26];
+            for (int i = 0; i < str.length(); i++) {
+                counts[str.charAt(i) - 'a']++;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 26; i++) {
+                if (counts[i] != 0) {
+                    sb.append((char)('a' + i)).append(counts[i]);
+                }
+            }
+            String key = sb.toString();
+            List<String> list = m.getOrDefault(key, new ArrayList<>());
+            list.add(str);
+            m.put(key, list);
+        }
+        return new ArrayList<>(m.values());
+    }
+
 
     public static void main(String[] args) {
     }

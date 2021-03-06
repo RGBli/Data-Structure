@@ -1265,16 +1265,50 @@ public class Main {
         return res;
     }
 
+    /**普通数组的下一个更大元素
+     * 典型的单调栈题目，可以记下作为模板*/
+    public int[] nextGreaterElements1(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                int peek = stack.pop();
+                res[i] = nums[peek];
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+
+    /**循环数组的下一个更大元素
+     * 思路是单调栈，只是遍历两倍数组长度，使用取模来计算 i
+     * P503*/
+    public int[] nextGreaterElements2(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < n * 2 - 1; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
+                res[stack.pop()] = nums[i % n];
+            }
+            stack.push(i % n);
+        }
+        return res;
+    }
+
     /**下一个更大元素
      * 思路是单调栈
-     * 先使用单调栈考虑 nums[] 数组中每个元素的下一个更大元素，并保存在哈希表中
-     * 然后遍历 findNums[] 数组，从哈希表中找到答案填入
+     * 先使用单调栈考虑 nums2[] 数组中每个元素的下一个更大元素，并保存在哈希表中
+     * 然后遍历 nums1[] 数组，从哈希表中找到答案填入
      * P496*/
-    public int[] nextGreaterElement(int[] findNums, int[] nums) {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         Deque<Integer> stack = new LinkedList<>();
         HashMap<Integer, Integer> map = new HashMap<>();
-        int[] res = new int[findNums.length];
-        for (int num : nums) {
+        int[] res = new int[nums1.length];
+        for (int num : nums2) {
             while (!stack.isEmpty() && num > stack.peek()) {
                 int peek = stack.pop();
                 map.put(peek, num);
@@ -1284,8 +1318,8 @@ public class Main {
         while (!stack.isEmpty()) {
             map.put(stack.pop(), -1);
         }
-        for (int i = 0; i < findNums.length; i++) {
-            res[i] = map.get(findNums[i]);
+        for (int i = 0; i < nums1.length; i++) {
+            res[i] = map.get(nums1[i]);
         }
         return res;
     }
@@ -1816,7 +1850,35 @@ public class Main {
         }
     }
 
+    /**有效的数独
+     * 主要是抽离出 rows, cols, blocks 数组
+     * rows[i][j] 表示第 i 行是否出现过数 j
+     * blocks[i][j] 表示第 i 个块是否出现过数 j
+     * P36*/
+    public boolean isValidSudoku(char[][] board) {
+        int n = 9;
+        boolean[][] rows = new boolean[n][n];
+        boolean[][] cols = new boolean[n][n];
+        boolean[][] blocks = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] != '.') {
+                    int tmp = board[i][j] -'0' - 1;
+                    // 由坐标计算第几个块
+                    int block = (i / 3) * 3 + j / 3;
+                    if (rows[i][tmp] || cols[j][tmp] || blocks[block][tmp]) {
+                        return false;
+                    } else {
+                        rows[i][tmp] = true;
+                        cols[j][tmp] = true;
+                        blocks[block][tmp] = true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        System.out.println(maxProduct(new int[]{7, -2, -4}));
     }
 }

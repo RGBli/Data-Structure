@@ -411,14 +411,16 @@ public class TreeNode {
         return root;
     }
 
-    // 递归实现从先序遍历和中序遍历数组重建出二叉树
+    /**从先序遍历和中序遍历数组重建出二叉树*/
     public TreeNode buildTreeFromPreAndIn(int[] preorder, int[] inorder) {
         int n = preorder.length;
         if (n == 0) {
             return null;
         }
+        // 创建根节点
         TreeNode root = new TreeNode(preorder[0]);
         for (int i = 0; i < n; i++) {
+            // 找到中序遍历中的根节点，然后对左右两侧分别递归
             if (preorder[0] == inorder[i]) {
                 root.left = buildTreeFromPreAndIn(
                         Arrays.copyOfRange(preorder, 1, i + 1),
@@ -432,14 +434,16 @@ public class TreeNode {
         return root;
     }
 
-    // 递归实现从后序遍历和中序遍历数组重建出二叉树
+    /**递归实现从后序遍历和中序遍历数组重建出二叉树*/
     public TreeNode buildTreeFromPostAndIn(int[] postorder, int[] inorder) {
         int n = postorder.length;
         if (n == 0) {
             return null;
         }
+        // 创建根节点
         TreeNode root = new TreeNode(postorder[n - 1]);
         for (int i = 0; i < n; i++) {
+            // 找到中序遍历中的根节点，然后对左右两侧分别递归
             if (postorder[n - 1] == inorder[i]) {
                 root.left = buildTreeFromPostAndIn(
                         Arrays.copyOfRange(postorder, 0, i),
@@ -498,18 +502,24 @@ public class TreeNode {
         tmp.right = right;
     }
 
+    /**路径总和（1）
+     * P112*/
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        return false;
+    }
+
     /**路径总和(2)
      * 思路是使用深度优先遍历二叉树
      * P113*/
-    private List<List<Integer>> resForPathSum = new LinkedList<>();
-    private Deque<Integer> pathForPathSum = new LinkedList<>();
+    List<List<Integer>> resForPathSum = new LinkedList<>();
+    Deque<Integer> pathForPathSum = new LinkedList<>();
 
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
-        dfs(root, targetSum);
+        dfsForPathSum(root, targetSum);
         return resForPathSum;
     }
 
-    public void dfs(TreeNode root, int targetSum) {
+    public void dfsForPathSum(TreeNode root, int targetSum) {
         if (root == null) {
             return;
         }
@@ -518,8 +528,8 @@ public class TreeNode {
         if (root.left == null && root.right == null && targetSum == 0) {
             resForPathSum.add(new LinkedList<>(pathForPathSum));
         }
-        dfs(root.left, targetSum);
-        dfs(root.right, targetSum);
+        dfsForPathSum(root.left, targetSum);
+        dfsForPathSum(root.right, targetSum);
         pathForPathSum.pollLast();
     }
 
@@ -651,6 +661,18 @@ public class TreeNode {
             res.add(sum * 1.0 / size);
         }
         return res;
+    }
+
+    /**判断相同的树
+     * P100*/
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+        return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
 
