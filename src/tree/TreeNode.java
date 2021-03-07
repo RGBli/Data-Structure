@@ -169,6 +169,33 @@ public class TreeNode {
         return res;
     }
 
+    public List<List<Integer>> levelOrder3(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            // 一定要提前计算 size，因为在循环中会改变队列，即会改变 size
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode tmp = queue.poll();
+                level.add(tmp.val);
+                if (tmp.left != null) {
+                    queue.offer(tmp.left);
+                }
+                if (tmp.right != null) {
+                    queue.offer(tmp.right);
+                }
+            }
+            res.add(level);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+
     /**锯齿形层级遍历二叉树
      * 思路是将层级遍历得到的奇数层的 List 翻转一下
      * 翻转用到了经典的滑动窗法
@@ -505,7 +532,14 @@ public class TreeNode {
     /**路径总和（1）
      * P112*/
     public boolean hasPathSum(TreeNode root, int targetSum) {
-        return false;
+        if (root == null) {
+            return false;
+        }
+        // 只在叶子节点判断
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        }
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
     }
 
     /**路径总和(2)
@@ -775,6 +809,23 @@ public class TreeNode {
             res.add(root.val);
             inOrderForKthSmallest(root.right, res);
         }
+    }
+
+    /**将有序数组转为高度平衡的 BST
+     * 思路是贪心，可以选择中间数字作为 BST 的根节点
+     * 这样分给左右子树的数字个数相同或只相差 1
+     * P108*/
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        int left = 0;
+        int right = nums.length - 1;
+        int mid = (left + right) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(Arrays.copyOfRange(nums, left, mid));
+        root.right = sortedArrayToBST(Arrays.copyOfRange(nums, mid + 1, right + 1));
+        return root;
     }
 
     public static void main(String[] args) {
