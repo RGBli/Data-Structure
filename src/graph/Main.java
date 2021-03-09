@@ -364,6 +364,46 @@ public class Main {
     }
 
 
+    /**被包围的区域
+     * 思路是深度优先遍历
+     * 从四条边界的 O 出发，能遍历到的 O 就标记为 A
+     * 然后遍历图中所有元素修改 O 为 X，A 为 O 即可
+     * P130*/
+    public void surroundArea(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < n; i++) {
+            dfsForSurroundArea(board, 0, i, m, n);
+        }
+        for (int i = 0; i < n; i++) {
+            dfsForSurroundArea(board, m - 1, i, m, n);
+        }
+        for (int i = 1; i < m - 1; i++) {
+            dfsForSurroundArea(board, i, 0, m, n);
+        }
+        for (int i = 1; i < m - 1; i++) {
+            dfsForSurroundArea(board, i, n - 1, m, n);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    public void dfsForSurroundArea(char[][] board, int x, int y, int m, int n) {
+        // 递归出口
+        if (x < 0 || x >= n || y < 0 || y >= m || board[x][y] != 'O') {
+            return;
+        }
+        board[x][y] = 'A';
+        dfsForSurroundArea(board, x + 1, y, m, n);
+        dfsForSurroundArea(board, x - 1, y, m, n);
+        dfsForSurroundArea(board, x, y + 1, m, n);
+        dfsForSurroundArea(board, x, y - 1, m, n);
+    }
 
     public static void main(String[] args) {
 

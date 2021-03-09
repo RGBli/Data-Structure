@@ -429,20 +429,17 @@ public class Main {
         return n + 1;
     }
 
-    /**不相邻数组和的最大值
+    /**数组不相邻和的最大值
      * 思路是动态规划，用两个变量代替 dp 数组来减少空间复杂度
      * prev1 保存到当前元素的前前个元素的最大值
      * prev2 保存到当前元素的前一个元素的最大值
      * P198*/
-    public int rob(int[] nums) {
+    public int rob1(int[] nums) {
         int n = nums.length;
         if (n == 0) {
             return 0;
         }
-        if (n == 1) {
-            return nums[0];
-        }
-        int res = 0;
+        int res = nums[0];
         int prev1 = 0;
         int prev2 = nums[0];
         for (int i = 1; i < nums.length; i++) {
@@ -451,6 +448,16 @@ public class Main {
             prev2 = res;
         }
         return res;
+    }
+
+    /**循环数组不相邻和的最大值
+     * 思路是将循环数组拆分成两个普通数组
+     * 两个数组为 [0,n - 1), [1, n)
+     * P213*/
+    public int rob2(int[] nums) {
+        int n = nums.length;
+        return Math.max(rob1(Arrays.copyOfRange(nums, 0, n - 1)),
+                        rob1((Arrays.copyOfRange(nums, 1, n))));
     }
 
     /**下一个排列
@@ -1877,6 +1884,32 @@ public class Main {
             }
         }
         return true;
+    }
+
+    /**存在重复元素1
+     * 思路是用到了 stream 的去重 distinct
+     * P217*/
+    public boolean containsDuplicate(int[] nums) {
+        return Arrays.stream(nums).distinct().count() == nums.length;
+    }
+
+    /**存在重复元素2
+     * 判断数组中是否存在两个绝对值差不大于 k 的不同的 i 和 j
+     * 使得 nums[i] = nums[j]
+     * 思路是通过 set 来维护一个大小为 k 的窗口，避免了滑动窗的时间开销
+     * P219*/
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.size() > k) {
+                set.remove(nums[i - k - 1]);
+            }
+            if (set.contains(nums[i])) {
+                return true;
+            }
+            set.add(nums[i]);
+        }
+        return false;
     }
 
     public static void main(String[] args) {

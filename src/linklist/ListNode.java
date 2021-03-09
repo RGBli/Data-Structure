@@ -574,6 +574,23 @@ public class ListNode {
         return dummyHead.next;
     }
 
+    /**移除链表中特定值的元素
+    * 用了头节点
+    * P203*/
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode tmp = dummy;
+        while (tmp.next != null) {
+            if (tmp.next.val == val) {
+                tmp.next = tmp.next.next;
+            } else {
+                tmp = tmp.next;
+            }
+        }
+        return dummy.next;
+    }
+
 
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
