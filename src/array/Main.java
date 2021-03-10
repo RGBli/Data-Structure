@@ -784,6 +784,32 @@ public class Main {
         }
     }
 
+    /**所有的组合
+     * 思路是回溯
+     * P216*/
+    List<List<Integer>> lists = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<Integer> list = new ArrayList<>();
+        backtrackForCombinationSum3(k, n, 1, list);
+        return lists;
+    }
+
+    public void backtrackForCombinationSum3(int k, int target, int index, List<Integer> list) {
+        if (k == 0 && target == 0) {
+            lists.add(new ArrayList<>(list));
+            return;
+        }
+        if (k <= 0 || target < index) {
+            return;
+        }
+        for (int i = index; i <= 9; i++) {
+            list.add(i);
+            backtrackForCombinationSum3(k - 1, target - i, i + 1, list);
+            list.remove(list.size() - 1);
+        }
+    }
+
     /**零钱兑换1
      * 思路1：回溯，类似与组合的做法，但对于该题会超时（不代表不对
      * 见方法 coinChange1()
@@ -1912,6 +1938,36 @@ public class Main {
         return false;
     }
 
+    /**汇总区间
+     * 思路是双指针
+     * P228*/
+    public static List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums.length == 0) {
+            return res;
+        }
+        int left = 0;
+        int right = 1;
+        while (right < nums.length) {
+            if (nums[right - 1] + 1 != nums[right]) {
+                if (left + 1 == right) {
+                    res.add(String.valueOf(nums[left]));
+                } else {
+                    res.add(nums[left] + "->" + nums[right - 1]);
+                }
+                left = right;
+            }
+            right++;
+        }
+        if (left + 1 == right) {
+            res.add(String.valueOf(nums[left]));
+        } else {
+            res.add(nums[left] + "->" + nums[right - 1]);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
+        System.out.println(summaryRanges(new int[]{0,1,2,4,5,7}));
     }
 }

@@ -828,6 +828,15 @@ public class TreeNode {
         return root;
     }
 
+    /**二叉树的节点个数
+    * P222*/
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         TreeNode treeNode2 = new TreeNode(2);

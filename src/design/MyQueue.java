@@ -3,6 +3,8 @@ package design;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**用栈实现队列
+ * P232*/
 public class MyQueue {
     private Deque<Integer> s1;
     private Deque<Integer> s2;
@@ -43,12 +45,3 @@ public class MyQueue {
         return s1.isEmpty();
     }
 }
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue obj = new MyQueue();
- * obj.push(x);
- * int param_2 = obj.pop();
- * int param_3 = obj.peek();
- * boolean param_4 = obj.empty();
- */

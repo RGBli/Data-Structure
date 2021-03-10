@@ -591,6 +591,14 @@ public class ListNode {
         return dummy.next;
     }
 
+    /**删除除末尾节点的给定节点
+     * 没有给 head 节点，只需要修改目标节点值为 next 的值，再删除 next 节点即可
+     * P237*/
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
 
     public static void main(String[] args) {
         int[] a = new int[]{4, 3, 2, 1};
