@@ -1967,6 +1967,26 @@ public class Main {
         return res;
     }
 
+    /**除自身以外数组的乘积
+     * 思路是分别从左边和右边累乘
+     * left 表示左边的累乘值，right 表示右边的累乘值
+     * 让每个元素乘以左边和右边的累乘值即可
+     * P238*/
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int left = 1;
+        int right = 1;
+        int[] res = new int[n];
+        Arrays.fill(res, 1);
+        for (int i = 0; i < n; i++) {
+            res[i] *= left;
+            left *= nums[i];
+            res[n - i - 1] *= right;
+            right *= nums[n - i - 1];
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         System.out.println(summaryRanges(new int[]{0,1,2,4,5,7}));
     }

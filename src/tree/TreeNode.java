@@ -410,8 +410,9 @@ public class TreeNode {
         return root;
     }
 
-    // 求两节点的最近公共祖先
-    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    /**求两节点的最近公共祖先
+     * P236*/
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root == p || root == q) {
             return root;
         }
@@ -697,6 +698,15 @@ public class TreeNode {
         return res;
     }
 
+    /**二叉树的节点个数
+     * P222*/
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+
     /**判断相同的树
      * P100*/
     public boolean isSameTree(TreeNode p, TreeNode q) {
@@ -828,13 +838,17 @@ public class TreeNode {
         return root;
     }
 
-    /**二叉树的节点个数
-    * P222*/
-    public int countNodes(TreeNode root) {
-        if (root == null) {
-            return 0;
+    /**二叉搜索树中两节点的最近公共祖先
+     * 利用 BST 的性质做递归很简单，也可以用普通二叉树的最近祖先求法
+     * P235*/
+    public TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q || (root.val - p.val) * (root.val - q.val) < 0) {
+            return root;
         }
-        return countNodes(root.left) + countNodes(root.right) + 1;
+        if (root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestorBST(root.left, p, q);
+        }
+        return lowestCommonAncestorBST(root.right, p, q);
     }
 
     public static void main(String[] args) {

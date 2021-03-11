@@ -249,7 +249,25 @@ public class Main {
         return dp[n];
     }
 
+    /**判断一个整数是否为2的幂
+     * 注意 n 可能为负数
+     * P231*/
+    public static boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        int mod;
+        while (n != 0) {
+            mod = n % 2;
+            if (mod != 0 && n != 1) {
+                return false;
+            }
+            n /= 2;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        System.out.println(hammingWeight(3));
+        System.out.println(isPowerOfTwo(-1));
     }
 }

@@ -112,7 +112,7 @@ public class ListNode {
         return head;
     }
 
-    /**链表反转，反转整个链表，并返回翻转后链表的第一个节点
+    /**链表反转
      * 三指针法，迭代实现
      * 时间复杂度 O(n)，空间复杂度 O(1)
      * P206*/
@@ -124,22 +124,25 @@ public class ListNode {
         ListNode p2 = head.next;
         ListNode p3;
         while (p2 != null) {
+            // 让 p3 存储下一次 p2 的位置
             p3 = p2.next;
-            // 切断 p2 和 p3的联系
+            // 开始反转 p1 和 p2
             p2.next = p1;
-            // 将 p2 和 p3 都向后移动一次
+            // 将 p1 和 p2 都向后移动
             p1 = p2;
             p2 = p3;
         }
-        // 使 head 成为最后一个节点
+        // 循环结束后 head 节点还是指向第二个节点，因此需要使 head 成为最后一个节点
         head.next = null;
+        // 循环结束后 p2 已经为 null，p1 才是最后一个节点（也就是新的 head）
         return p1;
     }
 
-    /**链表反转，反转整个链表，并返回翻转后链表的第一个节点
+    /**链表反转
      * 递归实现，时间复杂度 O(n)，空间复杂度 O(n)
      * P206*/
     public ListNode reverseListRecursive(ListNode head) {
+        // 递归出口的写法需要注意
         if (head == null || head.next == null) {
             return head;
         }
@@ -150,76 +153,48 @@ public class ListNode {
     }
 
     /**链表反转，仅反转从位置 m 到 n 的部分
-     * 思路是三指针，但多加了 dummy, p0 和 p4 指针
-     * dummy 指针指向 head，p0 指针指向 m 的前一个节点，p4 指针指向 m 节点
      * P92*/
-    public ListNode reverseBetween(ListNode head, int m, int n) {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
         ListNode dummy = new ListNode();
         dummy.next = head;
-        ListNode p0 = null;
-        ListNode p1 = dummy;
-        int i = 0;
-        for (; i < m; i++) {
-            if (i == m - 1) {
-                p0 = p1;
-            }
-            p1 = p1.next;
+        ListNode pre = dummy;
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
         }
-        ListNode p4 = p1;
-        ListNode p2 = p1.next;
-        ListNode p3;
-        while (p2 != null && i < n) {
-            p3 = p2.next;
-            p2.next = p1;
-            p1 = p2;
-            p2 = p3;
-            i++;
+        ListNode cur = pre.next;
+        ListNode next;
+        for (int i = 0; i < right - left; i++) {
+            next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
         }
-        assert p0 != null;
-        p0.next = p1;
-        p4.next = p2;
         return dummy.next;
     }
 
-    // 反转前 n 个节点
-    // 三指针法
-    public static ListNode reverseListFirstN(ListNode head, int n) {
-        if (head == null || n == 1) {
-            return head;
-        }
-        int i = 1;
-        ListNode p1 = head;
-        ListNode p2 = head.next;
-        ListNode p3;
-        while (p2 != null && i + 1 <= n) {
-            p3 = p2.next;
-            p2.next = p1;
-            p1 = p2;
-            p2 = p3;
-            i++;
-        }
-        head.next = p2;
-        return p1;
-    }
-
-    // k 个一组反转链表，入果节点总数不是 k 的整数倍，将最后剩余的节点保持原有顺序
+    /**K 个一组翻转链表
+     * P26*/
     public static ListNode reverseKGroup(ListNode head, int k) {
-        ListNode dummy = new ListNode(0), prev = dummy, curr = head, next;
+        ListNode dummy = new ListNode();
         dummy.next = head;
-        int length = 0;
+        ListNode pre = dummy;
+        ListNode cur = head;
+        ListNode next;
+        // 先求链表长度
+        int len = 0;
         while (head != null) {
-            length++;
+            len++;
             head = head.next;
         }
-        for (int i = 0; i < length / k; i++) {
+        for (int i = 0; i < len / k; i++) {
             for (int j = 0; j < k - 1; j++) {
-                next = curr.next;
-                curr.next = next.next;
-                next.next = prev.next;
-                prev.next = next;
+                next = cur.next;
+                cur.next = next.next;
+                next.next = pre.next;
+                pre.next = next;
             }
-            prev = curr;
-            curr = curr.next;
+            pre = cur;
+            cur = cur.next;
         }
         return dummy.next;
     }
