@@ -25,10 +25,12 @@ public class TreeNode {
         }
     }
 
-    /**先序遍历迭代实现，用到了栈
+    /**
+     * 先序遍历迭代实现，用到了栈
      * 思路是用一个栈来保存节点，出栈时访问
      * 因为栈先进后出，因此先将节点右孩子进栈，这一点一定要注意
-     * 当栈不为空时循环上述过程*/
+     * 当栈不为空时循环上述过程
+     */
     public List<Integer> preorderTraversal(TreeNode root) {
         if (root == null) {
             return new ArrayList<>();
@@ -60,9 +62,11 @@ public class TreeNode {
         }
     }
 
-    /**中序遍历迭代实现，同样用到了栈
+    /**
+     * 中序遍历迭代实现，同样用到了栈
      * 首先左链进栈，然后弹出栈顶元素并访问
-     * 然后将 root 设为右孩子，继续循环*/
+     * 然后将 root 设为右孩子，继续循环
+     */
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Deque<TreeNode> stack = new LinkedList<>();
@@ -91,10 +95,12 @@ public class TreeNode {
         }
     }
 
-    /**后序遍历的迭代实现，同样用到了栈
+    /**
+     * 后序遍历的迭代实现，同样用到了栈
      * 与中序遍历有相同的地方，都先左链进栈
      * 不同点是后序遍历需要一个 prev 保存上一次访问的节点
-     * 并且当右孩子非空且没有访问过时，会将 root 再次进栈*/
+     * 并且当右孩子非空且没有访问过时，会将 root 再次进栈
+     */
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Deque<TreeNode> stack = new LinkedList<>();
@@ -196,10 +202,12 @@ public class TreeNode {
         return res;
     }
 
-    /**锯齿形层级遍历二叉树
+    /**
+     * 锯齿形层级遍历二叉树
      * 思路是将层级遍历得到的奇数层的 List 翻转一下
      * 翻转用到了经典的滑动窗法
-     * P103*/
+     * P103
+     */
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
@@ -237,10 +245,12 @@ public class TreeNode {
         return res;
     }
 
-    /**深度优先遍历二叉树
+    /**
+     * 深度优先遍历二叉树
      * 需要在外面定义 res 的 List
      * 广度优先就是层级遍历，因此不做过多讨论
-     * 参考文章：https://blog.csdn.net/qq_37638061/article/details/89598413*/
+     * 参考文章：https://blog.csdn.net/qq_37638061/article/details/89598413
+     */
     private static List<Integer> resForDfsTraverse = new ArrayList<>();
 
     public static List<Integer> dfs(TreeNode root) {
@@ -253,8 +263,10 @@ public class TreeNode {
         return resForDfsTraverse;
     }
 
-    /**深度优先遍历二叉树的应用
-     * 打印所有的到叶子节点的路径*/
+    /**
+     * 深度优先遍历二叉树的应用
+     * 打印所有的到叶子节点的路径
+     */
     private static List<List<Integer>> resForGetAllPath = new LinkedList<>();
     private static Deque<Integer> pathForGetAllPath = new LinkedList<>();
 
@@ -273,9 +285,11 @@ public class TreeNode {
         return resForGetAllPath;
     }
 
-    /**二叉树的右视图
+    /**
+     * 二叉树的右视图
      * 思路是层级遍历，保留每层最后一个元素即可
-     * P199*/
+     * P199
+     */
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
@@ -371,8 +385,10 @@ public class TreeNode {
         return true;
     }
 
-    /**求二叉树最大深度
-     * P104*/
+    /**
+     * 求二叉树最大深度
+     * P104
+     */
     public static int maxDepth(TreeNode root) {
         // 递归出口1
         if (root == null) {
@@ -381,10 +397,12 @@ public class TreeNode {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
-    /**求二叉树最小深度
+    /**
+     * 求二叉树最小深度
      * 与求最大深度的不同之处在于如果左孩子或右孩子为空，为空的孩子孩子不是叶子节点
      * 因此不能直接使用1 + min(left, right) 公式计算，当左右孩子都不为空时才能这样计算
-     * P111*/
+     * P111
+     */
     public int minDepth(TreeNode root) {
         if (root == null) {
             return 0;
@@ -410,8 +428,10 @@ public class TreeNode {
         return root;
     }
 
-    /**求两节点的最近公共祖先
-     * P236*/
+    /**
+     * 求两节点的最近公共祖先
+     * P236
+     */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root == p || root == q) {
             return root;
@@ -439,7 +459,9 @@ public class TreeNode {
         return root;
     }
 
-    /**从先序遍历和中序遍历数组重建出二叉树*/
+    /**
+     * 从先序遍历和中序遍历数组重建出二叉树
+     */
     public TreeNode buildTreeFromPreAndIn(int[] preorder, int[] inorder) {
         int n = preorder.length;
         if (n == 0) {
@@ -462,7 +484,9 @@ public class TreeNode {
         return root;
     }
 
-    /**递归实现从后序遍历和中序遍历数组重建出二叉树*/
+    /**
+     * 递归实现从后序遍历和中序遍历数组重建出二叉树
+     */
     public TreeNode buildTreeFromPostAndIn(int[] postorder, int[] inorder) {
         int n = postorder.length;
         if (n == 0) {
@@ -485,10 +509,12 @@ public class TreeNode {
         return root;
     }
 
-    /**二叉树中的最大路径和
+    /**
+     * 二叉树中的最大路径和
      * 全局变量 maxSum 用于记录递归中更新的结果
      * maxGain() 方法递归更新结果
-     * P124*/
+     * P124
+     */
     private int maxSum = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
@@ -507,9 +533,11 @@ public class TreeNode {
         return root.val + Math.max(leftGain, rightGain);
     }
 
-    /**将二叉树展开为链表
+    /**
+     * 将二叉树展开为链表
      * 思路是递归
-     * P114*/
+     * P114
+     */
     public void flatten(TreeNode root) {
         // 递归出口
         if (root == null) {
@@ -530,8 +558,10 @@ public class TreeNode {
         tmp.right = right;
     }
 
-    /**路径总和（1）
-     * P112*/
+    /**
+     * 路径总和（1）
+     * P112
+     */
     public boolean hasPathSum(TreeNode root, int targetSum) {
         if (root == null) {
             return false;
@@ -543,9 +573,11 @@ public class TreeNode {
         return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
     }
 
-    /**路径总和(2)
+    /**
+     * 路径总和(2)
      * 思路是使用深度优先遍历二叉树
-     * P113*/
+     * P113
+     */
     List<List<Integer>> resForPathSum = new LinkedList<>();
     Deque<Integer> pathForPathSum = new LinkedList<>();
 
@@ -568,10 +600,38 @@ public class TreeNode {
         pathForPathSum.pollLast();
     }
 
-    /**二叉树的直径
+    /**
+     * 二叉树的所有路径
+     * 思路是 dfs 递归遍历
+     * P257
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        dfsForBinaryTreePaths(root, res, new StringBuilder());
+        return res;
+    }
+
+    public void dfsForBinaryTreePaths(TreeNode root, List<String> res, StringBuilder sb) {
+        if (root == null) {
+            return;
+        }
+        sb.append(root.val);
+        if (root.left == null && root.right == null) {
+            res.add(sb.toString());
+        } else {
+            // 注意这里要用 new StringBuilder
+            // 不然传递的是引用，后续的递归会影响到之前的结果
+            dfsForBinaryTreePaths(root.left, res, new StringBuilder(sb).append("->"));
+            dfsForBinaryTreePaths(root.right, res, new StringBuilder(sb).append("->"));
+        }
+    }
+
+    /**
+     * 二叉树的直径
      * 思路是找左右子树高度和最大的节点，并返回其左右子树高度和
      * 使用递归计算高度，并更新 res
-     * P543*/
+     * P543
+     */
     private int resForDiameterOfBinaryTree = 0;
 
     public int diameterOfBinaryTree(TreeNode root) {
@@ -589,10 +649,12 @@ public class TreeNode {
         return Math.max(leftDepth, rightDepth) + 1;
     }
 
-    /**判断是否为完全二叉树
+    /**
+     * 判断是否为完全二叉树
      * 思路是层级遍历，遍历到空节点则置 flag为 true
      * 如果在 flag 为 true 时又遍历到其他节点，则不是完全二叉树
-     * P958*/
+     * P958
+     */
     public boolean isCompleteTree(TreeNode root) {
         if (root == null) {
             return true;
@@ -615,9 +677,11 @@ public class TreeNode {
         return true;
     }
 
-    /**根到叶子节点数字之和
+    /**
+     * 根到叶子节点数字之和
      * 思路是深度优先遍历
-     * P129*/
+     * P129
+     */
     public int sumNumbers(TreeNode root) {
         return dfsForSumNumbers(root, 0);
     }
@@ -634,7 +698,9 @@ public class TreeNode {
         }
     }
 
-    /**所有节点之和*/
+    /**
+     * 所有节点之和
+     */
     public int sumOfNodes(TreeNode root) {
         if (root == null) {
             return 0;
@@ -642,7 +708,9 @@ public class TreeNode {
         return root.val + sumOfNodes(root.left) + sumOfNodes(root.right);
     }
 
-    /**所有叶子节点之和*/
+    /**
+     * 所有叶子节点之和
+     */
     public int sumOfLeaves(TreeNode root) {
         if (root == null) {
             return 0;
@@ -653,9 +721,11 @@ public class TreeNode {
         return sumOfLeaves(root.left) + sumOfLeaves(root.right);
     }
 
-    /**左叶子节点之和
+    /**
+     * 左叶子节点之和
      * 加个判断记录左叶子节点的值即可
-     * P404*/
+     * P404
+     */
     public int sumOfLeftLeaves(TreeNode root) {
         if (root == null) {
             return 0;
@@ -667,8 +737,10 @@ public class TreeNode {
         return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right) + tmp;
     }
 
-    /**二叉树的层平均值
-     * P637*/
+    /**
+     * 二叉树的层平均值
+     * P637
+     */
     public List<Double> averageOfLevels(TreeNode root) {
         if (root == null) {
             return new LinkedList<>();
@@ -698,8 +770,10 @@ public class TreeNode {
         return res;
     }
 
-    /**二叉树的节点个数
-     * P222*/
+    /**
+     * 二叉树的节点个数
+     * P222
+     */
     public int countNodes(TreeNode root) {
         if (root == null) {
             return 0;
@@ -707,8 +781,10 @@ public class TreeNode {
         return countNodes(root.left) + countNodes(root.right) + 1;
     }
 
-    /**判断相同的树
-     * P100*/
+    /**
+     * 判断相同的树
+     * P100
+     */
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null && q == null) {
             return true;
@@ -719,17 +795,36 @@ public class TreeNode {
         return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
+    /**
+     * 不相邻节点和的最大值
+     * P337
+     */
+    public int rob(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int res = root.val;
+        if (root.left != null) {
+            res += rob(root.left.left) + rob(root.left.right);
+        }
+        if (root.right != null) {
+            res += rob(root.right.left) + rob(root.right.right);
+        }
+        return Math.max(res, rob(root.left) + rob(root.right));
+    }
 
     /******************************二叉排序树*************************************/
 
 
-    /**判断一颗二叉树是不是二叉排序树
+    /**
+     * 判断一颗二叉树是不是二叉排序树
      * 二叉排序树(Binary Sort Tree, BST),又叫二叉搜索树(Binary Search Tree, BST)
      * 性质如下
      * 节点的左子树只包含小于当前节点的数
      * 节点的右子树只包含大于当前节点的数
      * 所有左子树和右子树自身必须也是二叉搜索树。
-     * 判断思路是对该二叉树中序遍历，如果得到的结果是递增的则是二叉排序树*/
+     * 判断思路是对该二叉树中序遍历，如果得到的结果是递增的则是二叉排序树
+     */
     public boolean isValidBST(TreeNode root) {
         List<Integer> inOrderList = new ArrayList<>();
         inOrderRecursive(root, inOrderList);
@@ -789,10 +884,12 @@ public class TreeNode {
         }
     }
 
-    /**计算组成二叉排序树的数量
+    /**
+     * 计算组成二叉排序树的数量
      * 思路是二叉排序树只要规定节点个数则排列数量就确定了
      * 遍历每个节点，其左子树的排列数量加右子树的排列数量就是该节点的数量，加起来即可
-     * P96*/
+     * P96
+     */
     public static int numTrees(int n) {
         if (n == 0 || n == 1) {
             return 1;
@@ -804,9 +901,11 @@ public class TreeNode {
         return res;
     }
 
-    /**二叉搜索树中第 K 小的元素
+    /**
+     * 二叉搜索树中第 K 小的元素
      * 思路是利用 BST 的中序遍历序列是升序的特性
-     * P230*/
+     * P230
+     */
     public int kthSmallest(TreeNode root, int k) {
         List<Integer> res = new ArrayList<>();
         inOrderForKthSmallest(root, res);
@@ -821,10 +920,12 @@ public class TreeNode {
         }
     }
 
-    /**将有序数组转为高度平衡的 BST
+    /**
+     * 将有序数组转为高度平衡的 BST
      * 思路是贪心，可以选择中间数字作为 BST 的根节点
      * 这样分给左右子树的数字个数相同或只相差 1
-     * P108*/
+     * P108
+     */
     public TreeNode sortedArrayToBST(int[] nums) {
         if (nums.length == 0) {
             return null;
@@ -838,9 +939,11 @@ public class TreeNode {
         return root;
     }
 
-    /**二叉搜索树中两节点的最近公共祖先
+    /**
+     * 二叉搜索树中两节点的最近公共祖先
      * 利用 BST 的性质做递归很简单，也可以用普通二叉树的最近祖先求法
-     * P235*/
+     * P235
+     */
     public TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root == p || root == q || (root.val - p.val) * (root.val - q.val) < 0) {
             return root;

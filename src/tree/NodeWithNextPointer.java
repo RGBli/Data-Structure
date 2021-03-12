@@ -6,15 +6,18 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-/**填充每个节点的下一个右侧节点指针
- * P116，P117*/
+/**
+ * 填充每个节点的下一个右侧节点指针
+ * P116，P117
+ */
 public class NodeWithNextPointer {
     public int val;
     public NodeWithNextPointer left;
     public NodeWithNextPointer right;
     public NodeWithNextPointer next;
 
-    public NodeWithNextPointer() {}
+    public NodeWithNextPointer() {
+    }
 
     public NodeWithNextPointer(int _val) {
         val = _val;
@@ -28,8 +31,8 @@ public class NodeWithNextPointer {
     }
 
     /*给定一个完美二叉树，定义是其所有叶子节点都在同一层，每个父节点都有两个子节点
-    * 思路是递归
-    * 是下一题的特例，也可以直接使用下一题的代码*/
+     * 思路是递归
+     * 是下一题的特例，也可以直接使用下一题的代码*/
     public NodeWithNextPointer connect1(NodeWithNextPointer root) {
         if (root == null) {
             return null;
@@ -47,7 +50,7 @@ public class NodeWithNextPointer {
     }
 
     /*不是完美二叉树
-    * 思路是层级遍历*/
+     * 思路是层级遍历*/
     public NodeWithNextPointer connect2(NodeWithNextPointer root) {
         if (root == null) {
             return null;

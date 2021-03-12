@@ -3,9 +3,11 @@ package linklist;
 import java.util.HashMap;
 import java.util.Map;
 
-/**复制带随机指针的链表
+/**
+ * 复制带随机指针的链表
  * 思路是使用 Hash 表存储旧结点和新结点的映射
- * P138*/
+ * P138
+ */
 public class NodeWithRandomPointer {
     int val;
     NodeWithRandomPointer next;
@@ -29,7 +31,7 @@ public class NodeWithRandomPointer {
             node = node.next;
         }
         node = head;
-        while(node != null) {
+        while (node != null) {
             map.get(node).next = map.get(node.next);
             map.get(node).random = map.get(node.random);
             node = node.next;

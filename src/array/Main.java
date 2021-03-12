@@ -4,13 +4,14 @@ import java.util.*;
 
 public class Main {
 
-    /**二分查找循环实现
+    /**
+     * 二分查找循环实现
      * 要求数组严格递增，不能出现相等元素
      * 注意循环条件是 left <= right，有个等于号
      * 关于二分查找中循环条件什么时候加等于号，如果在一个 if 中没有加一或减一，则不用加等于号
      * 一般用循环二分查找多一些
      * 参考 https://blog.csdn.net/maoyuanming0806/article/details/78176957
-     * */
+     */
     public static int commonBinarySearch(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
@@ -29,10 +30,11 @@ public class Main {
         return -1;
     }
 
-    /**二分查找递归实现
+    /**
+     * 二分查找递归实现
      * 要求数组严格递增，不能出现相等元素
      * 参考 https://blog.csdn.net/maoyuanming0806/article/details/78176957
-     * */
+     */
     public static int recursiveBinarySearch(int[] nums, int left, int right, int target) {
         // 递归出口
         if (target < nums[left] || target > nums[right] || left > right) {
@@ -48,12 +50,13 @@ public class Main {
         }
     }
 
-    /**搜索第一次出现的位置，算法更具有鲁棒性
+    /**
+     * 搜索第一次出现的位置，算法更具有鲁棒性
      * 注意算法与 commonBinarySearch() 方法的改动
      * 没有在循环中返回，而是比较 left 元素是否等于 target 来返回
      * 出循环时 left 必定等于 right
      * 参考 https://blog.csdn.net/u014221279/article/details/50903515
-     * */
+     */
     public static int binarySearchFirst(int[] nums, int target) {
         int n = nums.length;
         int left = 0;
@@ -71,11 +74,13 @@ public class Main {
         return target == nums[left] ? left : -1;
     }
 
-    /**搜索最后一次出现的位置，算法更具有鲁棒性
+    /**
+     * 搜索最后一次出现的位置，算法更具有鲁棒性
      * 注意算法与 commonBinarySearch() 方法的改动
      * 没有在循环中返回，而是比较 left 元素是否等于 target 来返回
      * 出循环时 left 必定等于 right
-     * 参考 https://blog.csdn.net/u014221279/article/details/50903515*/
+     * 参考 https://blog.csdn.net/u014221279/article/details/50903515
+     */
     public static int binarySearchLast(int[] nums, int target) {
         int n = nums.length;
         int left = 0;
@@ -93,11 +98,13 @@ public class Main {
         return target == nums[left] ? left : -1;
     }
 
-    /**二分法对旋转排序数组搜索
+    /**
+     * 二分法对旋转排序数组搜索
      * 思路是一分为二，对有序的一半使用二分查找，对无序的一半再一分为二
      * 再对有序的一半使用二分查找，以此循环
      * 遇到排好序的数组第一反应就应该是二分查找
-     * P33*/
+     * P33
+     */
     public static int binarySearchForRotatedSortedArray(int[] nums, int target) {
         int n = nums.length;
         int left = 0;
@@ -125,9 +132,11 @@ public class Main {
         return -1;
     }
 
-    /**寻找旋转排序数组中的最小值，数组不存在重复元素
+    /**
+     * 寻找旋转排序数组中的最小值，数组不存在重复元素
      * 思路是二分法
-     * P153*/
+     * P153
+     */
     public int findMin1(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
@@ -144,10 +153,12 @@ public class Main {
         return nums[left];
     }
 
-    /**寻找旋转排序数组中的最小值，数组可能存在重复元素
+    /**
+     * 寻找旋转排序数组中的最小值，数组可能存在重复元素
      * 思路是二分法
      * 与上一题唯一的区别在于多了对 nums[mid] == nums[right] 的讨论
-     * P154*/
+     * P154
+     */
     public int findMin2(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
@@ -166,8 +177,10 @@ public class Main {
         return nums[left];
     }
 
-    /**数组逆序
-     * 思路是滑动窗，left 和 right 两两交换*/
+    /**
+     * 数组逆序
+     * 思路是滑动窗，left 和 right 两两交换
+     */
     public static void reverse(int[] nums, int left, int right) {
         while (left < right) {
             int tmp = nums[right];
@@ -176,8 +189,10 @@ public class Main {
         }
     }
 
-    /**数组旋转 k 位
-     * 思路是三次旋转，用到了 reverse() 方法*/
+    /**
+     * 数组旋转 k 位
+     * 思路是三次旋转，用到了 reverse() 方法
+     */
     public void rotate(int[] nums, int k) {
         int n = nums.length;
         k = k % n;
@@ -186,9 +201,11 @@ public class Main {
         reverse(nums, k, n - 1);
     }
 
-    /**查找非严格递增数组中 targe 值的 index 范围
+    /**
+     * 查找非严格递增数组中 targe 值的 index 范围
      * 思路是使用二分查找第一次出现的位置和最后一次出现的位置
-     * 这两个位置就是结果*/
+     * 这两个位置就是结果
+     */
     public static int[] searchRange(int[] nums, int target) {
         if (nums.length == 0) {
             return new int[]{-1, -1};
@@ -201,9 +218,11 @@ public class Main {
         return new int[]{-1, -1};
     }
 
-    /**矩阵置零
+    /**
+     * 矩阵置零
      * 思路是用第一行和第一列来存储该行该列是否应该被置零
-     * 为了记录第一行和第一列是否应该被置零，用了两个 boolean 变量*/
+     * 为了记录第一行和第一列是否应该被置零，用了两个 boolean 变量
+     */
     public void setZeroes(int[][] matrix) {
         // 判断第一行和第一列是否有0，用两个变量表示，时间复杂度 O(1)
         boolean rowFlag = false;
@@ -256,9 +275,11 @@ public class Main {
         }
     }
 
-    /**求数组的子集
+    /**
+     * 求数组的子集
      * 思路是每次向之前的所有子集中插入新元素，最初的子集为空
-     * 缺点是要求数组无重复元素*/
+     * 缺点是要求数组无重复元素
+     */
     public static List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         // 最初的子集
@@ -276,9 +297,11 @@ public class Main {
         return res;
     }
 
-    /**最长需要排序的长度
+    /**
+     * 最长需要排序的长度
      * 思路是创建一个排好序的数组，然后与原数组对比，找到最左端和最右端的不同的位置
-     * 这两个位置就是 left 和 right*/
+     * 这两个位置就是 left 和 right
+     */
     public static int findUnsortedSubarray(int[] nums) {
         int n = nums.length;
         int[] newNums = Arrays.copyOfRange(nums, 0, n);
@@ -294,8 +317,10 @@ public class Main {
         return right >= left ? right - left + 1 : 0;
     }
 
-    /**使数组唯一的最小增量
-     * 思路是排序*/
+    /**
+     * 使数组唯一的最小增量
+     * 思路是排序
+     */
     public int minIncrementForUnique(int[] A) {
         Arrays.sort(A);
         int res = 0;
@@ -309,10 +334,12 @@ public class Main {
         return res;
     }
 
-    /**能被5整除的二进制数组
+    /**
+     * 能被5整除的二进制数组
      * 思路1：直接转十进制，但在数组大的时候会溢出
      * 思路2：只记录十进制数组的末尾数字
-     * 代码用的是思路2*/
+     * 代码用的是思路2
+     */
     public List<Boolean> prefixesDivBy5(int[] A) {
         List<Boolean> res = new ArrayList<>();
         int last = 0;
@@ -323,9 +350,11 @@ public class Main {
         return res;
     }
 
-    /**对排序后的数组去重
+    /**
+     * 对排序后的数组去重
      * 思路是滑动窗法
-     * P26*/
+     * P26
+     */
     public int removeDuplicates(int[] nums) {
         if (nums.length == 0 || nums.length == 1) {
             return nums.length;
@@ -354,9 +383,11 @@ public class Main {
         return res;
     }
 
-    /**排序数组插入元素的位置
+    /**
+     * 排序数组插入元素的位置
      * 使用二分查找，与二分查找唯一的不同是最后的返回值由-1改为 low
-     * P35*/
+     * P35
+     */
     public static int searchInsert(int[] nums, int target) {
         int low = 0;
         int high = nums.length - 1;
@@ -373,13 +404,15 @@ public class Main {
         return low;
     }
 
-    /**寻找仅出现一次的数字，其他数字都出现了2次
+    /**
+     * 寻找仅出现一次的数字，其他数字都出现了2次
      * 思路是使用按位异或
      * 按位异或的性质如下
      * 1⃣️ a ^ a = 0
      * 2⃣️ a ^ 0 = a
      * 3⃣️ a ^ b ^ c = a ^ (b ^ c)
-     * P136*/
+     * P136
+     */
     public int singleNumber(int[] nums) {
         int res = 0;
         for (int num : nums) {
@@ -388,9 +421,11 @@ public class Main {
         return res;
     }
 
-    /**单词拆分
+    /**
+     * 单词拆分
      * 思路是动态规划，dp[i] 表示前 i 个字符构成的字串是否满足条件
-     * P139*/
+     * P139
+     */
     public boolean wordBreak(String s, List<String> wordDict) {
         int n = s.length();
         Set<String> set = new HashSet<>(wordDict);
@@ -407,10 +442,12 @@ public class Main {
         return dp[n];
     }
 
-    /**查找缺失的第一个正数
+    /**
+     * 查找缺失的第一个正数
      * 思路是第一次循环使得各数归位
      * 第二次循环返回第一个没有归位的 index + 1，如果全部归位则返回 n + 1
-     * P41*/
+     * P41
+     */
     public static int firstMissingPositive(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; i++) {
@@ -429,11 +466,13 @@ public class Main {
         return n + 1;
     }
 
-    /**数组不相邻和的最大值
+    /**
+     * 数组不相邻和的最大值
      * 思路是动态规划，用两个变量代替 dp 数组来减少空间复杂度
      * prev1 保存到当前元素的前前个元素的最大值
      * prev2 保存到当前元素的前一个元素的最大值
-     * P198*/
+     * P198
+     */
     public int rob1(int[] nums) {
         int n = nums.length;
         if (n == 0) {
@@ -450,21 +489,26 @@ public class Main {
         return res;
     }
 
-    /**循环数组不相邻和的最大值
+    /**
+     * 循环数组不相邻和的最大值
      * 思路是将循环数组拆分成两个普通数组
      * 两个数组为 [0,n - 1), [1, n)
-     * P213*/
+     * P213
+     */
     public int rob2(int[] nums) {
         int n = nums.length;
         return Math.max(rob1(Arrays.copyOfRange(nums, 0, n - 1)),
-                        rob1((Arrays.copyOfRange(nums, 1, n))));
+                rob1((Arrays.copyOfRange(nums, 1, n))));
     }
 
-    /**下一个排列
+
+    /**
+     * 下一个排列
      * 思路是第一次逆序循环找到最后一个比相邻的后一个元素小的元素
      * 第二次逆序循环找到第一个比 nums[i] 大的元素，并与 nums[i] 交换
      * 最后将 nums[i + 1:] 逆序
-     * P31*/
+     * P31
+     */
     public void nextPermutation(int[] nums) {
         int n = nums.length;
         int i = n - 2;
@@ -483,9 +527,11 @@ public class Main {
         reverse(nums, i + 1, n - 1);
     }
 
-    /**排列序列
+    /**
+     * 排列序列
      * 思路是回溯
-     * P60*/
+     * P60
+     */
     String resForGetPermutation = "";
     int countForGetPermutation = 1;
 
@@ -523,8 +569,10 @@ public class Main {
         }
     }
 
-    /**旋转图片，将二维数组顺时针旋转90度
-     * P48*/
+    /**
+     * 旋转图片，将二维数组顺时针旋转90度
+     * P48
+     */
     public void rotate(int[][] matrix) {
         /*方法1:使用辅助二维数组
         * 思路是发现规律元素所在原数组的第 i 行就在新数组的 n - i - 1 列
@@ -566,8 +614,10 @@ public class Main {
         }
     }
 
-    /**翻转图像
-     * P832*/
+    /**
+     * 翻转图像
+     * P832
+     */
     public int[][] flipAndInvertImage(int[][] A) {
         int m = A.length;
         int n = A[0].length;
@@ -585,8 +635,10 @@ public class Main {
         return A;
     }
 
-    /**合并两个有序数组
-     * P88*/
+    /**
+     * 合并两个有序数组
+     * P88
+     */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         /*方法1:合并后排序
         * 因为有排序，所以时间复杂度为 O((m+n)log(m+n))，空间复杂度 O(1)
@@ -630,8 +682,10 @@ public class Main {
         }
     }
 
-    /**查找数组的峰值
-     * P162*/
+    /**
+     * 查找数组的峰值
+     * P162
+     */
     public int findPeakElement(int[] nums) {
         /*方法1:线性扫描
         * 时间复杂度 O(n)，空间复杂度 O(1)
@@ -692,10 +746,12 @@ public class Main {
         }
     }
 
-    /**全排列，输入可能包含重复元素
+    /**
+     * 全排列，输入可能包含重复元素
      * 思路还是回溯
      * 需要提前排序，并且多了一个 visited 数组来保存访问情况
-     * P47*/
+     * P47
+     */
     boolean[] visited;
 
     public List<List<Integer>> permuteUnique(int[] nums) {
@@ -724,9 +780,11 @@ public class Main {
         }
     }
 
-    /**所有的组合，输入不含重复元素，数字可以无限制重复选取
+    /**
+     * 所有的组合，输入不含重复元素，数字可以无限制重复选取
      * 思路是回溯
-     * P39*/
+     * P39
+     */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> combination = new ArrayList<>();
@@ -752,9 +810,11 @@ public class Main {
         }
     }
 
-    /**所有的组合，输入可能含有重复元素，并且数字只能使用一次
+    /**
+     * 所有的组合，输入可能含有重复元素，并且数字只能使用一次
      * 思路是回溯，与上一题唯一的差别就是多了一个 if 判断去重
-     * P40*/
+     * P40
+     */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> combination = new ArrayList<>();
@@ -784,9 +844,11 @@ public class Main {
         }
     }
 
-    /**所有的组合
+    /**
+     * 所有的组合
      * 思路是回溯
-     * P216*/
+     * P216
+     */
     List<List<Integer>> lists = new ArrayList<>();
 
     public List<List<Integer>> combinationSum3(int k, int n) {
@@ -810,12 +872,14 @@ public class Main {
         }
     }
 
-    /**零钱兑换1
+    /**
+     * 零钱兑换1
      * 思路1：回溯，类似与组合的做法，但对于该题会超时（不代表不对
      * 见方法 coinChange1()
      * 思路2：动态规划，dp[i] 表示凑够 i 的金额时需要的最小硬币个数
      * 见方法 coinChange2()
-     * P322*/
+     * P322
+     */
     private static int res = -1;
 
     public static int coinChangeBackTrack(int[] coins, int amount) {
@@ -858,9 +922,11 @@ public class Main {
         return dp[amount] > amount ? -1 : dp[amount];
     }
 
-    /**零钱兑换2，返回构成指定金额的组合数
+    /**
+     * 零钱兑换2，返回构成指定金额的组合数
      * 思路是动态规划，dp[i] 表示金额为 i 时有多少种组合
-     * P518*/
+     * P518
+     */
     public int change(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
         dp[0] = 1;
@@ -874,10 +940,12 @@ public class Main {
         return dp[amount];
     }
 
-    /**和为 k 的连续子数组
+    /**
+     * 和为 k 的连续子数组
      * 思路是暴力枚举，虽然是暴力方法，但做了一次优化，每次固定左侧边界，滑动右侧边界
      * 因此不是三层循环
-     * P560*/
+     * P560
+     */
     public int subarraySum(int[] nums, int k) {
         int res = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -892,8 +960,10 @@ public class Main {
         return res;
     }
 
-    /**每日温度
-     * P739*/
+    /**
+     * 每日温度
+     * P739
+     */
     public int[] dailyTemperatures(int[] T) {
         /*思路1:暴力法
         int n = T.length;
@@ -924,8 +994,10 @@ public class Main {
         return res;
     }
 
-    /**数字连续的最长序列
-     * P128*/
+    /**
+     * 数字连续的最长序列
+     * P128
+     */
     public static int longestConsecutive(int[] nums) {
         /*思路1:先排序，然后暴力法
         int n = nums.length;
@@ -968,8 +1040,10 @@ public class Main {
         return res;
     }
 
-    /**寻找重复数
-     * P287*/
+    /**
+     * 寻找重复数
+     * P287
+     */
     public int findDuplicate(int[] nums) {
         /*方法1:哈希表
         Set<Integer> s = new HashSet<>();
@@ -996,10 +1070,12 @@ public class Main {
         return slow;
     }
 
-    /**搜索二维矩阵，矩阵中每行中的整数从左到右按升序排列，每行的第一个整数大于前一行的最后一个整数
+    /**
+     * 搜索二维矩阵，矩阵中每行中的整数从左到右按升序排列，每行的第一个整数大于前一行的最后一个整数
      * 思路是二分查找，将矩阵的每行连接起来，看作一个一维数组
      * 时间复杂度 o(log(mn))
-     * P74*/
+     * P74
+     */
     public boolean searchMatrix1(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return false;
@@ -1025,8 +1101,10 @@ public class Main {
         return false;
     }
 
-    /**搜索二维矩阵2，矩阵中每行的元素从左到右升序排列，每列的元素从上到下升序排列
-     * P240*/
+    /**
+     * 搜索二维矩阵2，矩阵中每行的元素从左到右升序排列，每列的元素从上到下升序排列
+     * P240
+     */
     public boolean searchMatrix2(int[][] matrix, int target) {
         /*思路1:对每行都使用二分搜索
         * 时间复杂度为 O(mlogn)
@@ -1060,9 +1138,11 @@ public class Main {
         return false;
     }
 
-    /**数组交集
+    /**
+     * 数组交集
      * 思路是使用 set 的 retainAll() 方法计算交集
-     * P349*/
+     * P349
+     */
     public int[] intersection(int[] nums1, int[] nums2) {
         Set<Integer> s1 = new HashSet<>();
         Set<Integer> s2 = new HashSet<>();
@@ -1081,9 +1161,11 @@ public class Main {
         return res;
     }
 
-    /**两个有序数组的中位数
+    /**
+     * 两个有序数组的中位数
      * 思路是二分法
-     * P4*/
+     * P4
+     */
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int length1 = nums1.length;
         int length2 = nums2.length;
@@ -1143,8 +1225,10 @@ public class Main {
         }
     }
 
-    /**丢失的数字
-     * P268*/
+    /**
+     * 丢失的数字
+     * P268
+     */
     public int missingNumber(int[] nums) {
         /*思路1：通过求和，减去数组的和就知道缺少哪个数字了*/
         int sum = 0;
@@ -1161,8 +1245,10 @@ public class Main {
         return res;*/
     }
 
-    /**跳跃游戏1
-     * P55*/
+    /**
+     * 跳跃游戏1
+     * P55
+     */
     public boolean canJump(int[] nums) {
         /*思路1:从后向前找到0的各个位置，看能否被 cover
         * 如果有0不能被 cover，则返回 false
@@ -1208,9 +1294,11 @@ public class Main {
         return false;
     }
 
-    /**跳跃游戏2
+    /**
+     * 跳跃游戏2
      * 思路是贪心
-     * P45*/
+     * P45
+     */
     public int jump(int[] nums) {
         int length = nums.length;
         int end = 0;
@@ -1226,8 +1314,10 @@ public class Main {
         return steps;
     }
 
-    /**移动0
-     * P283*/
+    /**
+     * 移动0
+     * P283
+     */
     public void moveZeroes(int[] nums) {
         int index = 0;
         for (int num : nums) {
@@ -1240,10 +1330,12 @@ public class Main {
         }
     }
 
-    /**加油站
+    /**
+     * 加油站
      * 思路是一次遍历
      * 只要 gas[] 的总和 >= cost[] 总和就可以走完
-     * P134*/
+     * P134
+     */
     public int canCompleteCircuit(int[] gas, int[] cost) {
         int rest = 0, run = 0, start = 0;
         for (int i = 0; i < gas.length; i++) {
@@ -1298,8 +1390,10 @@ public class Main {
         return res;
     }
 
-    /**普通数组的下一个更大元素
-     * 典型的单调栈题目，可以记下作为模板*/
+    /**
+     * 普通数组的下一个更大元素
+     * 典型的单调栈题目，可以记下作为模板
+     */
     public int[] nextGreaterElements1(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
@@ -1315,9 +1409,11 @@ public class Main {
         return res;
     }
 
-    /**循环数组的下一个更大元素
+    /**
+     * 循环数组的下一个更大元素
      * 思路是单调栈，只是遍历两倍数组长度，使用取模来计算 i
-     * P503*/
+     * P503
+     */
     public int[] nextGreaterElements2(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
@@ -1332,11 +1428,13 @@ public class Main {
         return res;
     }
 
-    /**下一个更大元素
+    /**
+     * 下一个更大元素
      * 思路是单调栈
      * 先使用单调栈考虑 nums2[] 数组中每个元素的下一个更大元素，并保存在哈希表中
      * 然后遍历 nums1[] 数组，从哈希表中找到答案填入
-     * P496*/
+     * P496
+     */
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         Deque<Integer> stack = new LinkedList<>();
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -1357,10 +1455,12 @@ public class Main {
         return res;
     }
 
-    /**买卖股票的最佳时机1
+    /**
+     * 买卖股票的最佳时机1
      * 你只能选择某一天买入这只股票，并选择在未来的某一个不同的日子 卖出该股票
      * 思路是动态规划，前 i 天的最大收益 = max{前 i - 1 天的最大收益，第 i 天的价格 - 前 i - 1 天中的最小价格}
-     * P121*/
+     * P121
+     */
     public int maxProfit1(int[] prices) {
         if (prices.length == 0) {
             return 0;
@@ -1377,10 +1477,12 @@ public class Main {
         return res;
     }
 
-    /**买卖股票的最佳时机2
+    /**
+     * 买卖股票的最佳时机2
      * 可以多次买卖股票
      * 思路是只要第二天比第一天的票价贵，就买第一天的，并在第二天出售
-     * P122*/
+     * P122
+     */
     public int maxProfit2(int[] prices) {
         int n = prices.length;
         int res = 0;
@@ -1392,7 +1494,8 @@ public class Main {
         return res;
     }
 
-    /**买卖股票的最佳时机3
+    /**
+     * 买卖股票的最佳时机3
      * 最多可以两次买卖股票
      * 思路是动态规划
      * 在任意一天结束之后，我们会处于以下五个状态中的一种：
@@ -1403,7 +1506,8 @@ public class Main {
      * 5⃣️完成了全部两笔交易。
      * 因为第一种状态的利润为0，因此仅考虑后四种状态
      * 分别用 buy1, sell1, buy2, sell2 来表示达到这种状态的利润
-     * P123*/
+     * P123
+     */
     public int maxProfit3(int[] prices) {
         int buy1 = -prices[0];
         int sell1 = 0;
@@ -1418,12 +1522,14 @@ public class Main {
         return sell2;
     }
 
-    /**买卖股票的最佳时机4
+    /**
+     * 买卖股票的最佳时机4
      * 最多可以 k 次买卖股票
      * 思路是动态规划
      * dp[i][0] 表示在第 i 次买卖后不持有股票这个状态的收益
      * dp[i][1] 表示在第 i 次买卖后仍持有股票这个状态的收益
-     * P188*/
+     * P188
+     */
     public int maxProfit4(int k, int[] prices) {
         int n = prices.length;
         if (n == 0) {
@@ -1442,9 +1548,11 @@ public class Main {
         return dp[k][0];
     }
 
-    /**有序数组的平方
+    /**
+     * 有序数组的平方
      * 思路是双指针
-     * P977*/
+     * P977
+     */
     public int[] sortedSquares(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
@@ -1464,8 +1572,10 @@ public class Main {
         return res;
     }
 
-    /**矩阵转置
-     * P867*/
+    /**
+     * 矩阵转置
+     * P867
+     */
     public int[][] transpose(int[][] matrix) {
         int row = matrix.length;
         int col = matrix[0].length;
@@ -1478,11 +1588,13 @@ public class Main {
         return res;
     }
 
-    /**三角形最小路径和，找出自顶向下的最小路径和
+    /**
+     * 三角形最小路径和，找出自顶向下的最小路径和
      * 思路是动态规划
      * dp[i][j] 表示从顶部到 (i, j) 位置需要的最小路径
      * 时间复杂度 O(n^2), 空间复杂度 O(n^2)
-     * P120*/
+     * P120
+     */
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
         int[][] dp = new int[n][n];
@@ -1497,9 +1609,11 @@ public class Main {
         return Arrays.stream(dp[n - 1]).min().getAsInt();
     }
 
-    /**解数独
+    /**
+     * 解数独
      * 思路是回溯
-     * P37*/
+     * P37
+     */
     public void solveSudoku(char[][] board) {
         // 记录某行，某位数字是否已经被摆放
         boolean[][] row = new boolean[9][9];
@@ -1554,10 +1668,12 @@ public class Main {
         return false;
     }
 
-    /**分割等和子集
+    /**
+     * 分割等和子集
      * 思路是动态规划
      * dp[i] 表示装重量为 i 的物品时有多少种方式
-     * P202*/
+     * P202
+     */
     public boolean canPartition(int[] nums) {
         // 所有物品总重量
         int sum = 0;
@@ -1580,8 +1696,10 @@ public class Main {
         return dp[W] != 0;
     }
 
-    /**多数元素，找到出现次数大于 n / 2 次的元素
-     * P169*/
+    /**
+     * 多数元素，找到出现次数大于 n / 2 次的元素
+     * P169
+     */
     public int majorityElement(int[] nums) {
         // 方法1：哈希表，时间复杂度 O(n)，空间复杂度 O(n)
         /*Map<Integer, Integer> m = new HashMap<>();
@@ -1624,8 +1742,10 @@ public class Main {
         return candidate;
     }
 
-    /**柱状体的最大矩形
-     * P84*/
+    /**
+     * 柱状体的最大矩形
+     * P84
+     */
     public int largestRectangleArea(int[] heights) {
         // 思路1：暴力求解，时间复杂度 O(n^2)，会超时
         // 每次循环求出能够完全覆盖该柱子的最大面积
@@ -1663,11 +1783,13 @@ public class Main {
         return res;
     }
 
-    /**乘积最大子数组，找出数组中乘积最大的连续子数组，返回该子数组所对应的乘积
+    /**
+     * 乘积最大子数组，找出数组中乘积最大的连续子数组，返回该子数组所对应的乘积
      * 思路是动态规划，因为乘积有正负之分，所以维护两个 dp[] 数组：max[] 和 min[]
      * max[i] 表示以 i 结尾的子数组的最大乘积，min[i] 表示以 i 结尾的子数组的最小乘积
      * 为了优化空间，用 max 和 min 两个变量来代替两个 dp[] 数组
-     * P152*/
+     * P152
+     */
     public static int maxProduct(int[] nums) {
         int n = nums.length;
         int res = nums[0];
@@ -1687,8 +1809,10 @@ public class Main {
         return res;
     }
 
-    /**加一
-     * P66*/
+    /**
+     * 加一
+     * P66
+     */
     public int[] plusOne(int[] digits) {
         int n = digits.length;
         for (int i = n - 1; i >= 0; i--) {
@@ -1705,9 +1829,11 @@ public class Main {
         return res;
     }
 
-    /**判断山脉数组
+    /**
+     * 判断山脉数组
      * 思路是顺序搜索
-     * P941*/
+     * P941
+     */
     public boolean validMountainArray(int[] arr) {
         int n = arr.length;
         int i = 1;
@@ -1726,12 +1852,15 @@ public class Main {
         return i == n;
     }
 
-    /**山脉数组中查找目标值，MountainArray 是题目提供的接口
+    /**
+     * 山脉数组中查找目标值，MountainArray 是题目提供的接口
      * 思路是二分法
      * 先找出顶峰位置，然后在顶峰两侧分别使用二分算法
-     * P1095*/
+     * P1095
+     */
     interface MountainArray {
         public int get(int index);
+
         public int length();
     }
 
@@ -1739,7 +1868,7 @@ public class Main {
         int left = 0;
         int right = mountainArr.length() - 1;
         int mid;
-        while (left < right){
+        while (left < right) {
             mid = (right + left) / 2;
             if (mountainArr.get(mid) < mountainArr.get(mid + 1)) {
                 left = mid + 1;
@@ -1747,13 +1876,13 @@ public class Main {
                 right = mid;
             }
         }
-        int index = binarySearchForFindInMountainArray(mountainArr,0, left, target,true);
+        int index = binarySearchForFindInMountainArray(mountainArr, 0, left, target, true);
         return index == -1 ? binarySearchForFindInMountainArray(mountainArr, left + 1, mountainArr.length() - 1, target, false) : index;
     }
 
     public int binarySearchForFindInMountainArray(MountainArray mountainArr, int left, int right, int target, boolean asc) {
         while (left <= right) {
-            int mid = left + (right - left) /2 ;
+            int mid = left + (right - left) / 2;
             int midValue = mountainArr.get(mid);
             if (midValue == target) {
                 return mid;
@@ -1768,9 +1897,11 @@ public class Main {
         return -1;
     }
 
-    /**将每个元素替换为右侧最大元素
+    /**
+     * 将每个元素替换为右侧最大元素
      * 思路是逆序遍历
-     * P1299*/
+     * P1299
+     */
     public int[] replaceElements(int[] arr) {
         int n = arr.length;
         int max = arr[n - 1];
@@ -1787,10 +1918,12 @@ public class Main {
         return arr;
     }
 
-    /**比特位计数
+    /**
+     * 比特位计数
      * 思路是动态规划
      * 状态转移方程是 dp[i] = dp[i >> 1] + (i & 1)
-     * P338*/
+     * P338
+     */
     public int[] countBits(int num) {
         int[] res = new int[num + 1];
         for (int i = 1; i <= num; i++) {
@@ -1799,10 +1932,12 @@ public class Main {
         return res;
     }
 
-    /**不同路径
+    /**
+     * 不同路径
      * 思路是二维动态规划
      * dp[i][j] 表示到 (i,j) 坐标有多少条路径
-     * P62*/
+     * P62
+     */
     public static int uniquePaths(int m, int n) {
         int[][] dp = new int[m][n];
         for (int i = 0; i < m; i++) {
@@ -1821,9 +1956,11 @@ public class Main {
         return dp[m - 1][n - 1];
     }
 
-    /**有障碍的不同路径
+    /**
+     * 有障碍的不同路径
      * 思路与上一题一样，都是二维动态规划，仅仅多一个判断是否是障碍物即可
-     * P63*/
+     * P63
+     */
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
@@ -1846,8 +1983,10 @@ public class Main {
         return dp[m - 1][n - 1];
     }
 
-    /**颜色分类，数组中有0，1，2三种元素，原地排序使得相同值的元素相邻
-     * P75*/
+    /**
+     * 颜色分类，数组中有0，1，2三种元素，原地排序使得相同值的元素相邻
+     * P75
+     */
     public void sortColors(int[] nums) {
         /*思路1：直接排序，但时间复杂度为 O(nlogn)
         Arrays.sort(nums);*/
@@ -1883,11 +2022,13 @@ public class Main {
         }
     }
 
-    /**有效的数独
+    /**
+     * 有效的数独
      * 主要是抽离出 rows, cols, blocks 数组
      * rows[i][j] 表示第 i 行是否出现过数 j
      * blocks[i][j] 表示第 i 个块是否出现过数 j
-     * P36*/
+     * P36
+     */
     public boolean isValidSudoku(char[][] board) {
         int n = 9;
         boolean[][] rows = new boolean[n][n];
@@ -1896,7 +2037,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] != '.') {
-                    int tmp = board[i][j] -'0' - 1;
+                    int tmp = board[i][j] - '0' - 1;
                     // 由坐标计算第几个块
                     int block = (i / 3) * 3 + j / 3;
                     if (rows[i][tmp] || cols[j][tmp] || blocks[block][tmp]) {
@@ -1912,18 +2053,22 @@ public class Main {
         return true;
     }
 
-    /**存在重复元素1
+    /**
+     * 存在重复元素1
      * 思路是用到了 stream 的去重 distinct
-     * P217*/
+     * P217
+     */
     public boolean containsDuplicate(int[] nums) {
         return Arrays.stream(nums).distinct().count() == nums.length;
     }
 
-    /**存在重复元素2
+    /**
+     * 存在重复元素2
      * 判断数组中是否存在两个绝对值差不大于 k 的不同的 i 和 j
      * 使得 nums[i] = nums[j]
      * 思路是通过 set 来维护一个大小为 k 的窗口，避免了滑动窗的时间开销
-     * P219*/
+     * P219
+     */
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         Set<Integer> set = new HashSet<>();
         for (int i = 0; i < nums.length; i++) {
@@ -1938,9 +2083,11 @@ public class Main {
         return false;
     }
 
-    /**汇总区间
+    /**
+     * 汇总区间
      * 思路是双指针
-     * P228*/
+     * P228
+     */
     public static List<String> summaryRanges(int[] nums) {
         List<String> res = new ArrayList<>();
         if (nums.length == 0) {
@@ -1967,11 +2114,13 @@ public class Main {
         return res;
     }
 
-    /**除自身以外数组的乘积
+    /**
+     * 除自身以外数组的乘积
      * 思路是分别从左边和右边累乘
      * left 表示左边的累乘值，right 表示右边的累乘值
      * 让每个元素乘以左边和右边的累乘值即可
-     * P238*/
+     * P238
+     */
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
         int left = 1;
@@ -1988,6 +2137,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println(summaryRanges(new int[]{0,1,2,4,5,7}));
+        System.out.println(summaryRanges(new int[]{0, 1, 2, 4, 5, 7}));
     }
 }

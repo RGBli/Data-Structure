@@ -33,9 +33,11 @@ public class Main {
         return res;
     }
 
-    /**岛屿的数量
+    /**
+     * 岛屿的数量
      * 思路是深度优先搜索，通过 dfs 来将陆地置0，然后判断有几块即可
-     * P200*/
+     * P200
+     */
     public int numIslands(char[][] grid) {
         if (grid.length == 0 || grid[0].length == 0) {
             return 0;
@@ -67,9 +69,11 @@ public class Main {
         dfsForNumIslands(grid, row, col + 1);
     }
 
-    /**单词搜索
+    /**
+     * 单词搜索
      * 思路是 dfs + 回溯
-     * P79*/
+     * P79
+     */
     public boolean exist(char[][] board, String word) {
         int m = board.length;
         int n = board[0].length;
@@ -109,11 +113,13 @@ public class Main {
         }
     }
 
-    /**最大正方形面积
+    /**
+     * 最大正方形面积
      * 思路是动态规划
      * dp[i][j] 表示以 (i, j) 为右下角的最大正方形边长
      * 最后返回 dp[i][j] 的最大值的平方即可
-     * P221*/
+     * P221
+     */
     public int maximalSquare(char[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -134,9 +140,11 @@ public class Main {
         return res;
     }
 
-    /**课程表1
+    /**
+     * 课程表1
      * 思路是深度优先搜索 + 拓扑排序
-     * P207*/
+     * P207
+     */
     List<List<Integer>> edgesForCanFinish;
     int[] visitedForCanFinish;
     boolean isValidForCanFinish = true;
@@ -174,9 +182,11 @@ public class Main {
         visitedForCanFinish[u] = 2;
     }
 
-    /**课程表2
+    /**
+     * 课程表2
      * 思路是拓扑排序，并用栈来保存排序结果
-     * P210*/
+     * P210
+     */
     boolean isValidForFindOrder = true;
     List<List<Integer>> edgesForFindOrder;
     int[] visitedForFindOrder;
@@ -224,9 +234,11 @@ public class Main {
         resForFindOrder[indexForFindOrder--] = u;
     }
 
-    /**最小路径和
+    /**
+     * 最小路径和
      * 思路是动态规划
-     * P64*/
+     * P64
+     */
     public int minPathSum(int[][] grid) {
         int row = grid.length;
         int col = grid[0].length;
@@ -246,9 +258,11 @@ public class Main {
         return dp[row - 1][col - 1];
     }
 
-    /**腐烂的橘子
+    /**
+     * 腐烂的橘子
      * 思路是 BFS
-     * P994*/
+     * P994
+     */
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -304,12 +318,14 @@ public class Main {
         return count == 0 ? time : -1;
     }
 
-    /**N 皇后，在 N x N 的棋盘上放置 N 个皇后，使得任意两个皇后不在同一行同一列和同一斜线
+    /**
+     * N 皇后，在 N x N 的棋盘上放置 N 个皇后，使得任意两个皇后不在同一行同一列和同一斜线
      * 思路是回溯
      * 对于每一做坐标创建了三个集合，分别存储列，对角方向和反对角方向的皇后
      * 首先固定行号，然后遍历列，通过回溯来增加行号
      * 时间复杂度 O(n!)，空间复杂度 O(n)
-     * P51*/
+     * P51
+     */
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> res = new ArrayList<>();
         int[] queens = new int[n];
@@ -364,11 +380,13 @@ public class Main {
     }
 
 
-    /**被包围的区域
+    /**
+     * 被包围的区域
      * 思路是深度优先遍历
      * 从四条边界的 O 出发，能遍历到的 O 就标记为 A
      * 然后遍历图中所有元素修改 O 为 X，A 为 O 即可
-     * P130*/
+     * P130
+     */
     public void surroundArea(char[][] board) {
         int m = board.length;
         int n = board[0].length;

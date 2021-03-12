@@ -15,7 +15,10 @@ public class LRUCache {
         int value;
         DeListNode next;
         DeListNode prev;
-        DeListNode() {}
+
+        DeListNode() {
+        }
+
         DeListNode(int key, int value) {
             this.key = key;
             this.value = value;

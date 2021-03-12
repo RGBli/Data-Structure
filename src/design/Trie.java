@@ -1,8 +1,9 @@
 package design;
 
-/**前缀树
- *
- * P208*/
+/**
+ * 前缀树
+ * P208
+ */
 public class Trie {
 
     // 前缀树节点静态内部类
@@ -21,12 +22,16 @@ public class Trie {
     // 前缀树节点
     private TrieNode root;
 
-    /** Initialize your data structure here. */
+    /**
+     * Initialize your data structure here.
+     */
     public Trie() {
         root = new TrieNode();
     }
 
-    /** Inserts a word into the trie. */
+    /**
+     * Inserts a word into the trie.
+     */
     public void insert(String word) {
         TrieNode node = root;
         for (int i = 0; i < word.length(); i++) {
@@ -40,7 +45,9 @@ public class Trie {
         node.isEnd = true;
     }
 
-    /** Returns if the word is in the trie. */
+    /**
+     * Returns if the word is in the trie.
+     */
     public boolean search(String word) {
         TrieNode node = root;
         for (int i = 0; i < word.length(); i++) {

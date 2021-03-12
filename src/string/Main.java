@@ -3,10 +3,12 @@ package string;
 import java.util.*;
 
 public class Main {
-    /**在保证字典序列最小的情况下去重
+    /**
+     * 在保证字典序列最小的情况下去重
      * 思路是利用栈，遇到一个新字符如果比栈顶元素小，并且在新字符后面还有和栈顶一样的
      * 就循环弹出栈顶元素，这是为了保证字典序列最小
-     * 但需要先判断新字符是否在栈中，在栈中则不操作*/
+     * 但需要先判断新字符是否在栈中，在栈中则不操作
+     */
     public String removeDuplicateLetters(String s) {
         int n = s.length();
         if (n <= 1) {
@@ -56,7 +58,9 @@ public class Main {
         }
     }
 
-    /**KMP算法*/
+    /**
+     * KMP算法
+     */
     public int kmp(String s, String t) {
         int m = s.length();
         int n = t.length();
@@ -81,9 +85,11 @@ public class Main {
         }
     }
 
-    /**获取 next 数组
+    /**
+     * 获取 next 数组
      * next[j] 表示 t 串开头与末尾最多的相同字符数
-     * 参考 https://blog.csdn.net/cdnight/article/details/11935387*/
+     * 参考 https://blog.csdn.net/cdnight/article/details/11935387
+     */
     public int[] getNext(String t) {
         int n = t.length();
         int[] next = new int[n];
@@ -102,11 +108,13 @@ public class Main {
         return next;
     }
 
-    /**获取修正的 nextVal 数组
+    /**
+     * 获取修正的 nextVal 数组
      * 从 nextVal[1] 开始，如果某位与它 next 值指向的位(字符)相同
      * 则该位的 nextVal 值就是指向位的 nextVal 值
      * 如果不同，则该位的 nextVal 值就是它自己的 next 值
-     * 参考 https://blog.csdn.net/zwqjoy/article/details/78812795*/
+     * 参考 https://blog.csdn.net/zwqjoy/article/details/78812795
+     */
     public int[] getNextVal(String t) {
         int n = t.length();
         int[] nextVal = new int[n];
@@ -129,9 +137,11 @@ public class Main {
         return nextVal;
     }
 
-    /**生成括号
+    /**
+     * 生成括号
      * 思路是 DFS，DFS 的具体实现在 generate() 方法
-     * P22*/
+     * P22
+     */
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
         generate(res, 0, 0, "", n);
@@ -151,10 +161,12 @@ public class Main {
         generate(stringList, left, right + 1, str + ")", n);
     }
 
-    /**翻转字符串中的单词
+    /**
+     * 翻转字符串中的单词
      * 思路是双指针遍历字符串，head 记录每个单词的首字母，滑动 i 来找到完整单词
      * 使用栈来保存单词，然后弹出时写入字符串
-     * P151*/
+     * P151
+     */
     public static String reverseWords(String s) {
         s = s.trim();
         if (s.length() == 0 || s.length() == 1) {
@@ -182,11 +194,13 @@ public class Main {
         return sb.substring(0, sb.length() - 1);
     }
 
-    /**最小覆盖子串
+    /**
+     * 最小覆盖子串
      * 思路是滑动窗
      * 使用了两个哈希表，第一个存储 t 中字符出现的次数，第二个存储窗口中 s 中字符出现的次数
      * check() 方法用于检测改窗口是否满足要求
-     * P76*/
+     * P76
+     */
     public String minWindow(String s, String t) {
         Map<Character, Integer> m1 = new HashMap<>();
         Map<Character, Integer> m2 = new HashMap<>();
@@ -231,9 +245,11 @@ public class Main {
         return true;
     }
 
-    /**反转字符串
+    /**
+     * 反转字符串
      * 思路是滑动窗
-     * P344*/
+     * P344
+     */
     public void reverseString(char[] s) {
         int left = 0;
         int right = s.length - 1;
@@ -244,8 +260,10 @@ public class Main {
         }
     }
 
-    /**移除 k 位数字
-     * P402*/
+    /**
+     * 移除 k 位数字
+     * P402
+     */
     public String removeKDigits(String num, int k) {
         // 特判
         if (num.length() == k) {
@@ -266,10 +284,12 @@ public class Main {
         return s.toString();
     }
 
-    /**简化路径
+    /**
+     * 简化路径
      * 思路是使用栈，遇到..则弹出，遇到.不处理，其他情况都入栈
      * 因为 Deque 的栈是在头部进栈，不方便最后的 join 操作，所以可以用 List 或 Stack 来做栈
-     * P71*/
+     * P71
+     */
     public String simplifyPath(String path) {
         List<String> l = new LinkedList<>();
         String[] items = path.split("/");
@@ -288,10 +308,12 @@ public class Main {
         return "/" + String.join("/", l);
     }
 
-    /**解码方法
+    /**
+     * 解码方法
      * 思路是动态规划
      * 是有条件的 f(n) = f(n - 1) + f(n - 2)
-     * P91*/
+     * P91
+     */
     public int numDecodings(String s) {
         int n = s.length();
         if (n == 0) {
@@ -311,10 +333,12 @@ public class Main {
         return dp[n];
     }
 
-    /**编辑距离
+    /**
+     * 编辑距离
      * 思路是动态规划
      * dp[i][j] 表示 word1 的前 i 个字母转换成 word2 的前 j 个字母所使用的最少操作
-     * P72*/
+     * P72
+     */
     public int minDistance(String word1, String word2) {
         int len1 = word1.length(), len2 = word2.length();
         int[][] dp = new int[len1 + 1][len2 + 1];
@@ -336,9 +360,11 @@ public class Main {
         return dp[len1][len2];
     }
 
-    /**删除字符串中的所有重复项
+    /**
+     * 删除字符串中的所有重复项
      * 思路是栈，有点像单调栈的感觉
-     * P1047*/
+     * P1047
+     */
     public String removeDuplicates(String S) {
         Deque<Character> stack = new LinkedList<>();
         for (int i = 0; i < S.length(); i++) {
@@ -357,9 +383,11 @@ public class Main {
         return sb.reverse().toString();
     }
 
-    /**复原 IP 地址
+    /**
+     * 复原 IP 地址
      * 思路是回溯
-     * P93*/
+     * P93
+     */
     List<String> resForRestoreIpAddresses = new ArrayList<>();
     int[] segments = new int[4];
 
@@ -405,9 +433,11 @@ public class Main {
         }
     }
 
-    /**电话号码的字母组合
+    /**
+     * 电话号码的字母组合
      * 思路是回溯
-     * P17*/
+     * P17
+     */
     public List<String> letterCombinations(String digits) {
         List<String> res = new ArrayList<>();
         if (digits.length() == 0) {
@@ -436,9 +466,11 @@ public class Main {
         }
     }
 
-    /**二进制求和
+    /**
+     * 二进制求和
      * 思路是模拟进位，大数相加也可以用这个思路
-     * P67*/
+     * P67
+     */
     public String addBinary(String a, String b) {
         int i = a.length() - 1;
         int j = b.length() - 1;
@@ -463,9 +495,11 @@ public class Main {
         return sb.reverse().toString();
     }
 
-    /**判断回文串
+    /**
+     * 判断回文串
      * 思路是双指针
-     * P125*/
+     * P125
+     */
     public static boolean isPalindrome(String s) {
         int n = s.length();
         if (n == 0) {
@@ -492,9 +526,11 @@ public class Main {
         return true;
     }
 
-    /**最后一个单词的长度
+    /**
+     * 最后一个单词的长度
      * 思路是从后向前遍历，添加了一个 flag 标识位
-     * P58*/
+     * P58
+     */
     public int lengthOfLastWord(String s) {
         int n = s.length();
         int res = 0;
@@ -510,8 +546,10 @@ public class Main {
         return res;
     }
 
-    /**Excel表列名称
-     * P168*/
+    /**
+     * Excel表列名称
+     * P168
+     */
     public String convertToTitle(int n) {
         StringBuilder sb = new StringBuilder();
         while (n > 0) {
@@ -519,16 +557,18 @@ public class Main {
                 sb.append('Z');
                 n = n / 26 - 1;
             } else {
-                sb.append((char)('A' + n % 26 - 1));
+                sb.append((char) ('A' + n % 26 - 1));
                 n /= 26;
             }
         }
         return sb.reverse().toString();
     }
 
-    /**重复的子字符串
+    /**
+     * 重复的子字符串
      * 思路是暴力求解
-     * P459*/
+     * P459
+     */
     public static boolean repeatedSubstringPattern(String s) {
         int n = s.length();
         // 枚举可能的字串长度
@@ -549,9 +589,11 @@ public class Main {
         return false;
     }
 
-    /**字母异位词分组
+    /**
+     * 字母异位词分组
      * 思路是哈希表
-     * P49*/
+     * P49
+     */
     public List<List<String>> groupAnagrams(String[] strs) {
         /*思路1：排序，然后用哈希表来存，时间复杂度O(n * klogk)
         Map<String, List<String>> m = new HashMap<>();
@@ -575,7 +617,7 @@ public class Main {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 26; i++) {
                 if (counts[i] != 0) {
-                    sb.append((char)('a' + i)).append(counts[i]);
+                    sb.append((char) ('a' + i)).append(counts[i]);
                 }
             }
             String key = sb.toString();
@@ -586,8 +628,10 @@ public class Main {
         return new ArrayList<>(m.values());
     }
 
-    /**同构字符串
-     * P205*/
+    /**
+     * 同构字符串
+     * P205
+     */
     public boolean isIsomorphic(String s, String t) {
         for (int i = 0; i < s.length(); i++) {
             if (s.indexOf(s.charAt(i)) != t.indexOf(t.charAt(i))) {
@@ -597,8 +641,29 @@ public class Main {
         return true;
     }
 
-    /**有效的字母异位词
-     * P242*/
+    /**
+     * 单词规律
+     * 思路是采用上一题（P205）的思路
+     * P290
+     */
+    public boolean wordPattern(String pattern, String s) {
+        String[] strs = s.split(" ");
+        List<String> strList = new ArrayList<>(Arrays.asList(strs));
+        if (strs.length != pattern.length()) {
+            return false;
+        }
+        for (int i = 0; i < strs.length; i++) {
+            if (pattern.indexOf(pattern.charAt(i)) != strList.indexOf(strList.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 有效的字母异位词
+     * P242
+     */
     public boolean isAnagram(String s, String t) {
         /*思路1：排序
         if (s.length() != t.length()) {

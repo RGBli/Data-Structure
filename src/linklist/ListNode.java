@@ -112,16 +112,15 @@ public class ListNode {
         return head;
     }
 
-    /**链表反转
+    /**
+     * 链表反转
      * 三指针法，迭代实现
      * 时间复杂度 O(n)，空间复杂度 O(1)
-     * P206*/
+     * P206
+     */
     public static ListNode reverseListIterative(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-        ListNode p1 = head;
-        ListNode p2 = head.next;
+        ListNode p1 = null;
+        ListNode p2 = head;
         ListNode p3;
         while (p2 != null) {
             // 让 p3 存储下一次 p2 的位置
@@ -132,15 +131,14 @@ public class ListNode {
             p1 = p2;
             p2 = p3;
         }
-        // 循环结束后 head 节点还是指向第二个节点，因此需要使 head 成为最后一个节点
-        head.next = null;
-        // 循环结束后 p2 已经为 null，p1 才是最后一个节点（也就是新的 head）
         return p1;
     }
 
-    /**链表反转
+    /**
+     * 链表反转
      * 递归实现，时间复杂度 O(n)，空间复杂度 O(n)
-     * P206*/
+     * P206
+     */
     public ListNode reverseListRecursive(ListNode head) {
         // 递归出口的写法需要注意
         if (head == null || head.next == null) {
@@ -152,8 +150,10 @@ public class ListNode {
         return newHead;
     }
 
-    /**链表反转，仅反转从位置 m 到 n 的部分
-     * P92*/
+    /**
+     * 链表反转，仅反转从位置 m 到 n 的部分
+     * P92
+     */
     public ListNode reverseBetween(ListNode head, int left, int right) {
         ListNode dummy = new ListNode();
         dummy.next = head;
@@ -172,8 +172,10 @@ public class ListNode {
         return dummy.next;
     }
 
-    /**K 个一组翻转链表
-     * P26*/
+    /**
+     * K 个一组翻转链表
+     * P26
+     */
     public static ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy = new ListNode();
         dummy.next = head;
@@ -214,11 +216,13 @@ public class ListNode {
         }
     }
 
-    /**循环右移 k 位
+    /**
+     * 循环右移 k 位
      * 首先求长度，并将链表连成环
      * 然后根据计数找到最后一个节点，返回 next，并将 next 赋为 null
      * 链表节点的 next 节点不能赋值给另一个节点，只能是指向另一个节点
-     * 而树节点可以节点赋值*/
+     * 而树节点可以节点赋值
+     */
     public static ListNode rotateRight(ListNode head, int k) {
         if (head == null || head.next == null) {
             return head;
@@ -268,10 +272,12 @@ public class ListNode {
         return lists[n - 1];
     }
 
-    /**判断回文链表
+    /**
+     * 判断回文链表
      * 首先找到链表中点
      * 然后翻转中点之后的节点，与从 head 开始的节点值相比较
-     * P234*/
+     * P234
+     */
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {
             return true;
@@ -295,8 +301,10 @@ public class ListNode {
         return true;
     }
 
-    /**判断链表中是否有环
-     * P141*/
+    /**
+     * 判断链表中是否有环
+     * P141
+     */
     public boolean hasCycle(ListNode head) {
         /*方法1:哈希表
          * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
@@ -327,8 +335,10 @@ public class ListNode {
         return true;
     }
 
-    /**检测环形链表的入环节点
-     * P142*/
+    /**
+     * 检测环形链表的入环节点
+     * P142
+     */
     public ListNode detectCycle(ListNode head) {
         /*方法1:哈希表
         * 用哈希表记录之前遍历过的节点，如果再次遍历则就是入环节点
@@ -362,8 +372,10 @@ public class ListNode {
         return slow;
     }
 
-    /**找到两个链表相交的节点
-     * P160*/
+    /**
+     * 找到两个链表相交的节点
+     * P160
+     */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode p1 = headA;
         ListNode p2 = headB;
@@ -383,11 +395,13 @@ public class ListNode {
         return p1;
     }
 
-    /**重排链表
+    /**
+     * 重排链表
      * 首先找到中点
      * 然后逆序第二段链表（中点之后的部分）
      * 然后将第二段链表合并到第一段中
-     * P143*/
+     * P143
+     */
     public static void reorderList(ListNode head) {
         if (head == null) {
             return;
@@ -415,10 +429,12 @@ public class ListNode {
         }
     }
 
-    /**寻找链表的中间节点
+    /**
+     * 寻找链表的中间节点
      * 思路是快慢指针，slow 每次前进一次，fast 每次前进两次
      * 注意：节点数为偶数时以下代码返回后面的那个，如果想返回前面那个则使用注释中的 while 语句
-     * 并且需要额外判断 head 是否为空*/
+     * 并且需要额外判断 head 是否为空
+     */
     public ListNode middleNode(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
@@ -430,11 +446,13 @@ public class ListNode {
         return slow;
     }
 
-    /**链表排序
+    /**
+     * 链表排序
      * 思路是递归实现归并排序
      * 首先找到中点，然后分别对第一段和第二段递归排序
      * 最后调用合并两个有序链表的方法进行合并
-     * P148*/
+     * P148
+     */
     public static ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -451,8 +469,10 @@ public class ListNode {
         return mergeTwoLists(left, right);
     }
 
-    /**删除排序链表中的重复元素
-     * P83*/
+    /**
+     * 删除排序链表中的重复元素
+     * P83
+     */
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -475,8 +495,10 @@ public class ListNode {
         return head;
     }
 
-    /**奇偶链表
-     * P328*/
+    /**
+     * 奇偶链表
+     * P328
+     */
     public ListNode oddEvenList(ListNode head) {
         if (head == null || head.next == null || head.next.next == null) {
             return head;
@@ -494,10 +516,12 @@ public class ListNode {
         return head;
     }
 
-    /**分隔链表
+    /**
+     * 分隔链表
      * 思路是创建了两个链表节点 small 和 large，分别存储小于 x 的和大于等于 x 的元素
      * 然后将这两个链表拼接起来即可
-     * P86*/
+     * P86
+     */
     public ListNode partition(ListNode head, int x) {
         ListNode small = new ListNode(0);
         ListNode smallHead = small;
@@ -518,10 +542,12 @@ public class ListNode {
         return smallHead.next;
     }
 
-    /**链表插入排序
+    /**
+     * 链表插入排序
      * 思路跟数组的插入排序一样，就是多了一步从头结点向后查找比 i 大的元素
      * i 和 j 的含义与数组的插入排序相同
-     * P147*/
+     * P147
+     */
     public ListNode insertionSortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -549,9 +575,11 @@ public class ListNode {
         return dummyHead.next;
     }
 
-    /**移除链表中特定值的元素
-    * 用了头节点
-    * P203*/
+    /**
+     * 移除链表中特定值的元素
+     * 用了头节点
+     * P203
+     */
     public ListNode removeElements(ListNode head, int val) {
         ListNode dummy = new ListNode();
         dummy.next = head;
@@ -566,9 +594,11 @@ public class ListNode {
         return dummy.next;
     }
 
-    /**删除除末尾节点的给定节点
+    /**
+     * 删除除末尾节点的给定节点
      * 没有给 head 节点，只需要修改目标节点值为 next 的值，再删除 next 节点即可
-     * P237*/
+     * P237
+     */
     public void deleteNode(ListNode node) {
         node.val = node.next.val;
         node.next = node.next.next;

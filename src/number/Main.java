@@ -16,8 +16,10 @@ public class Main {
         return res;
     }
 
-    /**x 的平方根
-     * P69*/
+    /**
+     * x 的平方根
+     * P69
+     */
     public static int mySqrt(int x) {
         int left = 0;
         int right = x;
@@ -34,11 +36,13 @@ public class Main {
         return right;
     }
 
-    /**用 rand7() 实现 rand10()
+    /**
+     * 用 rand7() 实现 rand10()
      * 思路是使用两次 rand7()，通过这两次结果的组合就可以得到 [1,49] 的随机数
      * 为了使得取 rand10() 更加方便，剔除了40以上的部分
      * 当然也可以直接剔除10以上的部分，但需要更多的循环时间，效率不高
-     * P470*/
+     * P470
+     */
     public int rand7() {
         return new Random().nextInt(7) + 1;
     }
@@ -51,11 +55,13 @@ public class Main {
         return c % 10 + 1;
     }
 
-    /**最大交换，至多可以交换数字中的两位，使得数字最大
+    /**
+     * 最大交换，至多可以交换数字中的两位，使得数字最大
      * 思路是先将数字逆序排序，然后与原数字从高位开始比较
      * 找到第一个不相等的数字，将二者交换
      * 注意要使用 lastIndexOf() 方法找到元素最后一次出现的 index 再交换
-     * P670*/
+     * P670
+     */
     public static int maximumSwap(int num) {
         String numStr = String.valueOf(num);
         char[] numCharArray = numStr.toCharArray();
@@ -75,9 +81,11 @@ public class Main {
         return Integer.parseInt(sb.toString());
     }
 
-    /**外观数列
+    /**
+     * 外观数列
      * 思路是递归
-     * P38*/
+     * P38
+     */
     public static String countAndSay(int n) {
         if (n == 1) {
             return "1";
@@ -102,9 +110,11 @@ public class Main {
         }
     }
 
-    /**数字的二进制表示中位1的个数
+    /**
+     * 数字的二进制表示中位1的个数
      * 思路是构造掩码，使掩码和 n 做按位与操作
-     * P191*/
+     * P191
+     */
     public static int hammingWeight(int n) {
         int res = 0;
         int mask = 1;
@@ -117,9 +127,11 @@ public class Main {
         return res;
     }
 
-    /**实现 pow(x, n) 的快速幂算法
+    /**
+     * 实现 pow(x, n) 的快速幂算法
      * 思路是折半法，时间复杂度 O(logn)
-     * P50*/
+     * P50
+     */
     public double myPow(double x, int n) {
         double res = 1.0;
         for (int i = n; i != 0; i /= 2) {
@@ -131,10 +143,12 @@ public class Main {
         return n < 0 ? 1 / res : res;
     }
 
-    /**判断丑数
+    /**
+     * 判断丑数
      * 丑数就是只包含质因数 2, 3, 5 的正整数
      * 思路是不断除以5 3 2，能除尽的数就是丑数
-     * P263*/
+     * P263
+     */
     public boolean isUgly(int num) {
         if (num < 1) {
             return false;
@@ -152,9 +166,11 @@ public class Main {
         return num == 1;
     }
 
-    /**找到第 n 个丑数
+    /**
+     * 找到第 n 个丑数
      * 思路是三指针法
-     * P264*/
+     * P264
+     */
     public int nthUglyNumber(int n) {
         int p2 = 0, p3 = 0, p5 = 0;
         int[] res = new int[n];
@@ -175,8 +191,10 @@ public class Main {
         return res[n - 1];
     }
 
-    /**统计所有小于非负整数 n 的质数的数量
-     * P204*/
+    /**
+     * 统计所有小于非负整数 n 的质数的数量
+     * P204
+     */
     public int countPrimes(int n) {
         // 思路1：直接使用 isPrime() 方法判断，简单但会超时
         /*int res = 0;
@@ -203,7 +221,9 @@ public class Main {
         return res;
     }
 
-    /**判断是否为质数*/
+    /**
+     * 判断是否为质数
+     */
     public boolean isPrime(int n) {
         for (int i = 2; i < Math.sqrt(n); i++) {
             if (n % i == 0) {
@@ -213,8 +233,10 @@ public class Main {
         return true;
     }
 
-    /**求数字位数
-     * 思路是使用 log10*/
+    /**
+     * 求数字位数
+     * 思路是使用 log10
+     */
     public int getLen(int n) {
         if (n == 0) {
             return 1;
@@ -222,23 +244,25 @@ public class Main {
         return (int) Math.log10(n) + 1;
     }
 
-    /**完全平方数
+    /**
+     * 完全平方数
      * 思路是动态规划
      * dp[i] 表示和为 i 的完全平方数数量
-     * P279*/
+     * P279
+     */
     public int numSquares(int n) {
         int[] dp = new int[n + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
         // 小于等于 n 的完全平方数数量
-        int maxSquareIndex = (int) Math.sqrt(n) + 1;
+        int maxSquareIndex = (int) Math.sqrt(n);
         // 小于等于 n 的完全平方数数组
         int[] squareNums = new int[maxSquareIndex];
-        for (int i = 1; i < maxSquareIndex; i++) {
-            squareNums[i] = i * i;
+        for (int i = 0; i < maxSquareIndex; i++) {
+            squareNums[i] = (i + 1) * (i + 1);
         }
         for (int i = 1; i <= n; i++) {
-            for (int j = 1; j < maxSquareIndex; j++) {
+            for (int j = 0; j < maxSquareIndex; j++) {
                 if (squareNums[j] > i) {
                     break;
                 }
@@ -249,9 +273,11 @@ public class Main {
         return dp[n];
     }
 
-    /**判断一个整数是否为2的幂
+    /**
+     * 判断一个整数是否为2的幂
      * 注意 n 可能为负数
-     * P231*/
+     * P231
+     */
     public static boolean isPowerOfTwo(int n) {
         if (n <= 0) {
             return false;

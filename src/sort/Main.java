@@ -7,7 +7,9 @@ import java.util.List;
 public class Main {
     private static int[] arr = {1, 6, 4, 3, 3, 2, 2, 8, 5};
 
-    /**简单插入排序*/
+    /**
+     * 简单插入排序
+     */
     public static void insert(int[] arr) {
         int n = arr.length;
         // i 是无序区的第一个元素
@@ -24,7 +26,9 @@ public class Main {
     }
 
 
-    /**冒泡排序*/
+    /**
+     * 冒泡排序
+     */
     public static void bubble(int[] arr) {
         int n = arr.length;
         for (int i = 0; i < n; i++) {
@@ -39,7 +43,9 @@ public class Main {
     }
 
 
-    /**选择排序*/
+    /**
+     * 选择排序
+     */
     public static void select(int[] arr) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
@@ -58,7 +64,9 @@ public class Main {
     }
 
 
-    /**堆排序*/
+    /**
+     * 堆排序
+     */
     private static void heapSort(int[] arr) {
         // 创建堆，如果是顺序排序就创建大根堆，逆序排序就创建小根堆
         // 因为堆是完全二叉树，所以第一个非叶子节点在 length / 2 - 1
@@ -102,9 +110,11 @@ public class Main {
     }
 
 
-    /**快速排序
+    /**
+     * 快速排序
      * [left, right]
-     * 参考文章：https://blog.csdn.net/shujuelin/article/details/82423852*/
+     * 参考文章：https://blog.csdn.net/shujuelin/article/details/82423852
+     */
     public static void quickSort(int[] arr, int left, int right) {
         // 递归出口
         if (left < right) {
@@ -132,8 +142,10 @@ public class Main {
     }
 
 
-    /**归并排序
-     * [low, high]*/
+    /**
+     * 归并排序
+     * [low, high]
+     */
     public static void mergeSort(int[] arr, int low, int high) {
         // 递归出口，与快排类似
         if (low < high) {
@@ -180,9 +192,11 @@ public class Main {
     }
 
 
-    /**基数排序
+    /**
+     * 基数排序
      * 这段代码的缺点是只能排序非负整数
-     * 参考文章：http://www.pomit.cn/tr/2242407401310723*/
+     * 参考文章：http://www.pomit.cn/tr/2242407401310723
+     */
     public static void radixSort(int[] arr) {
         // 获取最大值
         int max = Arrays.stream(arr).max().orElse(0);

@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**二叉树的序列化和反序列化*/
+/**
+ * 二叉树的序列化和反序列化
+ */
 public class Codec {
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
